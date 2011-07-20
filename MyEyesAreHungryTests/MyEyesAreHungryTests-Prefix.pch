@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'MyEyesAreHungryTests' target in the 'MyEyesAreHungryTests' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+#endif

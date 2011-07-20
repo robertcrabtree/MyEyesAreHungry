@@ -1,0 +1,461 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		18C7286113D7006400995D63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C7286013D7006400995D63 /* UIKit.framework */; };
+		18C7286313D7006400995D63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C7286213D7006400995D63 /* Foundation.framework */; };
+		18C7286513D7006400995D63 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C7286413D7006400995D63 /* CoreGraphics.framework */; };
+		18C7286B13D7006400995D63 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18C7286913D7006400995D63 /* InfoPlist.strings */; };
+		18C7286E13D7006400995D63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C7286D13D7006400995D63 /* main.m */; };
+		18C7287113D7006400995D63 /* MyEyesAreHungryAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C7287013D7006400995D63 /* MyEyesAreHungryAppDelegate.m */; };
+		18C7287413D7006400995D63 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C7287213D7006400995D63 /* MainWindow.xib */; };
+		18C7287713D7006400995D63 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C7287613D7006400995D63 /* RootViewController.m */; };
+		18C7287A13D7006400995D63 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C7287813D7006400995D63 /* RootViewController.xib */; };
+		18C7288113D7006500995D63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C7286013D7006400995D63 /* UIKit.framework */; };
+		18C7288213D7006500995D63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C7286213D7006400995D63 /* Foundation.framework */; };
+		18C7288313D7006500995D63 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C7286413D7006400995D63 /* CoreGraphics.framework */; };
+		18C7288B13D7006500995D63 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18C7288913D7006500995D63 /* InfoPlist.strings */; };
+		18C7288E13D7006500995D63 /* MyEyesAreHungryTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 18C7288D13D7006500995D63 /* MyEyesAreHungryTests.h */; };
+		18C7289013D7006500995D63 /* MyEyesAreHungryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C7288F13D7006500995D63 /* MyEyesAreHungryTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		18C7288413D7006500995D63 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18C7285313D7006400995D63 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18C7285B13D7006400995D63;
+			remoteInfo = MyEyesAreHungry;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		18C7285C13D7006400995D63 /* MyEyesAreHungry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyEyesAreHungry.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		18C7286013D7006400995D63 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		18C7286213D7006400995D63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		18C7286413D7006400995D63 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		18C7286813D7006400995D63 /* MyEyesAreHungry-Info.plist */ = {isa = PBXFileReference; path = "MyEyesAreHungry-Info.plist"; sourceTree = "<group>"; };
+		18C7286A13D7006400995D63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		18C7286C13D7006400995D63 /* MyEyesAreHungry-Prefix.pch */ = {isa = PBXFileReference; path = "MyEyesAreHungry-Prefix.pch"; sourceTree = "<group>"; };
+		18C7286D13D7006400995D63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		18C7286F13D7006400995D63 /* MyEyesAreHungryAppDelegate.h */ = {isa = PBXFileReference; path = MyEyesAreHungryAppDelegate.h; sourceTree = "<group>"; };
+		18C7287013D7006400995D63 /* MyEyesAreHungryAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyEyesAreHungryAppDelegate.m; sourceTree = "<group>"; };
+		18C7287313D7006400995D63 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		18C7287513D7006400995D63 /* RootViewController.h */ = {isa = PBXFileReference; path = RootViewController.h; sourceTree = "<group>"; };
+		18C7287613D7006400995D63 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		18C7287913D7006400995D63 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
+		18C7288013D7006500995D63 /* MyEyesAreHungryTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyEyesAreHungryTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18C7288813D7006500995D63 /* MyEyesAreHungryTests-Info.plist */ = {isa = PBXFileReference; path = "MyEyesAreHungryTests-Info.plist"; sourceTree = "<group>"; };
+		18C7288A13D7006500995D63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		18C7288C13D7006500995D63 /* MyEyesAreHungryTests-Prefix.pch */ = {isa = PBXFileReference; path = "MyEyesAreHungryTests-Prefix.pch"; sourceTree = "<group>"; };
+		18C7288D13D7006500995D63 /* MyEyesAreHungryTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEyesAreHungryTests.h; sourceTree = "<group>"; };
+		18C7288F13D7006500995D63 /* MyEyesAreHungryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyEyesAreHungryTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		18C7285913D7006400995D63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18C7286113D7006400995D63 /* UIKit.framework in Frameworks */,
+				18C7286313D7006400995D63 /* Foundation.framework in Frameworks */,
+				18C7286513D7006400995D63 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18C7287C13D7006500995D63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18C7288113D7006500995D63 /* UIKit.framework in Frameworks */,
+				18C7288213D7006500995D63 /* Foundation.framework in Frameworks */,
+				18C7288313D7006500995D63 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		18C7285113D7006400995D63 = {
+			isa = PBXGroup;
+			children = (
+				18C7286613D7006400995D63 /* MyEyesAreHungry */,
+				18C7288613D7006500995D63 /* MyEyesAreHungryTests */,
+				18C7285F13D7006400995D63 /* Frameworks */,
+				18C7285D13D7006400995D63 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		18C7285D13D7006400995D63 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18C7285C13D7006400995D63 /* MyEyesAreHungry.app */,
+				18C7288013D7006500995D63 /* MyEyesAreHungryTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18C7285F13D7006400995D63 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				18C7286013D7006400995D63 /* UIKit.framework */,
+				18C7286213D7006400995D63 /* Foundation.framework */,
+				18C7286413D7006400995D63 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		18C7286613D7006400995D63 /* MyEyesAreHungry */ = {
+			isa = PBXGroup;
+			children = (
+				18C7286F13D7006400995D63 /* MyEyesAreHungryAppDelegate.h */,
+				18C7287013D7006400995D63 /* MyEyesAreHungryAppDelegate.m */,
+				18C7287213D7006400995D63 /* MainWindow.xib */,
+				18C7287513D7006400995D63 /* RootViewController.h */,
+				18C7287613D7006400995D63 /* RootViewController.m */,
+				18C7287813D7006400995D63 /* RootViewController.xib */,
+				18C7286713D7006400995D63 /* Supporting Files */,
+			);
+			path = MyEyesAreHungry;
+			sourceTree = "<group>";
+		};
+		18C7286713D7006400995D63 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				18C7286813D7006400995D63 /* MyEyesAreHungry-Info.plist */,
+				18C7286913D7006400995D63 /* InfoPlist.strings */,
+				18C7286C13D7006400995D63 /* MyEyesAreHungry-Prefix.pch */,
+				18C7286D13D7006400995D63 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		18C7288613D7006500995D63 /* MyEyesAreHungryTests */ = {
+			isa = PBXGroup;
+			children = (
+				18C7288D13D7006500995D63 /* MyEyesAreHungryTests.h */,
+				18C7288F13D7006500995D63 /* MyEyesAreHungryTests.m */,
+				18C7288713D7006500995D63 /* Supporting Files */,
+			);
+			path = MyEyesAreHungryTests;
+			sourceTree = "<group>";
+		};
+		18C7288713D7006500995D63 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				18C7288813D7006500995D63 /* MyEyesAreHungryTests-Info.plist */,
+				18C7288913D7006500995D63 /* InfoPlist.strings */,
+				18C7288C13D7006500995D63 /* MyEyesAreHungryTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		18C7285B13D7006400995D63 /* MyEyesAreHungry */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18C7289313D7006500995D63 /* Build configuration list for PBXNativeTarget "MyEyesAreHungry" */;
+			buildPhases = (
+				18C7285813D7006400995D63 /* Sources */,
+				18C7285913D7006400995D63 /* Frameworks */,
+				18C7285A13D7006400995D63 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyEyesAreHungry;
+			productName = MyEyesAreHungry;
+			productReference = 18C7285C13D7006400995D63 /* MyEyesAreHungry.app */;
+			productType = "com.apple.product-type.application";
+		};
+		18C7287F13D7006500995D63 /* MyEyesAreHungryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18C7289613D7006500995D63 /* Build configuration list for PBXNativeTarget "MyEyesAreHungryTests" */;
+			buildPhases = (
+				18C7287B13D7006500995D63 /* Sources */,
+				18C7287C13D7006500995D63 /* Frameworks */,
+				18C7287D13D7006500995D63 /* Resources */,
+				18C7287E13D7006500995D63 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18C7288513D7006500995D63 /* PBXTargetDependency */,
+			);
+			name = MyEyesAreHungryTests;
+			productName = MyEyesAreHungryTests;
+			productReference = 18C7288013D7006500995D63 /* MyEyesAreHungryTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		18C7285313D7006400995D63 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = self;
+			};
+			buildConfigurationList = 18C7285613D7006400995D63 /* Build configuration list for PBXProject "MyEyesAreHungry" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 18C7285113D7006400995D63;
+			productRefGroup = 18C7285D13D7006400995D63 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				18C7285B13D7006400995D63 /* MyEyesAreHungry */,
+				18C7287F13D7006500995D63 /* MyEyesAreHungryTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		18C7285A13D7006400995D63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18C7286B13D7006400995D63 /* InfoPlist.strings in Resources */,
+				18C7287413D7006400995D63 /* MainWindow.xib in Resources */,
+				18C7287A13D7006400995D63 /* RootViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18C7287D13D7006500995D63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18C7288B13D7006500995D63 /* InfoPlist.strings in Resources */,
+				18C7288E13D7006500995D63 /* MyEyesAreHungryTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		18C7287E13D7006500995D63 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		18C7285813D7006400995D63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18C7286E13D7006400995D63 /* main.m in Sources */,
+				18C7287113D7006400995D63 /* MyEyesAreHungryAppDelegate.m in Sources */,
+				18C7287713D7006400995D63 /* RootViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18C7287B13D7006500995D63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18C7289013D7006500995D63 /* MyEyesAreHungryTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		18C7288513D7006500995D63 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18C7285B13D7006400995D63 /* MyEyesAreHungry */;
+			targetProxy = 18C7288413D7006500995D63 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		18C7286913D7006400995D63 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18C7286A13D7006400995D63 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		18C7287213D7006400995D63 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18C7287313D7006400995D63 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		18C7287813D7006400995D63 /* RootViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18C7287913D7006400995D63 /* en */,
+			);
+			name = RootViewController.xib;
+			sourceTree = "<group>";
+		};
+		18C7288913D7006500995D63 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18C7288A13D7006500995D63 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		18C7289113D7006500995D63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		18C7289213D7006500995D63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		18C7289413D7006500995D63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MyEyesAreHungry/MyEyesAreHungry-Prefix.pch";
+				INFOPLIST_FILE = "MyEyesAreHungry/MyEyesAreHungry-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		18C7289513D7006500995D63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MyEyesAreHungry/MyEyesAreHungry-Prefix.pch";
+				INFOPLIST_FILE = "MyEyesAreHungry/MyEyesAreHungry-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		18C7289713D7006500995D63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MyEyesAreHungry.app/MyEyesAreHungry";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MyEyesAreHungryTests/MyEyesAreHungryTests-Prefix.pch";
+				INFOPLIST_FILE = "MyEyesAreHungryTests/MyEyesAreHungryTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		18C7289813D7006500995D63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MyEyesAreHungry.app/MyEyesAreHungry";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MyEyesAreHungryTests/MyEyesAreHungryTests-Prefix.pch";
+				INFOPLIST_FILE = "MyEyesAreHungryTests/MyEyesAreHungryTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		18C7285613D7006400995D63 /* Build configuration list for PBXProject "MyEyesAreHungry" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18C7289113D7006500995D63 /* Debug */,
+				18C7289213D7006500995D63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18C7289313D7006500995D63 /* Build configuration list for PBXNativeTarget "MyEyesAreHungry" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18C7289413D7006500995D63 /* Debug */,
+				18C7289513D7006500995D63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		18C7289613D7006500995D63 /* Build configuration list for PBXNativeTarget "MyEyesAreHungryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18C7289713D7006500995D63 /* Debug */,
+				18C7289813D7006500995D63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 18C7285313D7006400995D63 /* Project object */;
+}
