@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootViewController : UITableViewController {
+@class WebViewController;
 
+@interface RootViewController : UITableViewController <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 }
 
+- (void)takePicture;
+- (void)chooseFromLibrary;
 
 @end

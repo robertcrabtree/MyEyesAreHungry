@@ -7,6 +7,14 @@
 //
 
 #import "RootViewController.h"
+#import "WebViewController.h"
+#import "UploadViewController.h"
+#import "LoginViewController.h"
+
+
+/// @todo remove these two defines
+#define TEST_LOGIN 1
+#define DEBUG_FAKE_CAMERA 1
 
 @implementation RootViewController
 
@@ -17,6 +25,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.navigationItem.title = @"My Eyes Are Hungry";
     [super viewWillAppear:animated];
 }
 
@@ -46,11 +55,19 @@
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    switch (section) {
+        case 0:
+            return 2;
+        case 1:
+            return 4;
+        case 2:
+            return 1;
+    }
     return 0;
 }
 
@@ -62,6 +79,30 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        
+        if (indexPath.section == 0) {
+            if (indexPath.row == 0) {
+                cell.textLabel.text = @"Recent Meals";
+            } else {
+                cell.textLabel.text = @"Recent Restaurants";
+            }
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else if (indexPath.section == 1) {
+            if (indexPath.row == 0) {
+                cell.textLabel.text = @"My Meals";
+            } else if (indexPath.row == 1) {
+                cell.textLabel.text = @"My Restaurants";
+            } else if (indexPath.row == 2) {
+                cell.textLabel.text = @"My Favorites";
+            } else {
+                cell.textLabel.text = @"My Follows";
+            }
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else {
+            cell.textLabel.text = @"Add a Dish";
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.backgroundColor = [UIColor brownColor];
+        }
     }
 
     // Configure the cell.
@@ -109,15 +150,167 @@
 }
 */
 
+
+- (void)takePicture
+{
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+        return;
+    
+    UIImagePickerController* imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.delegate = self;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.allowsEditing = NO;
+    [self presentModalViewController:imagePicker animated:YES];
+    [imagePicker release];
+}
+
+- (void)chooseFromLibrary
+{
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
+        return;
+    
+    UIImagePickerController* imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.delegate = self;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePicker.allowsEditing = NO;
+    [self presentModalViewController:imagePicker animated:YES];
+    [imagePicker release];
+}
+
+
+- (void)selectPicture
+{
+    UIActionSheet *methodAlert;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        methodAlert = [[UIActionSheet alloc] initWithTitle:@""
+                                                  delegate:self
+                                         cancelButtonTitle:@"Cancel"
+                                    destructiveButtonTitle:nil
+                                         otherButtonTitles:@"Choose from library", @"Take picture", nil];
+    } else {
+        methodAlert = [[UIActionSheet alloc] initWithTitle:@""
+                                                  delegate:self
+                                         cancelButtonTitle:@"Cancel"
+                                    destructiveButtonTitle:nil
+                                         otherButtonTitles:	@"Choose from library", nil];
+    }
+    [methodAlert showInView:self.view];
+	[methodAlert release];
+}
+
+
+- (void)actionSheet:(UIActionSheet *)modalView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	switch (buttonIndex)
+	{
+		case 0:
+            [self chooseFromLibrary];
+            break;
+            
+		case 1:
+            [self takePicture];
+            break;
+	}
+}
+
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *image;
+    
+#ifdef DEBUG_FAKE_CAMERA
+    info = (NSDictionary *) 1;
+#endif
+
+    if (info) {
+#ifdef DEBUG_FAKE_CAMERA
+        image = [UIImage imageNamed:@"frank.jpeg"];
+#else
+        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+#endif
+
+        if (image) {
+            UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
+            [self.navigationController pushViewController:uploadViewController animated:YES];
+            uploadViewController.image = image;
+            [uploadViewController release];
+        }
+    }
+    
+    // Remove the picker interface and release the picker object.
+    //[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [[picker parentViewController] dismissModalViewControllerAnimated:YES];
+
+#ifdef DEBUG_FAKE_CAMERA
+    /// @todo remove (just for testing on ios)
+    [self imagePickerController:picker didFinishPickingMediaWithInfo:nil];
+#endif    
+}
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-    // ...
-    // Pass the selected object to the new view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
-	*/
+    NSString *urlString;
+    
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            urlString = [[NSString alloc ]initWithString:@"http://www.myeyesarehungry.com"];
+        } else {
+            urlString = [[NSString alloc ]initWithString:@"http://www.myeyesarehungry.com/new.php"];
+        }
+    } else if (indexPath.section == 1) {
+        NSString *userName = @"test"; /// @todo get username
+        switch (indexPath.row) {
+            case 0:
+                urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                             userName];
+                break;
+            case 1:
+                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                             userName, @"&list=restaurants"];
+                break;
+            case 2:
+                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                             userName, @"&list=favorites"];
+                break;
+            case 3:
+                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                             userName, @"&list=follows"];
+                break;
+        }
+    } else {
+        /*
+        UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
+        [self.navigationController pushViewController:uploadViewController animated:YES];
+        [uploadViewController release];
+         */
+        [self selectPicture];
+    }
+    
+    if (indexPath.section == 0 || indexPath.section == 1) {
+        if (indexPath.section == 1) {
+#ifdef TEST_LOGIN /// @todo remove this entire if block
+            LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+            [self.navigationController pushViewController:loginViewController animated:YES];
+#else
+            WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+            webViewController.urlString = urlString;
+            [self.navigationController pushViewController:webViewController animated:YES];
+            [webViewController release];
+            [urlString release];
+#endif
+        } else {
+            WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+            webViewController.urlString = urlString;
+            [self.navigationController pushViewController:webViewController animated:YES];
+            [webViewController release];
+            [urlString release];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -134,6 +327,8 @@
 
     // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
     // For example: self.myOutlet = nil;
+    
+    /// @todo deallocate objects (synthesize and dynamic)
 }
 
 - (void)dealloc
