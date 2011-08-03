@@ -17,19 +17,7 @@
     NSArray *mealArray;
     UIAlertView *progressAlert;
     UIProgressView *progressView;
-#ifdef TEST_UPLOAD
-    int cnt;
-    float fcnt;
-    NSTimer *timer;
-#endif
 }
-
-#ifdef TEST_UPLOAD
-
-@property (retain, nonatomic) NSTimer *timer;
-
-- (void)timerFired:(NSTimer*)theTimer;
-#endif
 
 @property (retain, nonatomic) UIImage *image;
 

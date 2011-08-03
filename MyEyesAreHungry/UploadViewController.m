@@ -13,19 +13,22 @@
 @implementation UploadViewController
 
 @synthesize image;
-@synthesize timer;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        restaurantArray = [[NSArray alloc] initWithObjects:@"Restaurant Name", @"Restaurant Country", 
+                           @"Restaurant City", @"Restaurant State", nil];
+        mealArray = [[NSArray alloc] initWithObjects:@"Meal Type", @"Meal Name", @"Meal Price", nil];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [restaurantArray release];
+    [mealArray release];
     [super dealloc];
 }
 
@@ -41,9 +44,6 @@
 
 - (void)viewDidLoad
 {    
-    restaurantArray = [[NSArray alloc] initWithObjects:@"Restaurant Name", @"Restaurant Country", 
-                 @"Restaurant City", @"Restaurant State", nil];
-    mealArray = [[NSArray alloc] initWithObjects:@"Meal Type", @"Meal Name", @"Meal Price", nil];
     
     [super viewDidLoad];
 
@@ -200,45 +200,14 @@
     if (indexPath.section != 2)
         return;
     
+    /// @todo release this when uploading is finished
     progressAlert = [[UIAlertView alloc] initWithTitle:@"Uploading" message:@"Please wait..." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
     // Create the progress bar and add it to the alert
     progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(30.0f, 80.0f, 225.0f, 90.0f)];
     [progressAlert addSubview:progressView];
     [progressView setProgressViewStyle:UIProgressViewStyleBar];
     [progressAlert show];
-
-#ifdef TEST_UPLOAD
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                  target:self selector:@selector(timerFired:)
-                                                userInfo:nil repeats:YES];
-#endif
-    
+    [progressView release];
 }
-
-#ifdef TEST_UPLOAD
-- (void)timerFired:(NSTimer*)theTimer
-{
-    //UILabel *label = (UILabel *)[progressAlert viewWithTag:666];
-    //NSString *str;
-    
-    fcnt += .2;
-    cnt++;
-    
-    //str = [[NSString alloc] initWithFormat:@"%d", cnt * 20];
-    //[str release];
-
-    //label.text = str;
-    progressView.progress = fcnt;
-    
-    if (cnt == 5) {
-        [self.timer invalidate];
-        self.timer = nil;
-        [progressAlert dismissWithClickedButtonIndex:0 animated:YES];
-        [progressAlert release];
-        fcnt = 0.0;
-        cnt = 0;
-    }
-}
-#endif
 
 @end

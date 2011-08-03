@@ -43,6 +43,8 @@
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [webView loadRequest:request];
     [super viewDidLoad];
+    [url release];
+    [request release];
     // Do any additional setup after loading the view from its nib.
 }
 
