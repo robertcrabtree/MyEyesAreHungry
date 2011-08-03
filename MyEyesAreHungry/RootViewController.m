@@ -14,8 +14,6 @@
 /// @todo remove this
 #define TEST_LOGIN 1
 
-/* test */
-
 @implementation RootViewController
 
 - (void)viewDidLoad
