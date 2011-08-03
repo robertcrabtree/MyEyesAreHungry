@@ -87,15 +87,14 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (section == 0) {
+    if (section == 0)
         return 2;
-    }
     return 1;
 }
 
@@ -119,6 +118,12 @@
                 textCell.textField.secureTextEntry = YES;
             }
             cell = textCell;
+        } else if (indexPath.section == 1) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            
+            cell.textLabel.text = @"Login";
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.backgroundColor = [UIColor brownColor];
         } else {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             cell.backgroundColor = [UIColor brownColor];
@@ -133,9 +138,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-        return @"";
-    return @"Need a Login?";
+    if (section == 2)
+        return @"Need a Login?";
+    return @"";
 }
 
 /*
@@ -182,15 +187,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
-    
     if (indexPath.section == 1) {
+        /// @todo login (need to get web interface from neil)
+    } else if (indexPath.section == 2) {
         WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
         webViewController.urlString = @"http://www.myeyesarehungry.com/join.php";
         [self.navigationController pushViewController:webViewController animated:YES];
