@@ -11,10 +11,8 @@
 #import "UploadViewController.h"
 #import "LoginViewController.h"
 
-
-/// @todo remove these two defines
+/// @todo remove this
 #define TEST_LOGIN 1
-#define DEBUG_FAKE_CAMERA 1
 
 @implementation RootViewController
 
@@ -217,17 +215,9 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *image;
-    
-#ifdef DEBUG_FAKE_CAMERA
-    info = (NSDictionary *) 1;
-#endif
 
     if (info) {
-#ifdef DEBUG_FAKE_CAMERA
-        image = [UIImage imageNamed:@"frank.jpeg"];
-#else
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
-#endif
 
         if (image) {
             UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
@@ -238,19 +228,13 @@
     }
     
     // Remove the picker interface and release the picker object.
-    //[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+    [[picker parentViewController] dismissModalViewControllerAnimated:YES];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [[picker parentViewController] dismissModalViewControllerAnimated:YES];
-
-#ifdef DEBUG_FAKE_CAMERA
-    /// @todo remove (just for testing on ios)
-    [self imagePickerController:picker didFinishPickingMediaWithInfo:nil];
-#endif    
 }
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -283,11 +267,6 @@
                 break;
         }
     } else {
-        /*
-        UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
-        [self.navigationController pushViewController:uploadViewController animated:YES];
-        [uploadViewController release];
-         */
         [self selectPicture];
     }
     
