@@ -22,6 +22,7 @@
 		18C7288B13D7006500995D63 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18C7288913D7006500995D63 /* InfoPlist.strings */; };
 		18C7288E13D7006500995D63 /* MyEyesAreHungryTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 18C7288D13D7006500995D63 /* MyEyesAreHungryTests.h */; };
 		18C7289013D7006500995D63 /* MyEyesAreHungryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C7288F13D7006500995D63 /* MyEyesAreHungryTests.m */; };
+		C5274D3A13E88B420012F02D /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5274D3913E88B420012F02D /* Entitlements.plist */; };
 		C56B272B13E2710000204F6D /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B272913E270FD00204F6D /* WebViewController.m */; };
 		C56B272C13E2710000204F6D /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C56B272A13E270FF00204F6D /* WebViewController.xib */; };
 		C56B274913E27AD100204F6D /* UploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B274713E27AC800204F6D /* UploadViewController.m */; };
@@ -78,6 +79,7 @@
 		18C7288C13D7006500995D63 /* MyEyesAreHungryTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyEyesAreHungryTests-Prefix.pch"; sourceTree = "<group>"; };
 		18C7288D13D7006500995D63 /* MyEyesAreHungryTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEyesAreHungryTests.h; sourceTree = "<group>"; };
 		18C7288F13D7006500995D63 /* MyEyesAreHungryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyEyesAreHungryTests.m; sourceTree = "<group>"; };
+		C5274D3913E88B420012F02D /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = ../Entitlements.plist; sourceTree = "<group>"; };
 		C56B272813E270FC00204F6D /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		C56B272913E270FD00204F6D /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		C56B272A13E270FF00204F6D /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 		18C7286713D7006400995D63 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C5274D3913E88B420012F02D /* Entitlements.plist */,
 				18C7287213D7006400995D63 /* MainWindow.xib */,
 				C57C4DE513E4CB32000933B9 /* TextCell.xib */,
 				18C7287813D7006400995D63 /* RootViewController.xib */,
@@ -358,6 +361,7 @@
 				C56B274A13E27AD100204F6D /* UploadViewController.xib in Resources */,
 				C57C4DE713E4CB32000933B9 /* TextCell.xib in Resources */,
 				C5838CA113E4DB340091FD2F /* LoginViewController.xib in Resources */,
+				C5274D3A13E88B420012F02D /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,6 +582,65 @@
 			};
 			name = Release;
 		};
+		C5274D3613E88A780012F02D /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+			};
+			name = "Ad Hoc";
+		};
+		C5274D3713E88A780012F02D /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MyEyesAreHungry/MyEyesAreHungry-Prefix.pch";
+				INFOPLIST_FILE = "MyEyesAreHungry/MyEyesAreHungry-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad Hoc";
+		};
+		C5274D3813E88A780012F02D /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MyEyesAreHungry.app/MyEyesAreHungry";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MyEyesAreHungryTests/MyEyesAreHungryTests-Prefix.pch";
+				INFOPLIST_FILE = "MyEyesAreHungryTests/MyEyesAreHungryTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = "Ad Hoc";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -586,27 +649,30 @@
 			buildConfigurations = (
 				18C7289113D7006500995D63 /* Debug */,
 				18C7289213D7006500995D63 /* Release */,
+				C5274D3613E88A780012F02D /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		18C7289313D7006500995D63 /* Build configuration list for PBXNativeTarget "MyEyesAreHungry" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18C7289413D7006500995D63 /* Debug */,
 				18C7289513D7006500995D63 /* Release */,
+				C5274D3713E88A780012F02D /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		18C7289613D7006500995D63 /* Build configuration list for PBXNativeTarget "MyEyesAreHungryTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18C7289713D7006500995D63 /* Debug */,
 				18C7289813D7006500995D63 /* Release */,
+				C5274D3813E88A780012F02D /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
