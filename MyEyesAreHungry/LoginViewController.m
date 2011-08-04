@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "TextCell.h"
 #import "WebViewController.h"
+#import "UserPass.h"
 
 
 @implementation LoginViewController
@@ -102,6 +103,8 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
+    /// @todo set keyboard done and next button handlers
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         if (indexPath.section == 0) {
@@ -188,13 +191,30 @@
 {
     // Navigation logic may go here. Create and push another view controller.
     if (indexPath.section == 1) {
-        /// @todo login (need to get web interface from neil)
+        NSIndexPath *emailIP = [NSIndexPath indexPathForRow:0 inSection:0];
+        NSIndexPath *passIP = [NSIndexPath indexPathForRow:1 inSection:0];
+        TextCell *emailCell = (TextCell *) [self.tableView cellForRowAtIndexPath:emailIP];
+        TextCell *passCell = (TextCell *) [self.tableView cellForRowAtIndexPath:passIP];
+
+        if (![emailCell.textField.text isEqualToString:@""] && ![emailCell.textField.text isEqualToString:@""]) {
+            UserPass *userPass = [UserPass sharedUserPass];
+            [userPass setUser:emailCell.textField.text Pass:passCell.textField.text];
+            /// @todo login to server
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid username or password"
+                                                            message:@""
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"OK", nil];
+            [alert show];
+            [alert release];
+        }
+
     } else if (indexPath.section == 2) {
         WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
         webViewController.urlString = @"http://www.myeyesarehungry.com/join.php";
         [self.navigationController pushViewController:webViewController animated:YES];
         [webViewController release];
-        /// @todo make sure all other pushed windows are released
     }
 }
 

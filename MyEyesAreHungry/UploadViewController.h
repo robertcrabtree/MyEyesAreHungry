@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#define TEST_UPLOAD 1  /// @todo remove
-
-
 @interface UploadViewController : UITableViewController {
     UIImage *image;
     NSArray *restaurantArray;

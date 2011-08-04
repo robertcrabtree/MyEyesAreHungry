@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LoginViewController : UITableViewController {
+@interface LoginViewController : UITableViewController <UIAlertViewDelegate> {
     
 }
 

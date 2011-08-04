@@ -10,9 +10,7 @@
 #import "WebViewController.h"
 #import "UploadViewController.h"
 #import "LoginViewController.h"
-
-/// @todo remove this
-#define TEST_LOGIN 1
+#import "UserPass.h"
 
 @implementation RootViewController
 
@@ -74,6 +72,8 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
+    /// @todo set keyboard done and next button handlers
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
@@ -226,7 +226,7 @@
             [uploadViewController release];
         }
     }
-    
+
     // Remove the picker interface and release the picker object.
     [[picker parentViewController] dismissModalViewControllerAnimated:YES];
 }
@@ -239,7 +239,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *urlString;
+    UserPass *userPass = [UserPass sharedUserPass];
     
+    /// @todo clean up this function. pending apis from neil
+
+    if (indexPath.section == 2) {
+        if ([userPass isValid]) {
+            [self selectPicture];
+            return;
+        } else {
+            LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+            [self.navigationController pushViewController:loginViewController animated:YES];
+            [loginViewController release];
+            return;
+        }
+    }
+
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             urlString = [[NSString alloc ]initWithString:@"http://www.myeyesarehungry.com"];
@@ -247,49 +262,39 @@
             urlString = [[NSString alloc ]initWithString:@"http://www.myeyesarehungry.com/new.php"];
         }
     } else if (indexPath.section == 1) {
-        NSString *userName = @"test"; /// @todo get username
-        switch (indexPath.row) {
-            case 0:
-                urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                             userName];
-                break;
-            case 1:
-                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                             userName, @"&list=restaurants"];
-                break;
-            case 2:
-                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                             userName, @"&list=favorites"];
-                break;
-            case 3:
-                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                             userName, @"&list=follows"];
-                break;
-        }
-    } else {
-        [self selectPicture];
-    }
-    
-    if (indexPath.section == 0 || indexPath.section == 1) {
-        if (indexPath.section == 1) {
-#ifdef TEST_LOGIN /// @todo remove this entire if block
+        if ([userPass isValid]) {
+            NSString *userName = [userPass username]; /// @todo get username
+            switch (indexPath.row) {
+                case 0:
+                    urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                                 userName];
+                    break;
+                case 1:
+                    urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                                 userName, @"&list=restaurants"];
+                    break;
+                case 2:
+                    urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                                 userName, @"&list=favorites"];
+                    break;
+                case 3:
+                    urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                                 userName, @"&list=follows"];
+                    break;
+            }
+        } else {
             LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
             [self.navigationController pushViewController:loginViewController animated:YES];
-#else
-            WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
-            webViewController.urlString = urlString;
-            [self.navigationController pushViewController:webViewController animated:YES];
-            [webViewController release];
-            [urlString release];
-#endif
-        } else {
-            WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
-            webViewController.urlString = urlString;
-            [self.navigationController pushViewController:webViewController animated:YES];
-            [webViewController release];
-            [urlString release];
+            [loginViewController release];
+            return;
         }
     }
+
+    WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+    webViewController.urlString = urlString;
+    [self.navigationController pushViewController:webViewController animated:YES];
+    [webViewController release];
+    [urlString release];
 }
 
 - (void)didReceiveMemoryWarning
@@ -303,11 +308,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-    
-    /// @todo deallocate objects (synthesize and dynamic)
 }
 
 - (void)dealloc

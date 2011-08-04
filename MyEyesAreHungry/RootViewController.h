@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class WebViewController;
+@class UserPass;
 
 @interface RootViewController : UITableViewController <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 }
