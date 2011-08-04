@@ -23,6 +23,7 @@
 		18C7288E13D7006500995D63 /* MyEyesAreHungryTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 18C7288D13D7006500995D63 /* MyEyesAreHungryTests.h */; };
 		18C7289013D7006500995D63 /* MyEyesAreHungryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C7288F13D7006500995D63 /* MyEyesAreHungryTests.m */; };
 		C5274D3A13E88B420012F02D /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5274D3913E88B420012F02D /* Entitlements.plist */; };
+		C54B445013E9EAF30073578C /* UserPass.m in Sources */ = {isa = PBXBuildFile; fileRef = C54B444F13E9EAF30073578C /* UserPass.m */; };
 		C56B272B13E2710000204F6D /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B272913E270FD00204F6D /* WebViewController.m */; };
 		C56B272C13E2710000204F6D /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C56B272A13E270FF00204F6D /* WebViewController.xib */; };
 		C56B274913E27AD100204F6D /* UploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B274713E27AC800204F6D /* UploadViewController.m */; };
@@ -80,6 +81,8 @@
 		18C7288D13D7006500995D63 /* MyEyesAreHungryTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEyesAreHungryTests.h; sourceTree = "<group>"; };
 		18C7288F13D7006500995D63 /* MyEyesAreHungryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyEyesAreHungryTests.m; sourceTree = "<group>"; };
 		C5274D3913E88B420012F02D /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = ../Entitlements.plist; sourceTree = "<group>"; };
+		C54B444E13E9EAF30073578C /* UserPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPass.h; sourceTree = "<group>"; };
+		C54B444F13E9EAF30073578C /* UserPass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPass.m; sourceTree = "<group>"; };
 		C56B272813E270FC00204F6D /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		C56B272913E270FD00204F6D /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		C56B272A13E270FF00204F6D /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
@@ -191,6 +194,8 @@
 			children = (
 				C5F4ABA813E77E83006C83F7 /* SFHFKeychainUtils */,
 				C5F4AB2513E77865006C83F7 /* ASIHTTPRequest */,
+				C54B444E13E9EAF30073578C /* UserPass.h */,
+				C54B444F13E9EAF30073578C /* UserPass.m */,
 				18C7286F13D7006400995D63 /* MyEyesAreHungryAppDelegate.h */,
 				18C7287013D7006400995D63 /* MyEyesAreHungryAppDelegate.m */,
 				18C7287513D7006400995D63 /* RootViewController.h */,
@@ -414,6 +419,7 @@
 				C5F4AC0713E77F0A006C83F7 /* ASIInputStream.m in Sources */,
 				C5F4AC0813E77F0A006C83F7 /* ASINetworkQueue.m in Sources */,
 				C5F4AC2813E77F22006C83F7 /* Reachability.m in Sources */,
+				C54B445013E9EAF30073578C /* UserPass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
