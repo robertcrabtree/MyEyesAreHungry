@@ -190,7 +190,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0) {
+            TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
+            [cell.textField becomeFirstResponder];
+    } else if (indexPath.section == 1) {
         NSIndexPath *emailIP = [NSIndexPath indexPathForRow:0 inSection:0];
         NSIndexPath *passIP = [NSIndexPath indexPathForRow:1 inSection:0];
         TextCell *emailCell = (TextCell *) [self.tableView cellForRowAtIndexPath:emailIP];
@@ -216,6 +219,11 @@
         [self.navigationController pushViewController:webViewController animated:YES];
         [webViewController release];
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    [theTextField resignFirstResponder];
+    return YES;
 }
 
 @end

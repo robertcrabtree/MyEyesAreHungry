@@ -244,13 +244,21 @@
     /// @todo clean up this function. pending apis from neil
 
     if (indexPath.section == 2) {
-        if ([userPass isValid]) {
+        //if ([userPass isValid]) {
+        if (NO) { /// @todo remove
             [self selectPicture];
             return;
         } else {
+            /*
             LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
             [self.navigationController pushViewController:loginViewController animated:YES];
             [loginViewController release];
+            return;
+             */
+            /// @todo uncomment above and remove below
+            UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
+            [self.navigationController pushViewController:uploadViewController animated:YES];
+            [uploadViewController release];
             return;
         }
     }
@@ -263,7 +271,7 @@
         }
     } else if (indexPath.section == 1) {
         if ([userPass isValid]) {
-            NSString *userName = [userPass username]; /// @todo get username
+            NSString *userName = [userPass username];
             switch (indexPath.row) {
                 case 0:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",

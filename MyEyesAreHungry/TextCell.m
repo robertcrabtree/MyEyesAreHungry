@@ -31,6 +31,7 @@
 
 - (void)dealloc
 {
+    [textField release];
     [super dealloc];
 }
 
@@ -46,7 +47,21 @@
             break;
         }
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textField = [[UITextField alloc] initWithFrame:CGRectZero];
+    cell.textField.clearsOnBeginEditing = NO;
+    cell.textField.returnKeyType = UIReturnKeyDone;
+    cell.textField.placeholder = @"enter text...";
+    //cell.textField.backgroundColor = [UIColor orangeColor]; // for debugging size
+    [cell.contentView addSubview:cell.textField];
+
     return cell;
+}
+
+
+- (void)layoutSubviews
+{
+    [textField setFrame:CGRectInset(self.contentView.bounds, 11.0, 10.0)];
 }
 
 @end

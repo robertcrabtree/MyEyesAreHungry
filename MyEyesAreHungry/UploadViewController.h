@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UploadViewController : UITableViewController {
+@interface UploadViewController : UITableViewController <UITextFieldDelegate> {
     UIImage *image;
     NSArray *restaurantArray;
     NSArray *mealArray;

@@ -10,7 +10,7 @@
 
 
 @interface TextCell : UITableViewCell {
-    IBOutlet UITextField *textField;
+    IBOutlet UITextField *textField; /// @todo make sure all IBOutlet members get released in dealloc
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *textField;

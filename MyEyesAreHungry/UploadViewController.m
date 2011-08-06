@@ -182,18 +182,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
-    
-    if (indexPath.section != 2)
+    if (indexPath.section == 0) {
+        TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
+        [cell.textField becomeFirstResponder];
         return;
-    
+    }
+
     /// @todo release this when uploading is finished
     progressAlert = [[UIAlertView alloc] initWithTitle:@"Uploading" message:@"Please wait..." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
     // Create the progress bar and add it to the alert
@@ -202,6 +196,11 @@
     [progressView setProgressViewStyle:UIProgressViewStyleBar];
     [progressAlert show];
     [progressView release];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    [theTextField resignFirstResponder];
+    return YES;
 }
 
 @end
