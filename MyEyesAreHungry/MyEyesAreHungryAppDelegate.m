@@ -8,9 +8,26 @@
 
 #import "MyEyesAreHungryAppDelegate.h"
 
+@implementation UINavigationBar (CustomImage)
+- (void)drawRect:(CGRect)rect
+{
+    UIImage *image;
+    
+    MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    
+    if (delegate.navImage)
+        image = delegate.navImage;
+    else
+       image = [UIImage imageNamed: @"header_bar_logo_small.png"];
+    
+    [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+}
+@end
+
+
 @implementation MyEyesAreHungryAppDelegate
 
-
+@synthesize navImage;
 @synthesize window=_window;
 
 @synthesize navigationController=_navigationController;

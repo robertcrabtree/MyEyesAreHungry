@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface MyEyesAreHungryAppDelegate : NSObject <UIApplicationDelegate> {
-
+    UIImage *navImage;
 }
 
+@property (nonatomic, retain) UIImage *navImage;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 

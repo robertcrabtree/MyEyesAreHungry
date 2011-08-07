@@ -32,6 +32,8 @@
 		C57C4DEB13E4CE56000933B9 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C4DEA13E4CE56000933B9 /* TextCell.m */; };
 		C5838CA013E4DB340091FD2F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5838C9E13E4DB340091FD2F /* LoginViewController.m */; };
 		C5838CA113E4DB340091FD2F /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5838C9F13E4DB340091FD2F /* LoginViewController.xib */; };
+		C5B7A1F913EE1BE000837FCF /* header_bar_logo_small.png in Resources */ = {isa = PBXBuildFile; fileRef = C5B7A1F813EE1BE000837FCF /* header_bar_logo_small.png */; };
+		C5B7A1FB13EE1DF200837FCF /* header_bar_small.png in Resources */ = {isa = PBXBuildFile; fileRef = C5B7A1FA13EE1DF200837FCF /* header_bar_small.png */; };
 		C5F4AB2413E75D46006C83F7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F4AB2313E75D46006C83F7 /* Security.framework */; };
 		C5F4ABA113E77AAF006C83F7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F4ABA013E77AAF006C83F7 /* CFNetwork.framework */; };
 		C5F4ABA313E77B07006C83F7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F4ABA213E77B07006C83F7 /* SystemConfiguration.framework */; };
@@ -95,6 +97,8 @@
 		C5838C9D13E4DB340091FD2F /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		C5838C9E13E4DB340091FD2F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C5838C9F13E4DB340091FD2F /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		C5B7A1F813EE1BE000837FCF /* header_bar_logo_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = header_bar_logo_small.png; path = ../../header_bar_logo_small.png; sourceTree = "<group>"; };
+		C5B7A1FA13EE1DF200837FCF /* header_bar_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = header_bar_small.png; path = ../../header_bar_small.png; sourceTree = "<group>"; };
 		C5F4AB2313E75D46006C83F7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C5F4ABA013E77AAF006C83F7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C5F4ABA213E77B07006C83F7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -192,6 +196,7 @@
 		18C7286613D7006400995D63 /* MyEyesAreHungry */ = {
 			isa = PBXGroup;
 			children = (
+				C5B7A1F613EE1B9900837FCF /* Images */,
 				C5F4ABA813E77E83006C83F7 /* SFHFKeychainUtils */,
 				C5F4AB2513E77865006C83F7 /* ASIHTTPRequest */,
 				C54B444E13E9EAF30073578C /* UserPass.h */,
@@ -249,6 +254,15 @@
 				18C7288C13D7006500995D63 /* MyEyesAreHungryTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C5B7A1F613EE1B9900837FCF /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				C5B7A1FA13EE1DF200837FCF /* header_bar_small.png */,
+				C5B7A1F813EE1BE000837FCF /* header_bar_logo_small.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		C5F4AB2513E77865006C83F7 /* ASIHTTPRequest */ = {
@@ -367,6 +381,8 @@
 				C57C4DE713E4CB32000933B9 /* TextCell.xib in Resources */,
 				C5838CA113E4DB340091FD2F /* LoginViewController.xib in Resources */,
 				C5274D3A13E88B420012F02D /* Entitlements.plist in Resources */,
+				C5B7A1F913EE1BE000837FCF /* header_bar_logo_small.png in Resources */,
+				C5B7A1FB13EE1DF200837FCF /* header_bar_small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

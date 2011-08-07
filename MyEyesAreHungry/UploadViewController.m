@@ -8,7 +8,7 @@
 
 #import "UploadViewController.h"
 #import "TextCell.h"
-
+#import "MyEyesAreHungryAppDelegate.h"
 
 @implementation UploadViewController
 
@@ -59,6 +59,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    delegate.navImage = [UIImage imageNamed: @"header_bar_small.png"];
+    [self.navigationController.navigationBar setNeedsDisplay];
     self.navigationItem.title = @"Upload";
     [super viewWillAppear:animated];
 }

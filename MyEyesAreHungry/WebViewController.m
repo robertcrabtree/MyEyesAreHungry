@@ -7,7 +7,7 @@
 //
 
 #import "WebViewController.h"
-
+#import "MyEyesAreHungryAppDelegate.h"
 
 @implementation WebViewController
 
@@ -27,7 +27,7 @@
     [super dealloc];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)didReceiveMemoryWarning 
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -36,6 +36,15 @@
 }
 
 #pragma mark - View lifecycle
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    delegate.navImage = [UIImage imageNamed: @"header_bar_small.png"];
+    [self.navigationController.navigationBar setNeedsDisplay];
+    self.navigationItem.title = @"";
+    [super viewWillAppear:animated];
+}
 
 - (void)viewDidLoad
 {

@@ -11,6 +11,8 @@
 #import "UploadViewController.h"
 #import "LoginViewController.h"
 #import "UserPass.h"
+#import "MyEyesAreHungryAppDelegate.h"
+
 
 @implementation RootViewController
 
@@ -21,7 +23,11 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.navigationItem.title = @"My Eyes Are Hungry";
+    MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    delegate.navImage = [UIImage imageNamed: @"header_bar_logo_small.png"];
+    [self.navigationController.navigationBar setNeedsDisplay];
+    self.navigationItem.title = @"";
+
     [super viewWillAppear:animated];
 }
 

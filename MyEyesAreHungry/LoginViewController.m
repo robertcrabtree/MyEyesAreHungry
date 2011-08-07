@@ -10,7 +10,7 @@
 #import "TextCell.h"
 #import "WebViewController.h"
 #import "UserPass.h"
-
+#import "MyEyesAreHungryAppDelegate.h"
 
 @implementation LoginViewController
 
@@ -58,6 +58,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    delegate.navImage = [UIImage imageNamed: @"header_bar_small.png"];
+    [self.navigationController.navigationBar setNeedsDisplay];
     self.navigationItem.title = @"Login";
     [super viewWillAppear:animated];
 }
