@@ -113,8 +113,10 @@
             
             if (indexPath.section == 0) {
                 textCell.textField.placeholder = [restaurantArray objectAtIndex:indexPath.row];
+                textCell.tag = indexPath.row;
             } else {
                 textCell.textField.placeholder = [mealArray objectAtIndex:indexPath.row];
+                textCell.tag = indexPath.row + restaurantArray.count;
             }
 
             if (indexPath.section == 1 && indexPath.row == mealArray.count - 1) {
@@ -124,6 +126,7 @@
                 textCell.textField.returnKeyType = UIReturnKeyNext;
                 textCell.textField.keyboardType = UIKeyboardTypeDefault;
             }
+            textCell.textField.delegate = self;
             cell = textCell;
         } else {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
@@ -198,9 +201,20 @@
     [progressView release];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    [theTextField resignFirstResponder];
-    return YES;
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    
+    TextCell *cell= (TextCell *) textField.superview.superview;
+    TextCell *next = (TextCell *) [cell.superview viewWithTag:cell.tag + 1];
+
+    if (next && [next isKindOfClass:[TextCell class]]) {
+        [textField resignFirstResponder];
+        [next.textField becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder];
+    }
+    
+    return NO;
 }
 
 @end

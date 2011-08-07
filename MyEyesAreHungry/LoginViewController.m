@@ -114,12 +114,15 @@
                 textCell.textField.placeholder = @"Email";
                 textCell.textField.returnKeyType = UIReturnKeyNext;
                 textCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
+                textCell.tag = 0;
             } else {
                 textCell.textField.placeholder = @"Password";
                 textCell.textField.returnKeyType = UIReturnKeyDone;
                 textCell.textField.keyboardType = UIKeyboardTypeDefault;
                 textCell.textField.secureTextEntry = YES;
+                textCell.tag = 1;
             }
+            textCell.textField.delegate = self;
             cell = textCell;
         } else if (indexPath.section == 1) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
@@ -221,9 +224,19 @@
     }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    [theTextField resignFirstResponder];
-    return YES;
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    TextCell *cell= (TextCell *) textField.superview.superview;
+
+    if (cell.tag == 0) {
+        TextCell *next = (TextCell *) [cell.superview viewWithTag:cell.tag + 1];
+        [textField resignFirstResponder];
+        [next.textField becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder];
+    }
+
+    return NO;
 }
 
 @end

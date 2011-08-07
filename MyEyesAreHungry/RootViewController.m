@@ -249,17 +249,17 @@
             [self selectPicture];
             return;
         } else {
-            /*
             LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
             [self.navigationController pushViewController:loginViewController animated:YES];
             [loginViewController release];
             return;
-             */
-            /// @todo uncomment above and remove below
+            /// @todo remove below
+            /*
             UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
             [self.navigationController pushViewController:uploadViewController animated:YES];
             [uploadViewController release];
             return;
+             */
         }
     }
 
