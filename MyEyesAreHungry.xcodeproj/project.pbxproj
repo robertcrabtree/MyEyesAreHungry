@@ -24,6 +24,7 @@
 		18C7289013D7006500995D63 /* MyEyesAreHungryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C7288F13D7006500995D63 /* MyEyesAreHungryTests.m */; };
 		C5274D3A13E88B420012F02D /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5274D3913E88B420012F02D /* Entitlements.plist */; };
 		C54B445013E9EAF30073578C /* UserPass.m in Sources */ = {isa = PBXBuildFile; fileRef = C54B444F13E9EAF30073578C /* UserPass.m */; };
+		C55FB13113EF747A00ABAD1D /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FB13013EF747A00ABAD1D /* Login.m */; };
 		C56B272B13E2710000204F6D /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B272913E270FD00204F6D /* WebViewController.m */; };
 		C56B272C13E2710000204F6D /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C56B272A13E270FF00204F6D /* WebViewController.xib */; };
 		C56B274913E27AD100204F6D /* UploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B274713E27AC800204F6D /* UploadViewController.m */; };
@@ -34,6 +35,7 @@
 		C5838CA113E4DB340091FD2F /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5838C9F13E4DB340091FD2F /* LoginViewController.xib */; };
 		C5B7A1F913EE1BE000837FCF /* header_bar_logo_small.png in Resources */ = {isa = PBXBuildFile; fileRef = C5B7A1F813EE1BE000837FCF /* header_bar_logo_small.png */; };
 		C5B7A1FB13EE1DF200837FCF /* header_bar_small.png in Resources */ = {isa = PBXBuildFile; fileRef = C5B7A1FA13EE1DF200837FCF /* header_bar_small.png */; };
+		C5EAA93213EFC19B005190FC /* frank.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C5EAA93113EFC19B005190FC /* frank.jpeg */; };
 		C5F4AB2413E75D46006C83F7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F4AB2313E75D46006C83F7 /* Security.framework */; };
 		C5F4ABA113E77AAF006C83F7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F4ABA013E77AAF006C83F7 /* CFNetwork.framework */; };
 		C5F4ABA313E77B07006C83F7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F4ABA213E77B07006C83F7 /* SystemConfiguration.framework */; };
@@ -85,6 +87,8 @@
 		C5274D3913E88B420012F02D /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = ../Entitlements.plist; sourceTree = "<group>"; };
 		C54B444E13E9EAF30073578C /* UserPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPass.h; sourceTree = "<group>"; };
 		C54B444F13E9EAF30073578C /* UserPass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPass.m; sourceTree = "<group>"; };
+		C55FB12F13EF747A00ABAD1D /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
+		C55FB13013EF747A00ABAD1D /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
 		C56B272813E270FC00204F6D /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		C56B272913E270FD00204F6D /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		C56B272A13E270FF00204F6D /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
@@ -99,6 +103,7 @@
 		C5838C9F13E4DB340091FD2F /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		C5B7A1F813EE1BE000837FCF /* header_bar_logo_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = header_bar_logo_small.png; path = ../../header_bar_logo_small.png; sourceTree = "<group>"; };
 		C5B7A1FA13EE1DF200837FCF /* header_bar_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = header_bar_small.png; path = ../../header_bar_small.png; sourceTree = "<group>"; };
+		C5EAA93113EFC19B005190FC /* frank.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = frank.jpeg; path = ../../../pics/frank.jpeg; sourceTree = "<group>"; };
 		C5F4AB2313E75D46006C83F7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C5F4ABA013E77AAF006C83F7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C5F4ABA213E77B07006C83F7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -199,6 +204,8 @@
 				C5B7A1F613EE1B9900837FCF /* Images */,
 				C5F4ABA813E77E83006C83F7 /* SFHFKeychainUtils */,
 				C5F4AB2513E77865006C83F7 /* ASIHTTPRequest */,
+				C55FB12F13EF747A00ABAD1D /* Login.h */,
+				C55FB13013EF747A00ABAD1D /* Login.m */,
 				C54B444E13E9EAF30073578C /* UserPass.h */,
 				C54B444F13E9EAF30073578C /* UserPass.m */,
 				18C7286F13D7006400995D63 /* MyEyesAreHungryAppDelegate.h */,
@@ -260,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				C5B7A1FA13EE1DF200837FCF /* header_bar_small.png */,
+				C5EAA93113EFC19B005190FC /* frank.jpeg */,
 				C5B7A1F813EE1BE000837FCF /* header_bar_logo_small.png */,
 			);
 			name = Images;
@@ -383,6 +391,7 @@
 				C5274D3A13E88B420012F02D /* Entitlements.plist in Resources */,
 				C5B7A1F913EE1BE000837FCF /* header_bar_logo_small.png in Resources */,
 				C5B7A1FB13EE1DF200837FCF /* header_bar_small.png in Resources */,
+				C5EAA93213EFC19B005190FC /* frank.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +445,7 @@
 				C5F4AC0813E77F0A006C83F7 /* ASINetworkQueue.m in Sources */,
 				C5F4AC2813E77F22006C83F7 /* Reachability.m in Sources */,
 				C54B445013E9EAF30073578C /* UserPass.m in Sources */,
+				C55FB13113EF747A00ABAD1D /* Login.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

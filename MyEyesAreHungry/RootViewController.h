@@ -10,10 +10,27 @@
 
 @class UserPass;
 
+enum LoginAction {
+    LOGIN_NO_ACTION,
+    LOGIN_SHOW_MY_MEALS,
+    LOGIN_SHOW_MY_RESTAURANTS,
+    LOGIN_SHOW_MY_FAVS,
+    LOGIN_SHOW_MY_FOLLOWS,
+    LOGIN_ADD_DISH
+};
+
 @interface RootViewController : UITableViewController <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+    enum LoginAction loginAction;
+    NSInteger loginRow;
+    BOOL loginSuccess;
+    UserPass *userPass;
 }
 
-- (void)takePicture;
-- (void)chooseFromLibrary;
+- (void) processMyStuff:(NSInteger)row;
+- (void) processRecents:(NSInteger)row;
+- (void) processAddDish;
+
+@property (nonatomic) enum LoginAction loginAction;
+@property (nonatomic) BOOL loginSuccess;
 
 @end

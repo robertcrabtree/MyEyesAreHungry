@@ -8,12 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+#define TEST_MEAH 1
+
 @interface UploadViewController : UITableViewController <UITextFieldDelegate> {
     UIImage *image;
+    NSArray *postVarArray;
     NSArray *restaurantArray;
     NSArray *mealArray;
     UIAlertView *progressAlert;
     UIProgressView *progressView;
+    
+#ifdef TEST_MEAH
+    NSArray *cheatArray;
+#endif
 }
 
 @property (retain, nonatomic) UIImage *image;

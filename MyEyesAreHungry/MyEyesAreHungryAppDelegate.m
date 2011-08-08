@@ -15,7 +15,7 @@
     
     MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     
-    if (delegate.navImage)
+    if (delegate.navImage) /// @todo remove if statement and adjust for iphone 3g/4g resolution
         image = delegate.navImage;
     else
        image = [UIImage imageNamed: @"header_bar_logo_small.png"];

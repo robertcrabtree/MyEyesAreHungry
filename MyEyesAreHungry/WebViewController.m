@@ -41,8 +41,8 @@
 {
     MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     delegate.navImage = [UIImage imageNamed: @"header_bar_small.png"];
-    [self.navigationController.navigationBar setNeedsDisplay];
     self.navigationItem.title = @"";
+    //[self.navigationController.navigationBar setNeedsDisplay];
     [super viewWillAppear:animated];
 }
 

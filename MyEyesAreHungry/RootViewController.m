@@ -12,12 +12,17 @@
 #import "LoginViewController.h"
 #import "UserPass.h"
 #import "MyEyesAreHungryAppDelegate.h"
+#import "Login.h"
 
+#define MEAH_TESTING 1
 
 @implementation RootViewController
 
+@synthesize loginAction, loginSuccess;
+
 - (void)viewDidLoad
 {
+    userPass = [UserPass sharedUserPass];
     [super viewDidLoad];
 }
 
@@ -25,8 +30,24 @@
 {
     MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     delegate.navImage = [UIImage imageNamed: @"header_bar_logo_small.png"];
-    [self.navigationController.navigationBar setNeedsDisplay];
     self.navigationItem.title = @"";
+    [self.navigationController.navigationBar setNeedsDisplay];
+    
+    enum LoginAction actionSave = loginAction;
+    BOOL successSave = loginSuccess;
+    
+    loginAction = LOGIN_NO_ACTION;
+    loginSuccess = NO;
+    
+    if (actionSave == LOGIN_ADD_DISH) {
+        if (successSave) {
+            [self processAddDish];
+        }
+    } else if (actionSave != LOGIN_NO_ACTION) {
+        if (successSave) {
+            [self processMyStuff:loginRow];
+        }
+    }
 
     [super viewWillAppear:animated];
 }
@@ -57,7 +78,11 @@
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+#ifdef MEAH_TESTING
+    return 6;
+#else
     return 3;
+#endif
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -69,6 +94,12 @@
             return 4;
         case 2:
             return 1;
+#ifdef MEAH_TESTING
+        case 3:
+        case 4:
+        case 5:
+            return 1;
+#endif
     }
     return 0;
 }
@@ -102,11 +133,28 @@
                 cell.textLabel.text = @"My Follows";
             }
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        } else {
+        } else if (indexPath.section == 2) {
             cell.textLabel.text = @"Add a Dish";
             cell.textLabel.textAlignment = UITextAlignmentCenter;
             cell.backgroundColor = [UIColor brownColor];
         }
+        
+#ifdef MEAH_TESTING
+        else if (indexPath.section == 3) {
+            cell.textLabel.text = [NSString stringWithFormat:@"Clear user: %@", [userPass username]];
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.backgroundColor = [UIColor brownColor];
+        } else if (indexPath.section == 4) {
+            cell.textLabel.text = @"Login";
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.backgroundColor = [UIColor brownColor];
+        } else if (indexPath.section == 5) {
+            cell.textLabel.text = @"Fast upload";
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.backgroundColor = [UIColor brownColor];
+        }
+#endif
+        
     }
 
     // Configure the cell.
@@ -154,6 +202,45 @@
 }
 */
 
+
+- (void)showWebPage:(NSString *) urlString
+{
+    WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+    webViewController.urlString = urlString;
+    [self.navigationController pushViewController:webViewController animated:YES];
+    [webViewController release];
+}
+
+- (void)showUploadPage:(UIImage *)image
+{
+    UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
+    uploadViewController.image = image;
+    [self.navigationController pushViewController:uploadViewController animated:YES];
+    [uploadViewController release];
+}
+
+- (void)showLoginPage
+{
+    LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    [self.navigationController pushViewController:loginViewController animated:YES];
+    [loginViewController release];
+}
+
+- (BOOL)login
+{
+    NSString *username = [userPass username];
+    NSString *password = [userPass password];
+    
+    BOOL status = [Login loginWithUsername:username andPassword:password];
+    
+    if (!status) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+        [alert release];
+    }
+    
+    return status;
+}
 
 - (void)takePicture
 {
@@ -225,12 +312,8 @@
     if (info) {
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
 
-        if (image) {
-            UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
-            [self.navigationController pushViewController:uploadViewController animated:YES];
-            uploadViewController.image = image;
-            [uploadViewController release];
-        }
+        if (image)
+            [self showUploadPage:image];
     }
 
     // Remove the picker interface and release the picker object.
@@ -242,73 +325,129 @@
     [[picker parentViewController] dismissModalViewControllerAnimated:YES];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) processRecents:(NSInteger) row
 {
     NSString *urlString;
-    UserPass *userPass = [UserPass sharedUserPass];
     
-    /// @todo clean up this function. pending apis from neil
+    if (row == 0)
+        urlString = @"http://www.myeyesarehungry.com";
+    else
+        urlString = @"http://www.myeyesarehungry.com/new.php";
 
-    if (indexPath.section == 2) {
-        //if ([userPass isValid]) {
-        if (NO) { /// @todo remove
-            [self selectPicture];
-            return;
-        } else {
-            LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-            [self.navigationController pushViewController:loginViewController animated:YES];
-            [loginViewController release];
-            return;
-            /// @todo remove below
-            /*
-            UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
-            [self.navigationController pushViewController:uploadViewController animated:YES];
-            [uploadViewController release];
-            return;
-             */
-        }
-    }
+    [self showWebPage:urlString];
+}
 
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            urlString = [[NSString alloc ]initWithString:@"http://www.myeyesarehungry.com"];
-        } else {
-            urlString = [[NSString alloc ]initWithString:@"http://www.myeyesarehungry.com/new.php"];
-        }
-    } else if (indexPath.section == 1) {
-        if ([userPass isValid]) {
-            NSString *userName = [userPass username];
-            switch (indexPath.row) {
+- (void) processMyStuff:(NSInteger) row
+{
+    // if user/pass is stored in keychain
+    //    login
+    //    show selected web page
+    // else
+    //    save the deferred login task
+    //    show login page
+    //    (web page will be loaded after user logs in)
+    
+    if ([userPass isValid]) {
+        
+        if ([self login]) {
+            NSString *urlString;
+            switch (row) {
                 case 0:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 userName];
+                                 @"test"];
                     break;
                 case 1:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 userName, @"&list=restaurants"];
+                                 @"test", @"&list=restaurants"];
                     break;
                 case 2:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 userName, @"&list=favorites"];
+                                 @"test", @"&list=favorites"];
                     break;
                 case 3:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 userName, @"&list=follows"];
+                                 @"test", @"&list=follows"];
                     break;
-            }
-        } else {
-            LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-            [self.navigationController pushViewController:loginViewController animated:YES];
-            [loginViewController release];
-            return;
+            } // switch
+            [self showWebPage:urlString];
+            [urlString release];
         }
+        
+    } else {
+        
+        switch (row) {
+            case 0:
+                loginAction = LOGIN_SHOW_MY_MEALS;
+                break;
+            case 1:
+                loginAction = LOGIN_SHOW_MY_RESTAURANTS;
+                break;
+            case 2:
+                loginAction = LOGIN_SHOW_MY_FAVS;
+                break;
+            case 3:
+                loginAction = LOGIN_SHOW_MY_FOLLOWS;
+                break;
+        } // switch
+        loginRow = row;
+        [self showLoginPage];
     }
+}
 
-    WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
-    webViewController.urlString = urlString;
-    [self.navigationController pushViewController:webViewController animated:YES];
-    [webViewController release];
-    [urlString release];
+- (void) processAddDish
+{
+    // if user/pass is stored in keychain
+    //    login
+    //    show image picker
+    //    show upload page
+    // else
+    //    save the defferred login task
+    //    show login page
+    //    (image picker will be loaded after user logs in)
+    
+    if ([userPass isValid]) {
+        if ([self login]) {
+            [self selectPicture];
+        }
+    } else {
+        loginAction = LOGIN_ADD_DISH;
+        [self showLoginPage];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // show the selected web page
+    if (indexPath.section == 0) {
+        [self processRecents:indexPath.row];
+    } else if (indexPath.section == 1) {
+        [self processMyStuff:indexPath.row];
+    } else if (indexPath.section == 2) {
+        [self processAddDish];
+    }
+    
+#ifdef MEAH_TESTING
+    else if (indexPath.section == 3) {
+        if ([userPass deleteUser])
+            NSLog(@"Delete keychain success!\n");
+        else
+            NSLog(@"Delete keychain fail\n");
+        
+    } else if (indexPath.section == 4) {
+        BOOL status = [Login loginWithUsername:@"test@test.com" andPassword:@"test"];
+        if (status) {
+            if ([userPass setUser:@"test@test.com" Pass:@"test"])
+                NSLog(@"Save user pass in keychain success!\n");
+            else
+                NSLog(@"Failed to save user pass in keychain\n");
+                
+        } else {
+            NSLog(@"Login failed\n");
+        }
+    } else if (indexPath.section == 5) {
+        [self showUploadPage:[UIImage imageNamed: @"frank.jpeg"]];
+    }
+#endif
 }
 
 - (void)didReceiveMemoryWarning

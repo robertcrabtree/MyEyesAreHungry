@@ -9,6 +9,7 @@
 #import "UploadViewController.h"
 #import "TextCell.h"
 #import "MyEyesAreHungryAppDelegate.h"
+#import "ASIFormDataRequest.h"
 
 @implementation UploadViewController
 
@@ -24,6 +25,10 @@
 
 - (void)dealloc
 {
+    if (self.image) {
+        [image release];
+        image = nil;
+    }
     [super dealloc];
 }
 
@@ -41,16 +46,25 @@
 {    
     
     [super viewDidLoad];
-
+#ifdef TEST_MEAH
+    cheatArray = [[NSArray alloc] initWithObjects:@"rest_name", @"rest_country", @"rest_city", @"rest_state",
+                  @"dish_type", @"dish_name", @"dish_price", @"dish_taste", nil];
+#endif
+    postVarArray = [[NSArray alloc] initWithObjects:@"rest_name", @"rest_country", @"rest_city", @"rest_state",
+                    @"dish_type", @"dish_name", @"dish_price", @"dish_taste", nil];
     restaurantArray = [[NSArray alloc] initWithObjects:@"Restaurant Name", @"Restaurant Country", 
                        @"Restaurant City", @"Restaurant State", nil];
-    mealArray = [[NSArray alloc] initWithObjects:@"Meal Type", @"Meal Name", @"Meal Price", nil];
+    mealArray = [[NSArray alloc] initWithObjects:@"Meal Type", @"Meal Name", @"Meal Price", @"Meal Taste", nil];
 }
 
 - (void)viewDidUnload
 {
+#ifdef TEST_MEAH
+    [cheatArray release];
+#endif
     [restaurantArray release];
     [mealArray release];
+    [postVarArray release];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     [restaurantArray release];
@@ -61,8 +75,8 @@
 {
     MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     delegate.navImage = [UIImage imageNamed: @"header_bar_small.png"];
-    [self.navigationController.navigationBar setNeedsDisplay];
     self.navigationItem.title = @"Upload";
+    //[self.navigationController.navigationBar setNeedsDisplay];
     [super viewWillAppear:animated];
 }
 
@@ -73,6 +87,10 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    if (self.image) {
+        [image release];
+        image = nil;
+    }
     [super viewWillDisappear:animated];
 }
 
@@ -115,10 +133,18 @@
             TextCell *textCell = [TextCell cellFromNib];
             
             if (indexPath.section == 0) {
+#ifdef TEST_MEAH
+                textCell.textField.text = [cheatArray objectAtIndex:indexPath.row];
+#else
                 textCell.textField.placeholder = [restaurantArray objectAtIndex:indexPath.row];
+#endif
                 textCell.tag = indexPath.row;
             } else {
+#ifdef TEST_MEAH
+                textCell.textField.text = [cheatArray objectAtIndex:indexPath.row + restaurantArray.count];
+#else
                 textCell.textField.placeholder = [mealArray objectAtIndex:indexPath.row];
+#endif
                 textCell.tag = indexPath.row + restaurantArray.count;
             }
 
@@ -192,9 +218,31 @@
         TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
         [cell.textField becomeFirstResponder];
         return;
+    } else {
+        NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/upload.php"];
+        ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:url];
+        
+        for (int i = 0; i < cheatArray.count; i++) {
+            NSString *key = [postVarArray objectAtIndex:i];
+            NSString *value = [cheatArray objectAtIndex:i];
+            [request setPostValue:value forKey:key];
+            NSLog(@"value=%@ key=%@", value, key);
+        }
+        NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+        [request addData:imageData withFileName:@"meal.jpeg" andContentType:@"image/jpeg" forKey:@"image"];
+        [request startSynchronous];
+        
+        /// @todo need status codes from neil
+        if ((![request error]) && ([request responseStatusCode] < 400))
+            NSLog(@"upload success");
+        else
+            NSLog(@"upload failure");
+        
+        [request release];
     }
 
     /// @todo release this when uploading is finished
+    /*
     progressAlert = [[UIAlertView alloc] initWithTitle:@"Uploading" message:@"Please wait..." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
     // Create the progress bar and add it to the alert
     progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(30.0f, 80.0f, 225.0f, 90.0f)];
@@ -202,6 +250,7 @@
     [progressView setProgressViewStyle:UIProgressViewStyleBar];
     [progressAlert show];
     [progressView release];
+     */
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

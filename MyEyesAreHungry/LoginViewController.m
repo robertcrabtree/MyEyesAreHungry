@@ -11,6 +11,8 @@
 #import "WebViewController.h"
 #import "UserPass.h"
 #import "MyEyesAreHungryAppDelegate.h"
+#import "Login.h"
+#import "RootViewController.h"
 
 @implementation LoginViewController
 
@@ -60,8 +62,8 @@
 {
     MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     delegate.navImage = [UIImage imageNamed: @"header_bar_small.png"];
-    [self.navigationController.navigationBar setNeedsDisplay];
     self.navigationItem.title = @"Login";
+    //[self.navigationController.navigationBar setNeedsDisplay];
     [super viewWillAppear:animated];
 }
 
@@ -125,6 +127,8 @@
                 textCell.textField.secureTextEntry = YES;
                 textCell.tag = 1;
             }
+            textCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+            textCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
             textCell.textField.delegate = self;
             cell = textCell;
         } else if (indexPath.section == 1) {
@@ -204,11 +208,26 @@
         NSIndexPath *passIP = [NSIndexPath indexPathForRow:1 inSection:0];
         TextCell *emailCell = (TextCell *) [self.tableView cellForRowAtIndexPath:emailIP];
         TextCell *passCell = (TextCell *) [self.tableView cellForRowAtIndexPath:passIP];
+        NSString *email = emailCell.textField.text;
+        NSString *password = passCell.textField.text;
 
-        if (![emailCell.textField.text isEqualToString:@""] && ![emailCell.textField.text isEqualToString:@""]) {
-            UserPass *userPass = [UserPass sharedUserPass];
-            [userPass setUser:emailCell.textField.text Pass:passCell.textField.text];
-            /// @todo login to server
+        if (![email isEqualToString:@""] && ![password isEqualToString:@""]) {
+            
+            if ([Login loginWithUsername:email andPassword:password]) {
+                [[UserPass sharedUserPass] setUser:email Pass:password];
+                RootViewController *root = [self.navigationController.viewControllers objectAtIndex:0];
+                root.loginSuccess = YES;
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
+                                                                message:@""
+                                                               delegate:nil
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"OK", nil];
+                [alert show];
+                [alert release];
+                
+            }
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid username or password"
                                                             message:@""
