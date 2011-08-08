@@ -13,4 +13,6 @@
     
 }
 
++(BOOL) loginWithUsername:(NSString *) username andPassword:(NSString *) password;
+
 @end
