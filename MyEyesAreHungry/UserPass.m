@@ -13,7 +13,7 @@
 
 NSString *SERVICE = @"MyEyesAreHungry";
 
-@dynamic username, password;
+@synthesize username, password;
 
 static UserPass *sharedInstance = nil;
 
@@ -45,26 +45,20 @@ static UserPass *sharedInstance = nil;
         if (!(self = [super init]))
             return nil;
         
+        self.username = @"";
+        self.password = @"";
 
         NSError *error;
         NSString *userPass = [SFHFKeychainUtils getPasswordForUsername:SERVICE andServiceName:SERVICE error:&error];
+        
         if (error == nil && userPass != nil) {
             // parse username and password, separated by a space
             NSArray *array = [userPass componentsSeparatedByString:@" "];
             if (array.count == 2) {
-                username = [[NSString alloc] initWithString:[array objectAtIndex:0]];
-                password = [[NSString alloc] initWithString:[array objectAtIndex:1]];
-            } else {
-                // initialize to empty string
-                username = [[NSString alloc] initWithString:@""];
-                password = [[NSString alloc] initWithString:@""];                
+                self.username = [array objectAtIndex:0];
+                self.password = [array objectAtIndex:1];
             }
-        } else {
-            // initialize to empty string
-            username = [[NSString alloc] initWithString:@""];
-            password = [[NSString alloc] initWithString:@""];
         }
-
         return self;
     }
 }
@@ -91,29 +85,24 @@ static UserPass *sharedInstance = nil;
         // store user and pass in keychain
         BOOL success = [SFHFKeychainUtils storeUsername:SERVICE andPassword:str forServiceName:SERVICE updateExisting:YES error:&error];
         if (success) {
-            if (username)
-                [username release];
-            if (password)
-                [password release];
-            username = [[NSString alloc] initWithString:user];
-            password = [[NSString alloc] initWithString:pass];
+            self.username = user;
+            self.password = pass;
         }
         return success;
     }
 }
 
--(NSString *)username
+- (BOOL)deleteUser
 {
-    @synchronized(self) {
-        return [username autorelease];
+    NSError *error;
+    BOOL success = [SFHFKeychainUtils deleteItemForUsername:SERVICE andServiceName:SERVICE error:&error];
+    
+    if (success) {
+        self.username = @"";
+        self.password = @"";
     }
-}
-
--(NSString *)password
-{
-    @synchronized(self) {
-        return [password autorelease];
-    }
+    
+    return success;
 }
 
 - (void)release

@@ -17,8 +17,9 @@
 + (UserPass *)sharedUserPass; // singleton instance method
 - (BOOL)isValid;
 - (BOOL)setUser:(NSString *)username Pass:(NSString *)password;
+- (BOOL)deleteUser;
 
-@property (readonly) NSString *username;
-@property (readonly) NSString *password;
+@property (nonatomic, retain) NSString *username;
+@property (nonatomic, retain) NSString *password;
 
 @end
