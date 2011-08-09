@@ -123,50 +123,65 @@
     return 1;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section) {
+        case 0:
+        case 1:
+            cell.backgroundColor = [UIColor whiteColor];
+            break;
+            
+        default:
+            cell.backgroundColor = [UIColor brownColor];
+            break;
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell;
+    
+    // see if cell already exists
+    if (indexPath.section == 0 || indexPath.section == 1)
+        cell = [tableView dequeueReusableCellWithIdentifier:TextCellID];
+    else
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    // create cell
     if (cell == nil) {
         if (indexPath.section == 0 || indexPath.section == 1) {
-            TextCell *textCell = [TextCell cellFromNib];
-            
-            if (indexPath.section == 0) {
-#ifdef TEST_MEAH
-                textCell.textField.text = [cheatArray objectAtIndex:indexPath.row];
-#else
-                textCell.textField.placeholder = [restaurantArray objectAtIndex:indexPath.row];
-#endif
-                textCell.tag = indexPath.row;
-            } else {
-#ifdef TEST_MEAH
-                textCell.textField.text = [cheatArray objectAtIndex:indexPath.row + restaurantArray.count];
-#else
-                textCell.textField.placeholder = [mealArray objectAtIndex:indexPath.row];
-#endif
-                textCell.tag = indexPath.row + restaurantArray.count;
-            }
-
-            if (indexPath.section == 1 && indexPath.row == mealArray.count - 1) {
-                textCell.textField.returnKeyType = UIReturnKeyDone;
-                textCell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-            } else {
-                textCell.textField.returnKeyType = UIReturnKeyNext;
-                textCell.textField.keyboardType = UIKeyboardTypeDefault;
-            }
-            textCell.textField.delegate = self;
-            cell = textCell;
+            cell = [TextCell cellFromNib];
         } else {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-
-            cell.textLabel.text = @"Upload";
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
-            cell.backgroundColor = [UIColor brownColor];
         }
     }
     
-    // Configure the cell...
+    // configure cell
+    if (indexPath.section == 0) {
+        TextCell *textCell = (TextCell *) cell;
+        textCell.tag = indexPath.row;
+        textCell.textField.placeholder = [restaurantArray objectAtIndex:indexPath.row];
+        textCell.textField.delegate = self;
+        textCell.textField.returnKeyType = UIReturnKeyNext;
+        textCell.textField.keyboardType = UIKeyboardTypeDefault;
+    } else if (indexPath.section == 1) {
+        TextCell *textCell = (TextCell *) cell;
+        textCell.tag = indexPath.row + restaurantArray.count;
+        textCell.textField.placeholder = [mealArray objectAtIndex:indexPath.row];
+        textCell.textField.delegate = self;
+        if (indexPath.row == mealArray.count - 1) {
+            textCell.textField.returnKeyType = UIReturnKeyDone;
+            textCell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        } else {
+            textCell.textField.returnKeyType = UIReturnKeyNext;
+            textCell.textField.keyboardType = UIKeyboardTypeDefault;
+        }
+    } else {
+        cell.textLabel.text = @"Upload";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+    }
     
     return cell;
 }
