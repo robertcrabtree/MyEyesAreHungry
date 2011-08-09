@@ -104,7 +104,21 @@
     return 0;
 }
 
-// Customize the appearance of table view cells.
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section) {
+        case 0:
+        case 1:
+            cell.backgroundColor = [UIColor whiteColor];
+            break;
+            
+        default:
+            cell.backgroundColor = [UIColor brownColor];
+            break;
+    }
+}
+
+ // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -114,50 +128,50 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        
-        if (indexPath.section == 0) {
-            if (indexPath.row == 0) {
-                cell.textLabel.text = @"Recent Meals";
-            } else {
-                cell.textLabel.text = @"Recent Restaurants";
-            }
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        } else if (indexPath.section == 1) {
-            if (indexPath.row == 0) {
-                cell.textLabel.text = @"My Meals";
-            } else if (indexPath.row == 1) {
-                cell.textLabel.text = @"My Restaurants";
-            } else if (indexPath.row == 2) {
-                cell.textLabel.text = @"My Favorites";
-            } else {
-                cell.textLabel.text = @"My Follows";
-            }
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        } else if (indexPath.section == 2) {
-            cell.textLabel.text = @"Add a Dish";
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
-            cell.backgroundColor = [UIColor brownColor];
-        }
-        
-#ifdef MEAH_TESTING
-        else if (indexPath.section == 3) {
-            cell.textLabel.text = [NSString stringWithFormat:@"Clear user: %@", [userPass username]];
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
-            cell.backgroundColor = [UIColor brownColor];
-        } else if (indexPath.section == 4) {
-            cell.textLabel.text = @"Login";
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
-            cell.backgroundColor = [UIColor brownColor];
-        } else if (indexPath.section == 5) {
-            cell.textLabel.text = @"Fast upload";
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
-            cell.backgroundColor = [UIColor brownColor];
-        }
-#endif
-        
     }
 
-    // Configure the cell.
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            cell.textLabel.text = @"Recent Meals";
+        } else {
+            cell.textLabel.text = @"Recent Restaurants";
+        }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.textAlignment = UITextAlignmentLeft;
+    } else if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            cell.textLabel.text = @"My Meals";
+        } else if (indexPath.row == 1) {
+            cell.textLabel.text = @"My Restaurants";
+        } else if (indexPath.row == 2) {
+            cell.textLabel.text = @"My Favorites";
+        } else {
+            cell.textLabel.text = @"My Follows";
+        }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.textAlignment = UITextAlignmentLeft;
+    } else if (indexPath.section == 2) {
+        cell.textLabel.text = @"Add a Dish";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
+#ifdef MEAH_TESTING
+    else if (indexPath.section == 3) {
+        cell.textLabel.text = [NSString stringWithFormat:@"Clear user: %@", [userPass username]];
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if (indexPath.section == 4) {
+        cell.textLabel.text = @"Login";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if (indexPath.section == 5) {
+        cell.textLabel.text = @"Fast upload";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+#endif
+
     return cell;
 }
 
