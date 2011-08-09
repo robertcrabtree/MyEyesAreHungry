@@ -104,47 +104,69 @@
     return 1;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section) {
+        case 0:
+            cell.backgroundColor = [UIColor whiteColor];
+            break;
+            
+        default:
+            cell.backgroundColor = [UIColor brownColor];
+            break;
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
+
+    UITableViewCell *cell;
     
-    /// @todo set keyboard done and next button handlers
+    // see if cell already exists
+    if (indexPath.section == 0)
+        cell = [tableView dequeueReusableCellWithIdentifier:TextCellID];
+    else
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    // cell does not exist so create it
     if (cell == nil) {
         if (indexPath.section == 0) {
             TextCell *textCell = [TextCell cellFromNib];
-            
-            if (indexPath.row == 0) {
-                textCell.textField.placeholder = @"Email";
-                textCell.textField.returnKeyType = UIReturnKeyNext;
-                textCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-                textCell.tag = 0;
-            } else {
-                textCell.textField.placeholder = @"Password";
-                textCell.textField.returnKeyType = UIReturnKeyDone;
-                textCell.textField.keyboardType = UIKeyboardTypeDefault;
-                textCell.textField.secureTextEntry = YES;
-                textCell.tag = 1;
-            }
-            textCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-            textCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-            textCell.textField.delegate = self;
             cell = textCell;
         } else if (indexPath.section == 1) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-            
-            cell.textLabel.text = @"Login";
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
-            cell.backgroundColor = [UIColor brownColor];
         } else {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-            cell.backgroundColor = [UIColor brownColor];
-            cell.textLabel.text = @"Create New account";
         }
     }
     
-    // Configure the cell...
+    // configure cell
+    if (indexPath.section == 0) {
+        TextCell *textCell = (TextCell *) cell;
+        if (indexPath.row == 0) {
+            textCell.textField.placeholder = @"Email";
+            textCell.textField.returnKeyType = UIReturnKeyNext;
+            textCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
+            textCell.textField.secureTextEntry = NO;
+            textCell.tag = 0;
+        } else {
+            textCell.textField.placeholder = @"Password";
+            textCell.textField.returnKeyType = UIReturnKeyDone;
+            textCell.textField.keyboardType = UIKeyboardTypeDefault;
+            textCell.textField.secureTextEntry = YES;
+            textCell.tag = 1;
+        }
+        textCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        textCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+        textCell.textField.delegate = self;
+    } else if (indexPath.section == 1) {
+        cell.textLabel.text = @"Login";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+    } else {
+        cell.textLabel.text = @"Create New account";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+    }
     
     return cell;
 }

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *TextCellID;
 
 @interface TextCell : UITableViewCell {
     IBOutlet UITextField *textField; /// @todo make sure all IBOutlet members get released in dealloc

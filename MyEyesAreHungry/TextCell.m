@@ -13,6 +13,8 @@
 
 @synthesize textField;
 
+NSString *TextCellID = @"TextCell";
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -37,7 +39,7 @@
 
 + (TextCell *) cellFromNib
 {
-    NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TextCell" owner:self options:NULL];
+    NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:TextCellID owner:self options:NULL];
     NSEnumerator *nibEnumerator = [nibContents objectEnumerator];
     TextCell *cell = nil;
     NSObject* nibItem = nil;
