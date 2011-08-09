@@ -34,4 +34,14 @@
     return success;
 }
 
++(void) logout
+{
+    [ASIHTTPRequest clearSession];
+    [ASIFormDataRequest clearSession];
+    NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/logout.php"];
+    ASIFormDataRequest *request = [[ASIFormDataRequest  alloc]  initWithURL:url];
+    [request startSynchronous];
+    [request release];
+}
+
 @end
