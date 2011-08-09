@@ -14,8 +14,6 @@
 #import "MyEyesAreHungryAppDelegate.h"
 #import "Login.h"
 
-#define MEAH_TESTING 1
-
 @implementation RootViewController
 
 @synthesize loginAction, loginSuccess;

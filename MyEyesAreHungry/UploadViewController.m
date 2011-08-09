@@ -46,7 +46,7 @@
 {    
     
     [super viewDidLoad];
-#ifdef TEST_MEAH
+#ifdef MEAH_TESTING
     cheatArray = [[NSArray alloc] initWithObjects:@"rest_name", @"rest_country", @"rest_city", @"rest_state",
                   @"dish_type", @"dish_name", @"dish_price", @"dish_taste", nil];
 #endif
@@ -59,7 +59,7 @@
 
 - (void)viewDidUnload
 {
-#ifdef TEST_MEAH
+#ifdef MEAH_TESTING
     [cheatArray release];
 #endif
     [restaurantArray release];
@@ -231,6 +231,7 @@
         [cell.textField becomeFirstResponder];
         return;
     } else {
+#ifdef MEAH_TESTING
         NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/upload.php"];
         ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:url];
         
@@ -251,6 +252,7 @@
             NSLog(@"upload failure");
         
         [request release];
+#endif
     }
 
     /// @todo release this when uploading is finished

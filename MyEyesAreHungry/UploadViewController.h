@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#define TEST_MEAH 1
-
 @interface UploadViewController : UITableViewController <UITextFieldDelegate> {
     UIImage *image;
     NSArray *postVarArray;
@@ -18,7 +16,7 @@
     UIAlertView *progressAlert;
     UIProgressView *progressView;
     
-#ifdef TEST_MEAH
+#ifdef MEAH_TESTING
     NSArray *cheatArray;
 #endif
 }
