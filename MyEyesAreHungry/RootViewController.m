@@ -33,12 +33,15 @@
     self.navigationItem.title = @"";
     [self.navigationController.navigationBar setNeedsDisplay];
     
+    /*
     enum LoginAction actionSave = loginAction;
     BOOL successSave = loginSuccess;
+     */
     
     loginAction = LOGIN_NO_ACTION;
     loginSuccess = NO;
     
+    /*
     if (actionSave == LOGIN_ADD_DISH) {
         if (successSave) {
             [self processAddDish];
@@ -48,6 +51,7 @@
             [self processMyStuff:loginRow];
         }
     }
+     */
 
     [super viewWillAppear:animated];
 }
@@ -59,6 +63,9 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    delegate.navImage = [UIImage imageNamed: @"header_bar_small.png"];
+    [self.navigationController.navigationBar setNeedsDisplay];
 	[super viewWillDisappear:animated];
 }
 
