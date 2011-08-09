@@ -47,6 +47,7 @@
 {
     NSURL *url = [[NSURL alloc] initWithString:urlString];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    [webView setDelegate:self];
     [webView loadRequest:request];
     [super viewDidLoad];
     [url release];
@@ -66,5 +67,16 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
 
 @end

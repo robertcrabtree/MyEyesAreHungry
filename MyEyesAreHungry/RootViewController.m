@@ -13,6 +13,7 @@
 #import "UserPass.h"
 #import "MyEyesAreHungryAppDelegate.h"
 #import "Login.h"
+#import "ASIHTTPRequest.h"
 
 @implementation RootViewController
 
@@ -21,6 +22,7 @@
 - (void)viewDidLoad
 {
     userPass = [UserPass sharedUserPass];
+    [ASIHTTPRequest setShouldUpdateNetworkActivityIndicator:YES]; // have ASI update network status when active
     [super viewDidLoad];
 }
 
