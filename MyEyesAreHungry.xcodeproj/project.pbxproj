@@ -24,6 +24,8 @@
 		18C7289013D7006500995D63 /* MyEyesAreHungryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C7288F13D7006500995D63 /* MyEyesAreHungryTests.m */; };
 		C5274D3A13E88B420012F02D /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5274D3913E88B420012F02D /* Entitlements.plist */; };
 		C54B445013E9EAF30073578C /* UserPass.m in Sources */ = {isa = PBXBuildFile; fileRef = C54B444F13E9EAF30073578C /* UserPass.m */; };
+		C557FEA213F30977000AEF78 /* ActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = C557FEA113F30977000AEF78 /* ActionSheetPicker.m */; };
+		C557FEA613F30E6E000AEF78 /* UploadArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = C557FEA513F30E6E000AEF78 /* UploadArrays.m */; };
 		C55FB13113EF747A00ABAD1D /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FB13013EF747A00ABAD1D /* Login.m */; };
 		C56B272B13E2710000204F6D /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B272913E270FD00204F6D /* WebViewController.m */; };
 		C56B272C13E2710000204F6D /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C56B272A13E270FF00204F6D /* WebViewController.xib */; };
@@ -87,6 +89,10 @@
 		C5274D3913E88B420012F02D /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = ../Entitlements.plist; sourceTree = "<group>"; };
 		C54B444E13E9EAF30073578C /* UserPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPass.h; sourceTree = "<group>"; };
 		C54B444F13E9EAF30073578C /* UserPass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPass.m; sourceTree = "<group>"; };
+		C557FEA013F30977000AEF78 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetPicker.h; sourceTree = "<group>"; };
+		C557FEA113F30977000AEF78 /* ActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetPicker.m; sourceTree = "<group>"; };
+		C557FEA413F30E6E000AEF78 /* UploadArrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadArrays.h; sourceTree = "<group>"; };
+		C557FEA513F30E6E000AEF78 /* UploadArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadArrays.m; sourceTree = "<group>"; };
 		C55FB12F13EF747A00ABAD1D /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
 		C55FB13013EF747A00ABAD1D /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
 		C56B272813E270FC00204F6D /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
@@ -204,6 +210,8 @@
 				C5B7A1F613EE1B9900837FCF /* Images */,
 				C5F4ABA813E77E83006C83F7 /* SFHFKeychainUtils */,
 				C5F4AB2513E77865006C83F7 /* ASIHTTPRequest */,
+				C557FEA013F30977000AEF78 /* ActionSheetPicker.h */,
+				C557FEA113F30977000AEF78 /* ActionSheetPicker.m */,
 				C55FB12F13EF747A00ABAD1D /* Login.h */,
 				C55FB13013EF747A00ABAD1D /* Login.m */,
 				C54B444E13E9EAF30073578C /* UserPass.h */,
@@ -218,6 +226,8 @@
 				C57C4DEA13E4CE56000933B9 /* TextCell.m */,
 				C56B274613E27AC700204F6D /* UploadViewController.h */,
 				C56B274713E27AC800204F6D /* UploadViewController.m */,
+				C557FEA413F30E6E000AEF78 /* UploadArrays.h */,
+				C557FEA513F30E6E000AEF78 /* UploadArrays.m */,
 				C56B272813E270FC00204F6D /* WebViewController.h */,
 				C56B272913E270FD00204F6D /* WebViewController.m */,
 				18C7286713D7006400995D63 /* Supporting Files */,
@@ -446,6 +456,8 @@
 				C5F4AC2813E77F22006C83F7 /* Reachability.m in Sources */,
 				C54B445013E9EAF30073578C /* UserPass.m in Sources */,
 				C55FB13113EF747A00ABAD1D /* Login.m in Sources */,
+				C557FEA213F30977000AEF78 /* ActionSheetPicker.m in Sources */,
+				C557FEA613F30E6E000AEF78 /* UploadArrays.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +529,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
