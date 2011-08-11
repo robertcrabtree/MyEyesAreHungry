@@ -10,6 +10,8 @@
 #import "TextCell.h"
 #import "MyEyesAreHungryAppDelegate.h"
 #import "ASIFormDataRequest.h"
+#import "UploadArrays.h"
+#import "ActionSheetPicker.h"
 
 @implementation UploadViewController
 
@@ -29,6 +31,10 @@
         [image release];
         image = nil;
     }
+    if (arrays) {
+        [arrays release];
+        arrays = nil;
+    }
     [super dealloc];
 }
 
@@ -44,31 +50,18 @@
 
 - (void)viewDidLoad
 {    
-    
     [super viewDidLoad];
-#ifdef MEAH_TESTING
-    cheatArray = [[NSArray alloc] initWithObjects:@"rest_name", @"rest_country", @"rest_city", @"rest_state",
-                  @"dish_type", @"dish_name", @"dish_price", @"dish_taste", nil];
-#endif
-    postVarArray = [[NSArray alloc] initWithObjects:@"rest_name", @"rest_country", @"rest_city", @"rest_state",
-                    @"dish_type", @"dish_name", @"dish_price", @"dish_taste", nil];
-    restaurantArray = [[NSArray alloc] initWithObjects:@"Restaurant Name", @"Restaurant Country", 
-                       @"Restaurant City", @"Restaurant State", nil];
-    mealArray = [[NSArray alloc] initWithObjects:@"Meal Type", @"Meal Name", @"Meal Price", @"Meal Taste", nil];
+    self.tableView.tag = 100;
+    arrays = [[UploadArrays alloc] init];
+    picker = [[ActionSheetPicker alloc] initForDataWithContainingView:self.view data:nil selectedIndex:0 target:self action:@selector(pickerHandler::) title:@"" clientData:nil];
 }
 
 - (void)viewDidUnload
 {
-#ifdef MEAH_TESTING
-    [cheatArray release];
-#endif
-    [restaurantArray release];
-    [mealArray release];
-    [postVarArray release];
-    [super viewDidUnload];
+    
+    /// @todo find out what should be released in viewDidUnload for all views
     // Release any retained subviews of the main view.
-    [restaurantArray release];
-    [mealArray release];
+    [super viewDidUnload];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -114,9 +107,9 @@
 {
     // Return the number of rows in the section.
     if (section == 0)
-        return restaurantArray.count;
+        return arrays.restPlaceholders.count;
     else if (section == 1)
-        return mealArray.count;
+        return arrays.mealPlaceholders.count;
     return 1;
 }
 
@@ -148,27 +141,26 @@
     
     // create cell
     if (cell == nil) {
-        if (indexPath.section == 0 || indexPath.section == 1) {
+        if (indexPath.section == 0 || indexPath.section == 1)
             cell = [TextCell cellFromNib];
-        } else {
+        else
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        }
     }
-    
+
     // configure cell
     if (indexPath.section == 0) {
         TextCell *textCell = (TextCell *) cell;
         textCell.tag = indexPath.row;
-        textCell.textField.placeholder = [restaurantArray objectAtIndex:indexPath.row];
+        textCell.textField.placeholder = [arrays.restPlaceholders objectAtIndex:indexPath.row];
         textCell.textField.delegate = self;
         textCell.textField.returnKeyType = UIReturnKeyNext;
         textCell.textField.keyboardType = UIKeyboardTypeDefault;
     } else if (indexPath.section == 1) {
         TextCell *textCell = (TextCell *) cell;
-        textCell.tag = indexPath.row + restaurantArray.count;
-        textCell.textField.placeholder = [mealArray objectAtIndex:indexPath.row];
+        textCell.tag = indexPath.row + arrays.restPlaceholders.count;
+        textCell.textField.placeholder = [arrays.mealPlaceholders objectAtIndex:indexPath.row];
         textCell.textField.delegate = self;
-        if (indexPath.row == mealArray.count - 1) {
+        if (indexPath.row == arrays.mealPlaceholders.count - 1) {
             textCell.textField.returnKeyType = UIReturnKeyDone;
             textCell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         } else {
@@ -176,6 +168,7 @@
             textCell.textField.keyboardType = UIKeyboardTypeDefault;
         }
     } else {
+        cell.tag = arrays.restPlaceholders.count + arrays.mealPlaceholders.count;
         cell.textLabel.text = @"Upload";
         cell.textLabel.textAlignment = UITextAlignmentCenter;
     }
@@ -224,52 +217,136 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(BOOL)isValidData:(UIView *)cellParent
 {
-    if (indexPath.section == 0) {
-        TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
-        [cell.textField becomeFirstResponder];
-        return;
-    } else {
-#ifdef MEAH_TESTING
-        NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/upload.php"];
-        ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:url];
-        
-        for (int i = 0; i < cheatArray.count; i++) {
-            NSString *key = [postVarArray objectAtIndex:i];
-            NSString *value = [cheatArray objectAtIndex:i];
-            [request setPostValue:value forKey:key];
-            NSLog(@"value=%@ key=%@", value, key);
+    int cnt = arrays.restPlaceholders.count + arrays.mealPlaceholders.count;
+    
+    for (int i = 0; i < cnt; i++) {
+        UITextField *textField = ((TextCell *)[cellParent viewWithTag:i]).textField;
+        if (textField.text == nil || [@"" isEqualToString:textField.text]) {
+            return NO;
         }
-        NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
-        [request addData:imageData withFileName:@"meal.jpeg" andContentType:@"image/jpeg" forKey:@"image"];
-        [request startSynchronous];
-        
-        /// @todo need status codes from neil
-        if ((![request error]) && ([request responseStatusCode] < 400))
-            NSLog(@"upload success");
-        else
-            NSLog(@"upload failure");
-        
-        [request release];
-#endif
     }
 
-    /// @todo release this when uploading is finished
-    /*
-    progressAlert = [[UIAlertView alloc] initWithTitle:@"Uploading" message:@"Please wait..." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-    // Create the progress bar and add it to the alert
-    progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(30.0f, 80.0f, 225.0f, 90.0f)];
-    [progressAlert addSubview:progressView];
-    [progressView setProgressViewStyle:UIProgressViewStyleBar];
-    [progressAlert show];
-    [progressView release];
-     */
+    return YES;
+}
+
+-(void)getPostStrings:(UIView *)cellParent row:(NSInteger)row key:(NSString **)key val:(NSString **)val
+{
+    NSArray *textArray;
+    NSArray *valArray;
+    NSString *text = ((TextCell *) [cellParent viewWithTag:row]).textField.text;
+    
+    *key = [arrays.postKeys objectAtIndex:row];
+    
+    switch (row) {
+
+            // picker filled textfields
+        case 1:
+            textArray = arrays.countryText;
+            valArray = arrays.countryVals;
+            break;
+        case 3:
+            textArray = arrays.stateText;
+            valArray = arrays.stateVals;
+            break;
+        case 4:
+            textArray = arrays.mealTypeText;
+            valArray = arrays.mealTypeVals;
+            break;
+        case 6:
+            textArray = arrays.mealPriceText;
+            valArray = arrays.mealPriceVals;
+            break;
+        case 7:
+            textArray = arrays.mealTasteText;
+            valArray = arrays.mealTasteVals;
+            break;
+            
+            // keyboard filled textfields
+        default:
+            *val = text;
+            return;
+    }
+    
+    for (int i = 0; i < textArray.count; i++) {
+        if ([text isEqualToString:[textArray objectAtIndex:i]]) {
+            *val = [valArray objectAtIndex:i];
+            break;
+        }
+    }
+}
+
+-(BOOL)upload:(UIView *)cellParent
+{
+    
+    /// @todo resize the image
+    
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/upload.php"];
+    ASIFormDataRequest *request = [[ASIFormDataRequest  alloc]  initWithURL:url];
+    BOOL success = YES;
+    int cnt = arrays.postKeys.count;
+    NSString *key;
+    NSString *val;
+
+    // get all the data from the text fields and stuff in HTML POST request
+    for (int i = 0; i < cnt; i++) {
+        [self getPostStrings:cellParent row:i key:&key val:&val];
+        [request setPostValue:val forKey:key];
+    }
+    
+    // set misc post keys required on the server end
+    [request setPostValue:@"submit" forKey:@"submit"];
+    [request setPostValue:@"user_friends" forKey:@"user_friends"];
+    [request setPostValue:@"agree" forKey:@"tos"];
+    
+    // post the image data
+    [request addData:imageData withFileName:@"meal.jpeg" andContentType:@"image/jpeg" forKey:@"image"];
+    [request startSynchronous];
+    
+    [request release];
+    
+    /// @todo need upload status from neil
+    
+    return success;
+
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0 || indexPath.section == 1) {
+        TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
+        [cell.textField becomeFirstResponder];
+    } else {
+        UIView *cellParent = [tableView cellForRowAtIndexPath:indexPath].superview;
+        if ([self isValidData:cellParent]) {
+            if ([self upload:cellParent]) {
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
+                                                                message:@""
+                                                               delegate:nil
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"OK", nil];
+                [alert show];
+                [alert release];
+            }
+            
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"All fields required"
+                                                            message:@""
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"OK", nil];
+            [alert show];
+            [alert release];
+        }
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    
     TextCell *cell= (TextCell *) textField.superview.superview;
     TextCell *next = (TextCell *) [cell.superview viewWithTag:cell.tag + 1];
 
@@ -281,6 +358,54 @@
     }
     
     return NO;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    TextCell *cell = (TextCell *) textField.superview.superview;
+    NSArray *array;
+    
+    switch (cell.tag) {
+        case 0:
+        case 2:
+        case 5:
+            return YES;
+        case 1:
+            array = arrays.countryText;
+            break;
+        case 3:
+            array = arrays.stateText;
+            break;
+        case 4:
+            array = arrays.mealTypeText;
+            break;
+        case 6:
+            array = arrays.mealPriceText;
+            break;
+        case 7:
+            array = arrays.mealTasteText;
+            break;
+    }
+
+    picker.clientData = textField;
+    picker.selectedIndex = 0;
+    picker.data = array;
+    
+    for (int i = 1; i < array.count; i++) {
+        if ([textField.text isEqualToString:[array objectAtIndex:i]]) {
+            picker.selectedIndex = i;
+            break;
+        }
+    }
+    [picker showActionPicker];
+    return NO;
+}
+
+-(void)pickerHandler:(NSNumber *)selectedIndex:(id)clientData
+{
+    UITextField *textField = (UITextField *) clientData;
+    textField.text = [picker.data objectAtIndex:selectedIndex.intValue];
+    [self textFieldShouldReturn:textField];
 }
 
 @end

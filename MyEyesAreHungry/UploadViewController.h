@@ -8,17 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class UploadArrays;
+@class ActionSheetPicker;
+
 @interface UploadViewController : UITableViewController <UITextFieldDelegate> {
     UIImage *image;
-    NSArray *postVarArray;
-    NSArray *restaurantArray;
-    NSArray *mealArray;
-    UIAlertView *progressAlert;
-    UIProgressView *progressView;
-    
-#ifdef MEAH_TESTING
-    NSArray *cheatArray;
-#endif
+    UploadArrays *arrays;
+    ActionSheetPicker *picker;
 }
 
 @property (retain, nonatomic) UIImage *image;
