@@ -466,6 +466,7 @@
             NSLog(@"Login failed\n");
         }
     } else if (indexPath.section == 5) {
+        [Login loginWithUsername:@"test@test.com" andPassword:@"test"];
         [self showUploadPage:[UIImage imageNamed: @"frank.jpeg"]];
     }
 #endif
