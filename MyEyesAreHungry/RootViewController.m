@@ -247,20 +247,19 @@
     [loginViewController release];
 }
 
-- (BOOL)login
+- (NSString *)login
 {
     NSString *username = [userPass username];
     NSString *password = [userPass password];
+    NSString *userToken = [Login loginWithUsername:username andPassword:password];
     
-    BOOL status = [Login loginWithUsername:username andPassword:password];
-    
-    if (!status) {
+    if (!userToken) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
         [alert release];
     }
     
-    return status;
+    return userToken;
 }
 
 - (void)takePicture
@@ -370,24 +369,25 @@
     
     if ([userPass isValid]) {
         
-        if ([self login]) {
+        NSString *userToken = [self login];
+        if (userToken) {
             NSString *urlString;
             switch (row) {
                 case 0:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 @"test"];
+                                 userToken];
                     break;
                 case 1:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 @"test", @"&list=restaurants"];
+                                 userToken, @"&list=restaurants"];
                     break;
                 case 2:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 @"test", @"&list=favorites"];
+                                 userToken, @"&list=favorites"];
                     break;
                 case 3:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 @"test", @"&list=follows"];
+                                 userToken, @"&list=follows"];
                     break;
             } // switch
             [self showWebPage:urlString];
@@ -449,25 +449,29 @@
     
 #ifdef MEAH_TESTING
     else if (indexPath.section == 3) {
+        [Login logout];
         if ([userPass deleteUser])
-            NSLog(@"Delete keychain success!\n");
+            NSLog(@"Delete keychain success!");
         else
-            NSLog(@"Delete keychain fail\n");
+            NSLog(@"Delete keychain fail");
         
     } else if (indexPath.section == 4) {
-        BOOL status = [Login loginWithUsername:@"test@test.com" andPassword:@"test"];
-        if (status) {
+        [Login logout];
+        if ([Login loginWithUsername:@"test@test.com" andPassword:@"test"]) {
             if ([userPass setUser:@"test@test.com" Pass:@"test"])
-                NSLog(@"Save user pass in keychain success!\n");
+                NSLog(@"Save user pass in keychain success!");
             else
-                NSLog(@"Failed to save user pass in keychain\n");
+                NSLog(@"Failed to save user pass in keychain");
                 
         } else {
-            NSLog(@"Login failed\n");
+            NSLog(@"Login failed");
         }
     } else if (indexPath.section == 5) {
-        [Login loginWithUsername:@"test@test.com" andPassword:@"test"];
-        [self showUploadPage:[UIImage imageNamed: @"frank.jpeg"]];
+        [Login logout];
+        if ([Login loginWithUsername:@"test@test.com" andPassword:@"test"])
+            [self showUploadPage:[UIImage imageNamed: @"frank.jpeg"]];
+        else
+            NSLog(@"Login failed");
     }
 #endif
 }

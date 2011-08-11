@@ -231,7 +231,9 @@
         NSString *password = passCell.textField.text;
 
         if (![email isEqualToString:@""] && ![password isEqualToString:@""]) {
-            
+
+            /// @todo make sure to disable buttons while logging in
+
             if ([Login loginWithUsername:email andPassword:password]) {
                 [[UserPass sharedUserPass] setUser:email Pass:password];
                 RootViewController *root = [self.navigationController.viewControllers objectAtIndex:0];

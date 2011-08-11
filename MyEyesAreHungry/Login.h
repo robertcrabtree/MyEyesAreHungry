@@ -13,7 +13,7 @@
     
 }
 
-+(BOOL) loginWithUsername:(NSString *) username andPassword:(NSString *) password;
++(NSString *) loginWithUsername:(NSString *) username andPassword:(NSString *) password;
 +(void) logout;
 
 @end

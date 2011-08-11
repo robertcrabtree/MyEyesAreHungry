@@ -11,27 +11,30 @@
 
 @implementation Login
 
-+(BOOL) loginWithUsername:(NSString *) username andPassword:(NSString *) password
++(NSString *) loginWithUsername:(NSString *) username andPassword:(NSString *) password
 {
-    NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/login.php"];
+    NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/api/login.php"];
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:url];
-    BOOL success;
+    NSString *userToken = nil;
     
-    [request setPostValue:@"test@test.com" forKey:@"email"];
-    [request setPostValue:@"test" forKey:@"password"];
+    [request setPostValue:username forKey:@"email"];
+    [request setPostValue:password forKey:@"password"];
     [request setPostValue:@"submit" forKey:@"submit"];
     [request setPostValue:@"test" forKey:@"password"];
     [request setPostValue:@"stay_logged" forKey:@"yes"];
     [request startSynchronous];
 
-    /// @todo need status codes from neil
-    if ((![request error]) && ([request responseStatusCode] < 400))
-        success = YES;
-    else
-        success = NO;
+    if ((![request error]) && ([request responseStatusCode] < 400)) {
+        NSDictionary *dict = [request responseHeaders];
+        NSString *val = [dict objectForKey:@"X-Sample-Test"];
+        
+        if (val && ![val isEqualToString:@""])
+            userToken = val;
+    }
     
     [request release];
-    return success;
+    
+    return userToken;
 }
 
 +(void) logout

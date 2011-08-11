@@ -320,6 +320,9 @@
         [cell.textField becomeFirstResponder];
     } else {
         UIView *cellParent = [tableView cellForRowAtIndexPath:indexPath].superview;
+        
+        /// @todo make sure to disable buttons while logging in
+
         if ([self isValidData:cellParent]) {
             if ([self upload:cellParent]) {
                 [self.navigationController popViewControllerAnimated:YES];
