@@ -8,7 +8,32 @@
 
 #import "TextCell.h"
 
+@interface RestrictedTextField : UITextField {
+}
+-(BOOL)canPerformAction:(SEL)action withSender:(id)sender;
+@end
+    
 
+@implementation RestrictedTextField
+
+-(BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    if (self.inputView == nil) {
+        return [super canPerformAction:action withSender:sender];
+    }
+    
+    if ([UIMenuController sharedMenuController]) {
+        // disable cut/copy/paste for textfields with UIPickerView as input
+        [UIMenuController sharedMenuController].menuVisible = NO;
+    }
+    return NO;
+}
+
+@end
+
+
+
+// text cell implementation
 @implementation TextCell
 
 @synthesize textField;
@@ -50,7 +75,7 @@ NSString *TextCellID = @"TextCell";
         }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textField = [[UITextField alloc] initWithFrame:CGRectZero];
+    cell.textField = [[RestrictedTextField alloc] initWithFrame:CGRectZero];
     cell.textField.clearsOnBeginEditing = NO;
     cell.textField.returnKeyType = UIReturnKeyDone;
     cell.textField.placeholder = @"enter text...";
