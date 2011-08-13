@@ -316,8 +316,6 @@
     
     [request release];
     
-    /// @todo need upload status from neil
-    
     return success;
 
 }

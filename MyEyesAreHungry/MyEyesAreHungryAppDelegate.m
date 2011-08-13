@@ -11,16 +11,8 @@
 @implementation UINavigationBar (CustomImage)
 - (void)drawRect:(CGRect)rect
 {
-    UIImage *image;
-    
     MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-    
-    if (delegate.navImage) /// @todo remove if statement and adjust for iphone 3g/4g resolution
-        image = delegate.navImage;
-    else
-       image = [UIImage imageNamed: @"header_bar_logo_small.png"];
-    
-    [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    [delegate.navImage drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 }
 @end
 
