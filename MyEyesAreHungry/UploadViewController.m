@@ -12,9 +12,14 @@
 #import "ASIFormDataRequest.h"
 #import "UploadArrays.h"
 
+#define INDEX_TO_TAG(x) ((x) + 1000)
+#define TAG_TO_INDEX(x) ((x) - 1000)
+
 @implementation UploadViewController
 
 @synthesize image;
+
+NSInteger numRestFields = 4;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -58,7 +63,6 @@
 - (void)viewDidLoad
 {    
     [super viewDidLoad];
-    self.tableView.tag = 100;
     arrays = [[UploadArrays alloc] init];
     cellText = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", @"", @"", nil];
 }
@@ -113,10 +117,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (section == 0)
-        return arrays.restPlaceholders.count;
-    else if (section == 1)
-        return arrays.mealPlaceholders.count;
+    if (section == 0 || section == 1)
+        return numRestFields;
     return 1;
 }
 
@@ -153,23 +155,23 @@
         else
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-
+    
     // configure cell
     if (indexPath.section == 0) {
         TextCell *textCell = (TextCell *) cell;
-        textCell.tag = indexPath.row;
-        textCell.textField.placeholder = [arrays.restPlaceholders objectAtIndex:indexPath.row];
+        textCell.tag = INDEX_TO_TAG(indexPath.row);
+        textCell.textField.placeholder = [arrays.placeholders objectAtIndex:indexPath.row];
         textCell.textField.delegate = self;
         textCell.textField.returnKeyType = UIReturnKeyNext;
         textCell.textField.keyboardType = UIKeyboardTypeDefault;
         textCell.textField.text = [cellText objectAtIndex:indexPath.row];
     } else if (indexPath.section == 1) {
         TextCell *textCell = (TextCell *) cell;
-        textCell.tag = indexPath.row + arrays.restPlaceholders.count;
-        textCell.textField.placeholder = [arrays.mealPlaceholders objectAtIndex:indexPath.row];
+        textCell.tag = INDEX_TO_TAG(indexPath.row + numRestFields);
+        textCell.textField.placeholder = [arrays.placeholders objectAtIndex:indexPath.row + numRestFields];
         textCell.textField.delegate = self;
-        textCell.textField.text = [cellText objectAtIndex:indexPath.row + arrays.restPlaceholders.count];
-        if (indexPath.row == arrays.mealPlaceholders.count - 1) {
+        textCell.textField.text = [cellText objectAtIndex:indexPath.row + numRestFields];
+        if (indexPath.row == arrays.placeholders.count - 1) {
             textCell.textField.returnKeyType = UIReturnKeyDone;
             textCell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         } else {
@@ -177,7 +179,7 @@
             textCell.textField.keyboardType = UIKeyboardTypeDefault;
         }
     } else {
-        cell.tag = arrays.restPlaceholders.count + arrays.mealPlaceholders.count;
+        cell.tag = INDEX_TO_TAG(arrays.placeholders.count);
         cell.textLabel.text = @"Upload";
         cell.textLabel.textAlignment = UITextAlignmentCenter;
     }
@@ -226,12 +228,12 @@
 
 #pragma mark - Table view delegate
 
--(BOOL)isValidData:(UIView *)cellParent
+-(BOOL)isValidData
 {
-    int cnt = arrays.restPlaceholders.count + arrays.mealPlaceholders.count;
-    
+    int cnt = arrays.placeholders.count;
+
     for (int i = 0; i < cnt; i++) {
-        UITextField *textField = ((TextCell *)[cellParent viewWithTag:i]).textField;
+        UITextField *textField = [self cellWithTag:INDEX_TO_TAG(i)].textField;
         if (textField.text == nil || [@"" isEqualToString:textField.text]) {
             return NO;
         }
@@ -240,15 +242,15 @@
     return YES;
 }
 
--(void)getPostStrings:(UIView *)cellParent row:(NSInteger)row key:(NSString **)key val:(NSString **)val
+-(void)getPostStrings:(NSInteger)index key:(NSString **)key val:(NSString **)val
 {
     NSArray *textArray;
     NSArray *valArray;
-    NSString *text = ((TextCell *) [cellParent viewWithTag:row]).textField.text;
+    NSString *text = [self cellWithTag:INDEX_TO_TAG(index)].textField.text;
     
-    *key = [arrays.postKeys objectAtIndex:row];
+    *key = [arrays.postKeys objectAtIndex:index];
     
-    switch (row) {
+    switch (index) {
 
             // picker filled textfields
         case 1:
@@ -286,12 +288,19 @@
     }
 }
 
--(BOOL)upload:(UIView *)cellParent
+-(BOOL)upload
 {
+    CGFloat compression = 1.0f;
+    CGFloat maxCompression = 0.1f;
+    int maxFileSize = 1468006; // 1.4 MB
     
-    /// @todo resize the image
+    NSData *imageData = UIImageJPEGRepresentation(image, compression);
     
-    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    while (imageData.length > maxFileSize && compression > maxCompression) {
+        compression -= 0.1f;
+        imageData = UIImageJPEGRepresentation(image, compression);
+    }
+
     NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/upload.php"];
     ASIFormDataRequest *request = [[ASIFormDataRequest  alloc]  initWithURL:url];
     BOOL success = YES;
@@ -301,7 +310,7 @@
 
     // get all the data from the text fields and stuff in HTML POST request
     for (int i = 0; i < cnt; i++) {
-        [self getPostStrings:cellParent row:i key:&key val:&val];
+        [self getPostStrings:i key:&key val:&val];
         [request setPostValue:val forKey:key];
     }
     
@@ -320,18 +329,44 @@
 
 }
 
+-(TextCell *) cellInSection:(NSInteger)section AndRow:(NSInteger)row
+{
+    NSInteger index = row;
+    
+    if (section > 0)
+        index += numRestFields;
+
+    return [self cellWithTag:INDEX_TO_TAG(index)];
+}
+
+-(TextCell *) cellWithTag:(NSInteger)tag
+{
+    TextCell *cell = (TextCell *) [self.tableView viewWithTag:tag];
+    
+    if (!cell) {
+        int row = TAG_TO_INDEX(tag);
+        int section = 0;
+        if (row > numRestFields) {
+            row -= numRestFields;
+            section = 1;
+        }
+        cell = (TextCell *) [self tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section]];
+    }
+    
+    return cell;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 || indexPath.section == 1) {
-        TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
+        TextCell *cell = [self cellInSection:indexPath.section AndRow:indexPath.row];
         [cell.textField becomeFirstResponder];
     } else {
-        UIView *cellParent = [tableView cellForRowAtIndexPath:indexPath].superview;
-        
+       
         /// @todo make sure to disable buttons while logging in
 
-        if ([self isValidData:cellParent]) {
-            if ([self upload:cellParent]) {
+        if ([self isValidData]) {
+            if ([self upload]) {
                 [self.navigationController popViewControllerAnimated:YES];
             } else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
@@ -358,14 +393,14 @@
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
     TextCell *cell= (TextCell *) textField.superview.superview;
-    [cellText replaceObjectAtIndex:cell.tag withObject:textField.text];
+    [cellText replaceObjectAtIndex:TAG_TO_INDEX(cell.tag) withObject:textField.text];
     return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     TextCell *cell= (TextCell *) textField.superview.superview;
-    TextCell *next = (TextCell *) [cell.superview viewWithTag:cell.tag + 1];
+    TextCell *next = (TextCell *) [self cellWithTag:cell.tag + 1];
 
     if (next && [next isKindOfClass:[TextCell class]]) {
         [textField resignFirstResponder];
@@ -383,7 +418,7 @@
     NSArray *array;
     int row;
     
-    switch (cell.tag) {
+    switch (TAG_TO_INDEX(cell.tag)) {
         case 0:
         case 2:
         case 5:
@@ -420,7 +455,7 @@
 
     if (picker)
         [picker release];
-    picker = [[UIPickerView alloc] initWithFrame:self.view.bounds];
+    picker = [[UIPickerView alloc] initWithFrame:self.tableView.bounds];
     picker.showsSelectionIndicator = YES;
     picker.delegate = self;
     picker.dataSource = self;
@@ -450,8 +485,8 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    UITextField *textField = ((TextCell *) [self.view viewWithTag:currPickerTextFieldTag]).textField;
-    textField.text = [currPickerArray objectAtIndex:row];
+    TextCell* cell = [self cellWithTag:currPickerTextFieldTag];
+    cell.textField.text = [currPickerArray objectAtIndex:row];
 }
 
 @end
