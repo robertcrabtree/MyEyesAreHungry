@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @class UploadArrays;
-@class ActionSheetPicker;
 
-@interface UploadViewController : UITableViewController <UITextFieldDelegate> {
+@interface UploadViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource> {
+
+    NSMutableArray *cellText;
     UIImage *image;
     UploadArrays *arrays;
-    ActionSheetPicker *picker;
+    UIPickerView *picker;
+    NSInteger currPickerTextFieldTag;
+    NSArray *currPickerArray;
 }
 
 @property (retain, nonatomic) UIImage *image;

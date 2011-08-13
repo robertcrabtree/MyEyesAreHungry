@@ -11,7 +11,6 @@
 #import "MyEyesAreHungryAppDelegate.h"
 #import "ASIFormDataRequest.h"
 #import "UploadArrays.h"
-#import "ActionSheetPicker.h"
 
 @implementation UploadViewController
 
@@ -35,6 +34,14 @@
         [arrays release];
         arrays = nil;
     }
+    if (picker) {
+        [picker release];
+        picker = nil;
+    }
+    if (cellText) {
+        [cellText release];
+        cellText = nil;
+    }
     [super dealloc];
 }
 
@@ -53,7 +60,7 @@
     [super viewDidLoad];
     self.tableView.tag = 100;
     arrays = [[UploadArrays alloc] init];
-    picker = [[ActionSheetPicker alloc] initForDataWithContainingView:self.view data:nil selectedIndex:0 target:self action:@selector(pickerHandler::) title:@"" clientData:nil];
+    cellText = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", @"", @"", nil];
 }
 
 - (void)viewDidUnload
@@ -155,11 +162,13 @@
         textCell.textField.delegate = self;
         textCell.textField.returnKeyType = UIReturnKeyNext;
         textCell.textField.keyboardType = UIKeyboardTypeDefault;
+        textCell.textField.text = [cellText objectAtIndex:indexPath.row];
     } else if (indexPath.section == 1) {
         TextCell *textCell = (TextCell *) cell;
         textCell.tag = indexPath.row + arrays.restPlaceholders.count;
         textCell.textField.placeholder = [arrays.mealPlaceholders objectAtIndex:indexPath.row];
         textCell.textField.delegate = self;
+        textCell.textField.text = [cellText objectAtIndex:indexPath.row + arrays.restPlaceholders.count];
         if (indexPath.row == arrays.mealPlaceholders.count - 1) {
             textCell.textField.returnKeyType = UIReturnKeyDone;
             textCell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
@@ -348,6 +357,13 @@
     }
 }
 
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    TextCell *cell= (TextCell *) textField.superview.superview;
+    [cellText replaceObjectAtIndex:cell.tag withObject:textField.text];
+    return YES;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     TextCell *cell= (TextCell *) textField.superview.superview;
@@ -367,11 +383,13 @@
 {
     TextCell *cell = (TextCell *) textField.superview.superview;
     NSArray *array;
+    int row;
     
     switch (cell.tag) {
         case 0:
         case 2:
         case 5:
+            cell.textField.inputView = nil;
             return YES;
         case 1:
             array = arrays.countryText;
@@ -390,25 +408,52 @@
             break;
     }
 
-    picker.clientData = textField;
-    picker.selectedIndex = 0;
-    picker.data = array;
+    row = 0;
     
     for (int i = 1; i < array.count; i++) {
         if ([textField.text isEqualToString:[array objectAtIndex:i]]) {
-            picker.selectedIndex = i;
+            row = i;
             break;
         }
     }
-    [picker showActionPicker];
-    return NO;
+
+    currPickerArray = array;
+    currPickerTextFieldTag = cell.tag;
+
+    if (picker)
+        [picker release];
+    picker = [[UIPickerView alloc] initWithFrame:self.view.bounds];
+    picker.showsSelectionIndicator = YES;
+    picker.delegate = self;
+    picker.dataSource = self;
+    [picker selectRow:row inComponent:0 animated:NO];
+    textField.text = [array objectAtIndex:row];
+    textField.inputView = picker;
+    
+    return YES;
 }
 
--(void)pickerHandler:(NSNumber *)selectedIndex:(id)clientData
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    UITextField *textField = (UITextField *) clientData;
-    textField.text = [picker.data objectAtIndex:selectedIndex.intValue];
-    [self textFieldShouldReturn:textField];
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    if (currPickerArray)
+        return currPickerArray.count;
+    return 0;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return (NSString *) [currPickerArray objectAtIndex:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    UITextField *textField = ((TextCell *) [self.view viewWithTag:currPickerTextFieldTag]).textField;
+    textField.text = [currPickerArray objectAtIndex:row];
 }
 
 @end
