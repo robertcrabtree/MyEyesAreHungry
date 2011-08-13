@@ -11,12 +11,9 @@
 /// @todo need to support non-us countries and currency
 
 @interface UploadArrays : NSObject {
-    // meal textfield placeholders
-    NSArray *mealPlaceholders;
-    
-    // restaurant textfield placeholders
-    NSArray *restPlaceholders;
-    
+    // restaurant and meal textfield placeholders
+    NSArray *placeholders;
+        
     // HTTP POST keys
     NSArray *postKeys;
 
@@ -35,11 +32,8 @@
     NSArray *mealTasteText;
 }
 
-// meal textfield placeholders
-@property (nonatomic, retain, readonly) NSArray *mealPlaceholders;
-
-// restaurant textfield placeholders
-@property (nonatomic, retain, readonly) NSArray *restPlaceholders;
+// restaurant and meal textfield placeholders
+@property (nonatomic, retain, readonly) NSArray *placeholders;
 
 // HTTP POST keys
 @property (nonatomic, retain, readonly) NSArray *postKeys;

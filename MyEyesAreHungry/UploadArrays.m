@@ -12,18 +12,16 @@
 
 
 @implementation UploadArrays
-@synthesize mealPlaceholders, restPlaceholders, postKeys, countryVals, stateVals, mealTypeVals, mealPriceVals, mealTasteVals, countryText, stateText, mealTypeText, mealPriceText, mealTasteText;
+@synthesize placeholders, postKeys, countryVals, stateVals, mealTypeVals, mealPriceVals, mealTasteVals, countryText, stateText, mealTypeText, mealPriceText, mealTasteText;
 
 -(id)init
 {
     self = [super init];
     if (self) {
         
-        restPlaceholders = [[NSArray alloc] initWithObjects:@"Restaurant Name", @"Restaurant Country", 
-                            @"Restaurant City", @"Restaurant State", nil];
-        
-        mealPlaceholders = [[NSArray alloc] initWithObjects:@"Meal Type", @"Meal Name", @"Meal Price", @"Meal Taste", nil];
-        
+        placeholders = [[NSArray alloc] initWithObjects:@"Restaurant Name", @"Restaurant Country", 
+                            @"Restaurant City", @"Restaurant State", @"Meal Type", @"Meal Name", @"Meal Price", @"Meal Taste", nil];
+                
         postKeys = [[NSArray alloc] initWithObjects:@"rest_name", @"country", @"city", @"state",
                     @"dish_type", @"dish_name", @"dish_price_usa", @"dish_rating", nil];
         
@@ -52,8 +50,7 @@
 
 - (void)dealloc
 {
-    [mealPlaceholders dealloc];
-    [restPlaceholders dealloc];
+    [placeholders dealloc];
     [postKeys dealloc];
     [countryVals dealloc];
     [stateVals dealloc];
