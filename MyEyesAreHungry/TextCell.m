@@ -11,10 +11,23 @@
 @interface RestrictedTextField : UITextField {
 }
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender;
+-(CGRect)textRectForBounds:(CGRect)bounds;
+-(CGRect)editingRectForBounds:(CGRect)bounds;
 @end
     
 
 @implementation RestrictedTextField
+
+-(CGRect)textRectForBounds:(CGRect)bounds
+{
+    return CGRectMake(bounds.origin.x + 8, bounds.origin.y,
+                      bounds.size.width - 16, bounds.size.height);
+}
+
+-(CGRect)editingRectForBounds:(CGRect)bounds
+{
+    return [self textRectForBounds:bounds];
+}
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
