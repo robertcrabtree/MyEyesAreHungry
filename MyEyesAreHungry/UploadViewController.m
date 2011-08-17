@@ -301,7 +301,7 @@ NSInteger numRestFields = 4;
         imageData = UIImageJPEGRepresentation(image, compression);
     }
 
-    NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/upload.php"];
+    NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/api/upload.php"];
     ASIFormDataRequest *request = [[ASIFormDataRequest  alloc]  initWithURL:url];
     BOOL success = YES;
     int cnt = arrays.postKeys.count;
