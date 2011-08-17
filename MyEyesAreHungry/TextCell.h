@@ -11,7 +11,7 @@
 extern NSString *TextCellID;
 
 @interface TextCell : UITableViewCell {
-    IBOutlet UITextField *textField; /// @todo make sure all IBOutlet members get released in dealloc
+    IBOutlet UITextField *textField;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *textField;

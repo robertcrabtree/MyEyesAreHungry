@@ -74,6 +74,7 @@
 
 - (void)dealloc
 {
+    self.navImage = nil;
     [_window release];
     [_navigationController release];
     [super dealloc];

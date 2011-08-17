@@ -58,7 +58,7 @@ NSString *TextCellID = @"TextCell";
 
 - (void)dealloc
 {
-    [textField release];
+    self.textField = nil;
     [super dealloc];
 }
 
@@ -82,6 +82,8 @@ NSString *TextCellID = @"TextCell";
     //cell.textField.backgroundColor = [UIColor orangeColor]; // for debugging size
     [cell.contentView addSubview:cell.textField];
 
+    [cell.textField release];
+    
     return cell;
 }
 

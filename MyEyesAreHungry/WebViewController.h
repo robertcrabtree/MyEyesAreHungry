@@ -15,5 +15,6 @@
 }
 
 @property (nonatomic, retain) NSString *urlString;
+@property (nonatomic, retain) IBOutlet UIWebView *webView;
 
 @end

@@ -50,18 +50,18 @@
 
 - (void)dealloc
 {
-    [placeholders dealloc];
-    [postKeys dealloc];
-    [countryVals dealloc];
-    [stateVals dealloc];
-    [mealPriceVals dealloc];
-    [mealTypeVals dealloc];
-    [mealTasteVals dealloc];
-    [countryText dealloc];
-    [stateText dealloc];
-    [mealPriceText dealloc];
-    [mealTypeText dealloc];
-    [mealTasteText dealloc];
+    [placeholders release];
+    [postKeys release];
+    [countryVals release];
+    [stateVals release];
+    [mealPriceVals release];
+    [mealTypeVals release];
+    [mealTasteVals release];
+    [countryText release];
+    [stateText release];
+    [mealPriceText release];
+    [mealTypeText release];
+    [mealTasteText release];
     [super dealloc];
 }
 

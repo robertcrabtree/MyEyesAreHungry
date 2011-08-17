@@ -22,6 +22,9 @@
 }
 
 @property (retain, nonatomic) UIImage *image;
+@property (retain, nonatomic) UploadArrays *arrays;
+@property (retain, nonatomic) UIPickerView *picker;
+@property (retain, nonatomic) NSMutableArray *cellText;
 
 -(TextCell *) cellWithTag:(NSInteger)tag;
 -(TextCell *) cellInSection:(NSInteger)section AndRow:(NSInteger)row;

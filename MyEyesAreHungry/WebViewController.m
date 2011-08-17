@@ -11,7 +11,7 @@
 
 @implementation WebViewController
 
-@synthesize urlString;
+@synthesize urlString, webView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -24,6 +24,8 @@
 
 - (void)dealloc
 {
+    self.urlString = nil;
+    self.webView = nil;
     [super dealloc];
 }
 
@@ -49,9 +51,9 @@
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [webView setDelegate:self];
     [webView loadRequest:request];
-    [super viewDidLoad];
     [url release];
     [request release];
+    [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
 

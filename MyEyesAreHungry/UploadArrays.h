@@ -33,24 +33,24 @@
 }
 
 // restaurant and meal textfield placeholders
-@property (nonatomic, retain, readonly) NSArray *placeholders;
+@property (nonatomic, readonly) NSArray *placeholders;
 
 // HTTP POST keys
-@property (nonatomic, retain, readonly) NSArray *postKeys;
+@property (nonatomic, readonly) NSArray *postKeys;
 
 // HTTP POST values (lists only)
-@property (nonatomic, retain, readonly) NSArray *countryVals;
-@property (nonatomic, retain, readonly) NSArray *stateVals;
-@property (nonatomic, retain, readonly) NSArray *mealTypeVals;
-@property (nonatomic, retain, readonly) NSArray *mealPriceVals;
-@property (nonatomic, retain, readonly) NSArray *mealTasteVals;
+@property (nonatomic, readonly) NSArray *countryVals;
+@property (nonatomic, readonly) NSArray *stateVals;
+@property (nonatomic, readonly) NSArray *mealTypeVals;
+@property (nonatomic, readonly) NSArray *mealPriceVals;
+@property (nonatomic, readonly) NSArray *mealTasteVals;
 
 // Display text (lists/pickers only)
-@property (nonatomic, retain, readonly) NSArray *countryText;
-@property (nonatomic, retain, readonly) NSArray *stateText;
-@property (nonatomic, retain, readonly) NSArray *mealTypeText;
-@property (nonatomic, retain, readonly) NSArray *mealPriceText;
-@property (nonatomic, retain, readonly) NSArray *mealTasteText;
+@property (nonatomic, readonly) NSArray *countryText;
+@property (nonatomic, readonly) NSArray *stateText;
+@property (nonatomic, readonly) NSArray *mealTypeText;
+@property (nonatomic, readonly) NSArray *mealPriceText;
+@property (nonatomic, readonly) NSArray *mealTasteText;
 
 -(id) init;
 - (void)dealloc;

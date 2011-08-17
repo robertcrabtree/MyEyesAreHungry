@@ -17,7 +17,10 @@
 
 @implementation UploadViewController
 
+@synthesize cellText;
 @synthesize image;
+@synthesize arrays;
+@synthesize picker;
 
 NSInteger numRestFields = 4;
 
@@ -31,22 +34,10 @@ NSInteger numRestFields = 4;
 
 - (void)dealloc
 {
-    if (self.image) {
-        [image release];
-        image = nil;
-    }
-    if (arrays) {
-        [arrays release];
-        arrays = nil;
-    }
-    if (picker) {
-        [picker release];
-        picker = nil;
-    }
-    if (cellText) {
-        [cellText release];
-        cellText = nil;
-    }
+    self.image = nil;
+    self.arrays = nil;
+    self.picker = nil;
+    self.cellText = nil;
     [super dealloc];
 }
 
@@ -63,14 +54,15 @@ NSInteger numRestFields = 4;
 - (void)viewDidLoad
 {    
     [super viewDidLoad];
-    arrays = [[UploadArrays alloc] init];
-    cellText = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", @"", @"", nil];
+    self.arrays = [[UploadArrays alloc] init];
+    self.cellText = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", @"", @"", nil];
+    [self.arrays release];
+    [self.cellText release];
 }
 
 - (void)viewDidUnload
 {
     
-    /// @todo find out what should be released in viewDidUnload for all views
     // Release any retained subviews of the main view.
     [super viewDidUnload];
 }
@@ -88,10 +80,6 @@ NSInteger numRestFields = 4;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    if (self.image) {
-        [image release];
-        image = nil;
-    }
     [super viewWillDisappear:animated];
 }
 
@@ -453,15 +441,15 @@ NSInteger numRestFields = 4;
     currPickerArray = array;
     currPickerTextFieldTag = cell.tag;
 
-    if (picker)
-        [picker release];
-    picker = [[UIPickerView alloc] initWithFrame:self.tableView.bounds];
+    self.picker = [[UIPickerView alloc] initWithFrame:self.tableView.bounds];
     picker.showsSelectionIndicator = YES;
     picker.delegate = self;
     picker.dataSource = self;
     [picker selectRow:row inComponent:0 animated:NO];
     textField.text = [array objectAtIndex:row];
     textField.inputView = picker;
+    
+    [picker release];
     
     return YES;
 }
