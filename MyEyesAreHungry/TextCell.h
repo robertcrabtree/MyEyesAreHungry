@@ -11,10 +11,10 @@
 extern NSString *TextCellID;
 
 @interface TextCell : UITableViewCell {
-    IBOutlet UITextField *textField;
+    UITextField *textField;
 }
 
-@property (nonatomic, retain) IBOutlet UITextField *textField;
+@property (nonatomic, retain) UITextField *textField;
 
 + (TextCell *) cellFromNib;
 
