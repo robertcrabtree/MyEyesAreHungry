@@ -14,6 +14,9 @@
 #import "Login.h"
 #import "RootViewController.h"
 
+#define INDEX_TO_TAG(x) ((x) + 1000)
+#define TAG_TO_INDEX(x) ((x) - 1000)
+
 @implementation LoginViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -146,13 +149,13 @@
             textCell.textField.returnKeyType = UIReturnKeyNext;
             textCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
             textCell.textField.secureTextEntry = NO;
-            textCell.tag = 0;
+            textCell.tag = INDEX_TO_TAG(0);
         } else {
             textCell.textField.placeholder = @"Password";
             textCell.textField.returnKeyType = UIReturnKeyDone;
             textCell.textField.keyboardType = UIKeyboardTypeDefault;
             textCell.textField.secureTextEntry = YES;
-            textCell.tag = 1;
+            textCell.tag = INDEX_TO_TAG(1);
         }
         textCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         textCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -160,9 +163,11 @@
     } else if (indexPath.section == 1) {
         cell.textLabel.text = @"Login";
         cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.tag = INDEX_TO_TAG(2);
     } else {
         cell.textLabel.text = @"Create New account";
         cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.tag = INDEX_TO_TAG(3);
     }
     
     return cell;
@@ -214,6 +219,80 @@
 }
 */
 
+-(TextCell *) cellWithTag:(NSInteger)tag
+{
+    TextCell *cell = (TextCell *) [self.tableView viewWithTag:tag];
+    
+    if (!cell) {
+        int row = TAG_TO_INDEX(tag);
+        int section = 0;
+        cell = (TextCell *) [self tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section]];
+    }
+    
+    return cell;
+}
+
+-(TextCell *) cellInSection:(NSInteger)section AndRow:(NSInteger)row
+{
+    return [self cellWithTag:INDEX_TO_TAG(row)];
+}
+
+-(BOOL)isValidData
+{
+    TextCell *emailCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(0)];
+    TextCell *passCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(1)];
+    NSString *email = emailCell.textField.text;
+    NSString *password = passCell.textField.text;
+    
+    if (email == nil || email.length < 7 ||
+        [email rangeOfString:@"@"].location == NSNotFound ||
+        [email rangeOfString:@"."].location == NSNotFound) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid email address"
+                                                        message:@"Must be a valid email address with 7 or more characters"
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
+        [alert release];
+        
+        return NO;
+    }
+
+    NSString *chars = @"abcdefghijklmnopqrstuvwxyz1234567890_-";
+    NSRange passRange = {0, 1};
+    NSRange charsRange = {0, 1};
+
+    // check for invalid chars (not in string above)
+    int matched = 0;
+    for (int i = 0; i < password.length; i++) {
+        passRange.location = i;
+        NSString *passChar = [[password substringWithRange:passRange] lowercaseString];
+        for (int j = 0; j < chars.length; j++) {
+            charsRange.location = j;
+            NSString *charsChar = [chars substringWithRange:charsRange];
+            if ([charsChar isEqualToString:passChar]) {
+                matched++;
+            }
+        }
+    }
+    
+    if (password == nil || password.length < 4 || matched != password.length) {
+
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid password"
+                                                        message:@"Must be a valid password with 4 or more characters containing only A-Z, a-z, -, and _"
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
+        [alert release];
+
+        return NO;
+    }
+
+    return YES;
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -223,14 +302,12 @@
             TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
             [cell.textField becomeFirstResponder];
     } else if (indexPath.section == 1) {
-        NSIndexPath *emailIP = [NSIndexPath indexPathForRow:0 inSection:0];
-        NSIndexPath *passIP = [NSIndexPath indexPathForRow:1 inSection:0];
-        TextCell *emailCell = (TextCell *) [self.tableView cellForRowAtIndexPath:emailIP];
-        TextCell *passCell = (TextCell *) [self.tableView cellForRowAtIndexPath:passIP];
+        TextCell *emailCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(0)];
+        TextCell *passCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(0)];
         NSString *email = emailCell.textField.text;
         NSString *password = passCell.textField.text;
 
-        if (![email isEqualToString:@""] && ![password isEqualToString:@""]) {
+        if ([self isValidData]) {
 
             /// @todo make sure to disable buttons while logging in
 
@@ -249,16 +326,8 @@
                 [alert release];
                 
             }
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid username or password"
-                                                            message:@""
-                                                           delegate:nil
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"OK", nil];
-            [alert show];
-            [alert release];
         }
-
+        
     } else if (indexPath.section == 2) {
         WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
         webViewController.urlString = @"http://www.myeyesarehungry.com/join.php";
@@ -271,8 +340,8 @@
 {
     TextCell *cell= (TextCell *) textField.superview.superview;
 
-    if (cell.tag == 0) {
-        TextCell *next = (TextCell *) [cell.superview viewWithTag:cell.tag + 1];
+    if (cell.tag == INDEX_TO_TAG(0)) {
+        TextCell *next = (TextCell *) [self cellWithTag:cell.tag + 1];
         [textField resignFirstResponder];
         [next.textField becomeFirstResponder];
     } else {
@@ -281,5 +350,7 @@
 
     return NO;
 }
+
+#warning fix line on login cell
 
 @end
