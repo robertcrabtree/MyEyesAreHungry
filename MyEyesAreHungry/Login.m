@@ -11,7 +11,7 @@
 
 @implementation Login
 
-static NSString *token;
+static NSString *token = nil;
 
 +(NSString *) loginWithUsername:(NSString *) username andPassword:(NSString *) password
 {
@@ -29,8 +29,11 @@ static NSString *token;
         NSDictionary *dict = [request responseHeaders];
         NSString *val = [dict objectForKey:@"X-Sample-Test"];
         
-        if (val && ![val isEqualToString:@""])
-            token = val;
+        if (val && ![val isEqualToString:@""]) {
+            if (token)
+                [token release];
+            token = [val retain];
+        }
     }
     
     [request release];
