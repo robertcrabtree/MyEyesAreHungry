@@ -13,11 +13,9 @@
     NSMutableArray *followsNames;
     NSMutableArray *followsIds;
     NSMutableArray *selectedNames;
-    NSString *userToken;
 }
 
 @property (nonatomic, retain) NSMutableArray *followsNames;
 @property (nonatomic, retain) NSMutableArray *followsIds;
-@property (nonatomic, retain) NSString *userToken;
 
 @end

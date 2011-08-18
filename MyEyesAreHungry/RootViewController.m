@@ -505,7 +505,6 @@
             FollowsViewController *followsViewController = [[FollowsViewController alloc] initWithNibName:@"FollowsViewController" bundle:nil];
             followsViewController.followsNames = followsNames;
             followsViewController.followsIds = followsIds;
-            followsViewController.userToken = userToken;
             [self.navigationController pushViewController:followsViewController animated:YES];
             [followsViewController release];
         } else {

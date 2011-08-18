@@ -11,11 +11,12 @@
 
 @implementation Login
 
+static NSString *token;
+
 +(NSString *) loginWithUsername:(NSString *) username andPassword:(NSString *) password
 {
     NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/api/login.php"];
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:url];
-    NSString *userToken = nil;
     
     [request setPostValue:username forKey:@"email"];
     [request setPostValue:password forKey:@"password"];
@@ -29,12 +30,12 @@
         NSString *val = [dict objectForKey:@"X-Sample-Test"];
         
         if (val && ![val isEqualToString:@""])
-            userToken = val;
+            token = val;
     }
     
     [request release];
     
-    return userToken;
+    return token;
 }
 
 +(void) logout
@@ -45,6 +46,11 @@
     ASIFormDataRequest *request = [[ASIFormDataRequest  alloc]  initWithURL:url];
     [request startSynchronous];
     [request release];
+}
+
++(NSString *) userToken
+{
+    return token;
 }
 
 @end

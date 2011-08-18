@@ -8,6 +8,7 @@
 
 #import "FollowsViewController.h"
 #import "ASIFormDataRequest.h"
+#import "Login.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -15,7 +16,7 @@
 
 @implementation FollowsViewController
 
-@synthesize followsNames, followsIds, userToken;
+@synthesize followsNames, followsIds;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -31,7 +32,6 @@
     [selectedNames release];
     self.followsNames = nil;
     self.followsIds = nil;
-    self.userToken = nil;
     [super dealloc];
 }
 
@@ -66,7 +66,7 @@
     NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/api/friends.php"];
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:url];
     
-    [request setPostValue:userToken forKey:@"user_name"];
+    [request setPostValue:[Login userToken] forKey:@"user_name"];
     [request startSynchronous];
 
     NSDictionary *dict = [request responseHeaders];
