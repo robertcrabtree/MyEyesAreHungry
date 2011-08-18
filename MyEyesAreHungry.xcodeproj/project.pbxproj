@@ -37,6 +37,8 @@
 		C5B7A1F913EE1BE000837FCF /* header_bar_logo_small.png in Resources */ = {isa = PBXBuildFile; fileRef = C5B7A1F813EE1BE000837FCF /* header_bar_logo_small.png */; };
 		C5B7A1FB13EE1DF200837FCF /* header_bar_small.png in Resources */ = {isa = PBXBuildFile; fileRef = C5B7A1FA13EE1DF200837FCF /* header_bar_small.png */; };
 		C5EAA93213EFC19B005190FC /* frank.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C5EAA93113EFC19B005190FC /* frank.jpeg */; };
+		C5F27FE613FCE1B900AEB420 /* FollowsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F27FE413FCE1B900AEB420 /* FollowsViewController.m */; };
+		C5F27FE713FCE1B900AEB420 /* FollowsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5F27FE513FCE1B900AEB420 /* FollowsViewController.xib */; };
 		C5F4AB2413E75D46006C83F7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F4AB2313E75D46006C83F7 /* Security.framework */; };
 		C5F4ABA113E77AAF006C83F7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F4ABA013E77AAF006C83F7 /* CFNetwork.framework */; };
 		C5F4ABA313E77B07006C83F7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F4ABA213E77B07006C83F7 /* SystemConfiguration.framework */; };
@@ -107,6 +109,9 @@
 		C5B7A1F813EE1BE000837FCF /* header_bar_logo_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = header_bar_logo_small.png; path = ../../header_bar_logo_small.png; sourceTree = "<group>"; };
 		C5B7A1FA13EE1DF200837FCF /* header_bar_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = header_bar_small.png; path = ../../header_bar_small.png; sourceTree = "<group>"; };
 		C5EAA93113EFC19B005190FC /* frank.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = frank.jpeg; path = ../../../pics/frank.jpeg; sourceTree = "<group>"; };
+		C5F27FE313FCE1B900AEB420 /* FollowsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowsViewController.h; sourceTree = "<group>"; };
+		C5F27FE413FCE1B900AEB420 /* FollowsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowsViewController.m; sourceTree = "<group>"; };
+		C5F27FE513FCE1B900AEB420 /* FollowsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FollowsViewController.xib; sourceTree = "<group>"; };
 		C5F4AB2313E75D46006C83F7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C5F4ABA013E77AAF006C83F7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C5F4ABA213E77B07006C83F7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -225,6 +230,8 @@
 				C557FEA513F30E6E000AEF78 /* UploadArrays.m */,
 				C56B272813E270FC00204F6D /* WebViewController.h */,
 				C56B272913E270FD00204F6D /* WebViewController.m */,
+				C5F27FE313FCE1B900AEB420 /* FollowsViewController.h */,
+				C5F27FE413FCE1B900AEB420 /* FollowsViewController.m */,
 				18C7286713D7006400995D63 /* Supporting Files */,
 			);
 			path = MyEyesAreHungry;
@@ -240,6 +247,7 @@
 				C56B274813E27ACB00204F6D /* UploadViewController.xib */,
 				C56B272A13E270FF00204F6D /* WebViewController.xib */,
 				C5838C9F13E4DB340091FD2F /* LoginViewController.xib */,
+				C5F27FE513FCE1B900AEB420 /* FollowsViewController.xib */,
 				18C7286813D7006400995D63 /* MyEyesAreHungry-Info.plist */,
 				18C7286913D7006400995D63 /* InfoPlist.strings */,
 				18C7286C13D7006400995D63 /* MyEyesAreHungry-Prefix.pch */,
@@ -397,6 +405,7 @@
 				C5B7A1F913EE1BE000837FCF /* header_bar_logo_small.png in Resources */,
 				C5B7A1FB13EE1DF200837FCF /* header_bar_small.png in Resources */,
 				C5EAA93213EFC19B005190FC /* frank.jpeg in Resources */,
+				C5F27FE713FCE1B900AEB420 /* FollowsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +461,7 @@
 				C54B445013E9EAF30073578C /* UserPass.m in Sources */,
 				C55FB13113EF747A00ABAD1D /* Login.m in Sources */,
 				C557FEA613F30E6E000AEF78 /* UploadArrays.m in Sources */,
+				C5F27FE613FCE1B900AEB420 /* FollowsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
