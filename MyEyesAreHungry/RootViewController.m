@@ -330,8 +330,22 @@
     if (info) {
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
 
-        if (image)
-            [self showUploadPage:image];
+        if (image) {
+            int w = (int) image.size.width * image.scale;
+            int h = (int) image.size.height * image.scale;
+            
+            if (w < 3000 && h < 3000) {
+                [self showUploadPage:image];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Image too big"
+                                                                message:@"Must be smaller than 3000x3000"
+                                                               delegate:nil
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"OK", nil];
+                [alert show];
+                [alert release];
+            }
+        }
     }
 
     // Remove the picker interface and release the picker object.
