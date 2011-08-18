@@ -351,6 +351,5 @@
     return NO;
 }
 
-#warning fix line on login cell
 
 @end
