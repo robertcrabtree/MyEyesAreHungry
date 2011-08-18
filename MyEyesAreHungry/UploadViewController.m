@@ -220,13 +220,125 @@ NSInteger numRestFields = 4;
 {
     int cnt = arrays.placeholders.count;
 
+    // make sure _all_ text fields are filled in
     for (int i = 0; i < cnt; i++) {
         UITextField *textField = [self cellWithTag:INDEX_TO_TAG(i)].textField;
         if (textField.text == nil || [@"" isEqualToString:textField.text]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"All fields required"
+                                                            message:@""
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"OK", nil];
+            [alert show];
+            [alert release];
+            return NO;
+        }
+    }
+    
+    // validate restaurant name
+    {
+        NSString *restName = [self cellWithTag:INDEX_TO_TAG(0)].textField.text;
+        NSString *chars = @"abcdefghijklmnopqrstuvwxyz1234567890_ -";
+        NSRange range = {0, 1};
+        NSRange charsRange = {0, 1};
+        
+        int matched = 0;
+        for (int i = 0; i < restName.length; i++) {
+            range.location = i;
+            NSString *restNameChar = [[restName substringWithRange:range] lowercaseString];
+            for (int j = 0; j < chars.length; j++) {
+                charsRange.location = j;
+                NSString *charsChar = [chars substringWithRange:charsRange];
+                if ([charsChar isEqualToString:restNameChar]) {
+                    matched++;
+                }
+            }
+        }
+        
+        if (restName.length != matched) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid restaurant name"
+                                                            message:@"Can only contain chars A-Z, a-z, 0-9, space, -, and _"
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"OK", nil];
+            [alert show];
+            [alert release];
+            
+            return NO;
+        }
+    }
+    
+    // validate restaurant city
+    {
+        NSString *restCity = [self cellWithTag:INDEX_TO_TAG(2)].textField.text;
+        NSString *chars = @"abcdefghijklmnopqrstuvwxyz -";
+        NSRange range = {0, 1};
+        NSRange charsRange = {0, 1};
+
+        int matched = 0;
+        for (int i = 0; i < restCity.length; i++) {
+            range.location = i;
+            NSString *restCityChar = [[restCity substringWithRange:range] lowercaseString];
+            for (int j = 0; j < chars.length; j++) {
+                charsRange.location = j;
+                NSString *charsChar = [chars substringWithRange:charsRange];
+                if ([charsChar isEqualToString:restCityChar]) {
+                    matched++;
+                }
+            }
+        }
+        
+        if (restCity.length != matched || restCity.length < 2) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid city"
+                                                            message:@"Must be at least 2 characters and can only contain characters A-Z, a-z, space, and -"
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"OK", nil];
+            [alert show];
+            [alert release];
+            
+            return NO;
+        }
+    }
+    
+    // validate meal name
+    {
+        NSString *mealName = [self cellWithTag:INDEX_TO_TAG(5)].textField.text;
+        NSString *chars = @"abcdefghijklmnopqrstuvwxyz1234567890_ ,-";
+        NSRange range = {0, 1};
+        NSRange charsRange = {0, 1};
+        
+        int matched = 0;
+        for (int i = 0; i < mealName.length; i++) {
+            range.location = i;
+            NSString *mealChar = [[mealName substringWithRange:range] lowercaseString];
+            for (int j = 0; j < chars.length; j++) {
+                charsRange.location = j;
+                NSString *charsChar = [chars substringWithRange:charsRange];
+                if ([charsChar isEqualToString:mealChar]) {
+                    matched++;
+                }
+            }
+        }
+
+        if (mealName.length != matched || mealName.length < 3) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid meal name"
+                                                            message:@"Must be at least 2 characters and can only contain characters A-Z, a-z, 0-9, space, -, _, and comma"
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"OK", nil];
+            [alert show];
+            [alert release];
+            
             return NO;
         }
     }
 
+    /// @todo validate friends. max 4 friends
+    
     return YES;
 }
 
@@ -366,14 +478,6 @@ NSInteger numRestFields = 4;
                 [alert release];
             }
             
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"All fields required"
-                                                            message:@""
-                                                           delegate:nil
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"OK", nil];
-            [alert show];
-            [alert release];
         }
     }
 }
