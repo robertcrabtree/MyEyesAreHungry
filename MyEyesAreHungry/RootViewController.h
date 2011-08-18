@@ -24,6 +24,11 @@ enum LoginAction {
     NSInteger loginRow;
     BOOL loginSuccess;
     UserPass *userPass;
+    
+#ifdef MEAH_TESTING
+    NSMutableArray *followsNames;
+    NSMutableArray *followsIds;
+#endif
 }
 
 - (void) processMyStuff:(NSInteger)row;

@@ -15,12 +15,21 @@
 #import "Login.h"
 #import "ASIHTTPRequest.h"
 
+#ifdef MEAH_TESTING
+#import "FollowsViewController.h"
+#endif
+
 @implementation RootViewController
 
 @synthesize loginAction, loginSuccess;
 
 - (void)viewDidLoad
 {
+#ifdef MEAH_TESTING
+    followsNames = [[NSMutableArray alloc] init];
+    followsIds = [[NSMutableArray alloc] init];
+#endif
+
     userPass = [UserPass sharedUserPass];
     [ASIHTTPRequest setShouldUpdateNetworkActivityIndicator:YES]; // have ASI update network status when active
     [super viewDidLoad];
@@ -32,6 +41,14 @@
     delegate.navImage = [UIImage imageNamed: @"header_bar_logo_small.png"];
     self.navigationItem.title = @"";
     [self.navigationController.navigationBar setNeedsDisplay];
+    
+#ifdef MEAH_TESTING
+    if (followsNames) {
+        for (int i = 0; i < followsNames.count; i++) {
+            NSLog(@"follows: %@", [followsNames objectAtIndex:i]);
+        }
+    }
+#endif
     
     /*
     enum LoginAction actionSave = loginAction;
@@ -86,7 +103,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 #ifdef MEAH_TESTING
-    return 6;
+    return 7;
 #else
     return 3;
 #endif
@@ -102,9 +119,7 @@
         case 2:
             return 1;
 #ifdef MEAH_TESTING
-        case 3:
-        case 4:
-        case 5:
+        default:
             return 1;
 #endif
     }
@@ -172,6 +187,10 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (indexPath.section == 5) {
         cell.textLabel.text = @"Fast upload";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if (indexPath.section == 6) {
+        cell.textLabel.text = @"Follows testing";
         cell.textLabel.textAlignment = UITextAlignmentCenter;
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
@@ -484,6 +503,19 @@
             [self showUploadPage:[UIImage imageNamed: @"frank.jpeg"]];
         else
             NSLog(@"Login failed");
+    } else if (indexPath.section == 6) {
+        [Login logout];
+        NSString *userToken = [Login loginWithUsername:@"test@test.com" andPassword:@"test"];
+        if (userToken) {
+            FollowsViewController *followsViewController = [[FollowsViewController alloc] initWithNibName:@"FollowsViewController" bundle:nil];
+            followsViewController.followsNames = followsNames;
+            followsViewController.followsIds = followsIds;
+            followsViewController.userToken = userToken;
+            [self.navigationController pushViewController:followsViewController animated:YES];
+            [followsViewController release];
+        } else {
+            NSLog(@"Login failed");
+        }
     }
 #endif
 }
@@ -503,6 +535,11 @@
 
 - (void)dealloc
 {
+#ifdef MEAH_TESTING
+    [followsNames release];
+    [followsIds release];
+#endif
+    
     [super dealloc];
 }
 
