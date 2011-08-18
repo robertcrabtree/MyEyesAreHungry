@@ -302,6 +302,10 @@
             TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
             [cell.textField becomeFirstResponder];
     } else if (indexPath.section == 1) {
+        
+        // disable cell selection until login complete
+        self.tableView.userInteractionEnabled = NO;
+        
         TextCell *emailCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(0)];
         TextCell *passCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(0)];
         NSString *email = emailCell.textField.text;
@@ -315,6 +319,10 @@
                 [[UserPass sharedUserPass] setUser:email Pass:password];
                 RootViewController *root = [self.navigationController.viewControllers objectAtIndex:0];
                 root.loginSuccess = YES;
+                
+                // re-enable cell selection
+                self.tableView.userInteractionEnabled = YES;
+                
                 [self.navigationController popViewControllerAnimated:YES];
             } else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
@@ -327,6 +335,9 @@
                 
             }
         }
+        
+        // re-enable cell selection
+        self.tableView.userInteractionEnabled = YES;
         
     } else if (indexPath.section == 2) {
         WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
