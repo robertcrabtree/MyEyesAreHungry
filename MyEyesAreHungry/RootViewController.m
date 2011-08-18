@@ -42,14 +42,6 @@
     self.navigationItem.title = @"";
     [self.navigationController.navigationBar setNeedsDisplay];
     
-#ifdef MEAH_TESTING
-    if (followsNames) {
-        for (int i = 0; i < followsNames.count; i++) {
-            NSLog(@"follows: %@", [followsNames objectAtIndex:i]);
-        }
-    }
-#endif
-    
     /*
     enum LoginAction actionSave = loginAction;
     BOOL successSave = loginSuccess;
