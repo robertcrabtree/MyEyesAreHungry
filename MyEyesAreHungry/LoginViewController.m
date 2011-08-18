@@ -303,6 +303,9 @@
             [cell.textField becomeFirstResponder];
     } else if (indexPath.section == 1) {
         
+        // remove the blue color
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+        
         // disable cell selection until login complete
         self.tableView.userInteractionEnabled = NO;
         
@@ -338,6 +341,10 @@
         self.tableView.userInteractionEnabled = YES;
         
     } else if (indexPath.section == 2) {
+        
+        // remove the blue color
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+
         WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
         webViewController.urlString = @"http://www.myeyesarehungry.com/join.php";
         [self.navigationController pushViewController:webViewController animated:YES];

@@ -469,6 +469,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // remove the blue color
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+
     // show the selected web page
     if (indexPath.section == 0) {
         [self processRecents:indexPath.row];

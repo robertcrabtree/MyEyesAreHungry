@@ -462,7 +462,10 @@ NSInteger numRestFields = 4;
         TextCell *cell = [self cellInSection:indexPath.section AndRow:indexPath.row];
         [cell.textField becomeFirstResponder];
     } else {
-       
+        
+        // remove the blue color
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+        
         // disable cell selection until upload complete
         self.tableView.userInteractionEnabled = NO;
 
