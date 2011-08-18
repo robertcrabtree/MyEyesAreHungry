@@ -463,11 +463,18 @@ NSInteger numRestFields = 4;
         [cell.textField becomeFirstResponder];
     } else {
        
-        /// @todo make sure to disable buttons while logging in
+        // disable cell selection until upload complete
+        self.tableView.userInteractionEnabled = NO;
 
         if ([self isValidData]) {
             if ([self upload]) {
+                
+                // re-enable cell selection
+                self.tableView.userInteractionEnabled = YES;
+                
+                // pop view controller (back to root view)
                 [self.navigationController popViewControllerAnimated:YES];
+                
             } else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
                                                                 message:@""
@@ -479,6 +486,10 @@ NSInteger numRestFields = 4;
             }
             
         }
+        
+        // re-enable cell selection
+        self.tableView.userInteractionEnabled = YES;
+
     }
 }
 
