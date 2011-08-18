@@ -388,17 +388,7 @@ NSInteger numRestFields = 4;
 
 -(BOOL)upload
 {
-    CGFloat compression = 1.0f;
-    CGFloat maxCompression = 0.1f;
-    int maxFileSize = 1468006; // 1.4 MB
-    
-    NSData *imageData = UIImageJPEGRepresentation(image, compression);
-    
-    while (imageData.length > maxFileSize && compression > maxCompression) {
-        compression -= 0.1f;
-        imageData = UIImageJPEGRepresentation(image, compression);
-    }
-
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/api/upload.php"];
     ASIFormDataRequest *request = [[ASIFormDataRequest  alloc]  initWithURL:url];
     BOOL success = YES;
