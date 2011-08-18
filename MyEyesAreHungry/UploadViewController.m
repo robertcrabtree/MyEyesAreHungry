@@ -336,8 +336,6 @@ NSInteger numRestFields = 4;
             return NO;
         }
     }
-
-    /// @todo validate friends. max 4 friends
     
     return YES;
 }
