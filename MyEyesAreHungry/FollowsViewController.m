@@ -98,6 +98,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.navigationItem.title = @"Follows";
     [super viewWillAppear:animated];
 }
 
