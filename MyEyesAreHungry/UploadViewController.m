@@ -83,13 +83,6 @@ NSInteger numRestFields = 4;
         cell.detailTextLabel.text = @"None";
     else
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%d selected", followsNames.count];
-    
-    // set user friend post data
-    if (followsIds.count > 0) {
-        
-        NSString *chosenFriends = [followsIds componentsJoinedByString:@","];
-        NSLog(@"friends = %@", chosenFriends);
-    }
 
     [super viewWillAppear:animated];
 }
@@ -201,7 +194,7 @@ NSInteger numRestFields = 4;
             cell.detailTextLabel.text = @"None";
         else
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%d selected", followsNames.count];
-        cell.textLabel.text = @"Follows";
+        cell.textLabel.text = @"Eaten with";
         cell.textLabel.textAlignment = UITextAlignmentLeft;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else {
