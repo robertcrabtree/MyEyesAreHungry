@@ -21,7 +21,7 @@ static NSString *token = nil;
     [request setPostValue:username forKey:@"email"];
     [request setPostValue:password forKey:@"password"];
     [request setPostValue:@"submit" forKey:@"submit"];
-    [request setPostValue:@"test" forKey:@"password"];
+    [request setPostValue:password forKey:@"password"];
     [request setPostValue:@"stay_logged" forKey:@"yes"];
     [request startSynchronous];
 
