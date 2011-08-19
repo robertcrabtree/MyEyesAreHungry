@@ -12,6 +12,7 @@
 #import "ASIFormDataRequest.h"
 #import "UploadArrays.h"
 #import "FollowsViewController.h"
+#import "Login.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -169,6 +170,11 @@ NSInteger numRestFields = 4;
         TextCell *textCell = (TextCell *) cell;
         textCell.tag = INDEX_TO_TAG(indexPath.row);
         textCell.textField.placeholder = [arrays.placeholders objectAtIndex:indexPath.row];
+#ifdef MEAH_TESTING
+        // supply fake restaurant name "test" so online users can't see restaurant
+        if (indexPath.row == 0)
+            [cellText replaceObjectAtIndex:0 withObject:@"test"];
+#endif
         textCell.textField.delegate = self;
         textCell.textField.returnKeyType = UIReturnKeyNext;
         textCell.textField.keyboardType = UIKeyboardTypeDefault;
@@ -443,6 +449,8 @@ NSInteger numRestFields = 4;
     // set misc post keys required on the server end
     [request setPostValue:@"submit" forKey:@"submit"];
     [request setPostValue:@"agree" forKey:@"tos"];
+    [request setPostValue:[Login userToken] forKey:@"my_name"];
+    [request setPostValue:[Login userID] forKey:@"my_id"];
     
     // post the image data
     [request addData:imageData withFileName:@"meal.jpeg" andContentType:@"image/jpeg" forKey:@"image"];

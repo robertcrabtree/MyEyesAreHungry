@@ -12,6 +12,7 @@
 @implementation Login
 
 static NSString *token = nil;
+static NSString *ID = nil;
 
 +(NSString *) loginWithUsername:(NSString *) username andPassword:(NSString *) password
 {
@@ -27,14 +28,27 @@ static NSString *token = nil;
 
     if ((![request error]) && ([request responseStatusCode] < 400)) {
         NSDictionary *dict = [request responseHeaders];
-        NSString *val = [dict objectForKey:@"X-Sample-Test"];
+        NSString *val = [dict objectForKey:@"X-Login-Name"];
         
         if (val && ![val isEqualToString:@""]) {
             if (token)
                 [token release];
             token = [val retain];
+            NSLog(@"token=%@", token);
+        }
+
+        val = [dict objectForKey:@"X-Login-Id"];
+        
+        if (val && ![val isEqualToString:@""]) {
+            if (ID)
+                [ID release];
+            ID = [val retain];
+            NSLog(@"ID=%@", ID);
         }
     }
+    
+//    NSLog(@"response string: %@", [request responseString]);
+
     
     [request release];
     
@@ -54,6 +68,11 @@ static NSString *token = nil;
 +(NSString *) userToken
 {
     return token;
+}
+
++(NSString *) userID
+{
+    return ID;
 }
 
 @end

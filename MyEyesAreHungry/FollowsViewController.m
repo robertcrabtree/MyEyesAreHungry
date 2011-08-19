@@ -66,7 +66,8 @@
     NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/api/friends.php"];
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:url];
     
-    [request setPostValue:[Login userToken] forKey:@"user_name"];
+    [request setPostValue:[Login userToken] forKey:@"my_name"];
+    [request setPostValue:[Login userID] forKey:@"my_id"];
     [request startSynchronous];
 
     NSDictionary *dict = [request responseHeaders];

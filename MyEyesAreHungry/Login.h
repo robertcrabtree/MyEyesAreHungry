@@ -16,5 +16,6 @@
 +(NSString *) loginWithUsername:(NSString *) username andPassword:(NSString *) password;
 +(void) logout;
 +(NSString *) userToken;
++(NSString *) userID;
 
 @end
