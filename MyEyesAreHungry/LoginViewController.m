@@ -310,7 +310,7 @@
         self.tableView.userInteractionEnabled = NO;
         
         TextCell *emailCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(0)];
-        TextCell *passCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(0)];
+        TextCell *passCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(1)];
         NSString *email = emailCell.textField.text;
         NSString *password = passCell.textField.text;
 
