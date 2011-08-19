@@ -402,8 +402,8 @@ NSInteger numRestFields = 4;
             valArray = arrays.mealTypeVals;
             break;
         case 6:
-            textArray = arrays.mealPriceText;
-            valArray = arrays.mealPriceVals;
+            textArray = arrays.mealPriceUsaText;
+            valArray = arrays.mealPriceUsaVals;
             break;
         case 7:
             textArray = arrays.mealTasteText;
@@ -583,7 +583,8 @@ NSInteger numRestFields = 4;
             array = arrays.mealTypeText;
             break;
         case 6:
-            array = arrays.mealPriceText;
+            array = arrays.mealPriceUsaText;
+            /// @todo need to support non-us countries and currency
             break;
         case 7:
             array = arrays.mealTasteText;

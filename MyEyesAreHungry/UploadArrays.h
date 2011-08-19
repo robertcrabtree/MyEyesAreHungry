@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-/// @todo need to support non-us countries and currency
-
 @interface UploadArrays : NSObject {
     // restaurant and meal textfield placeholders
     NSArray *placeholders;
@@ -18,18 +16,20 @@
     NSArray *postKeys;
 
     // HTTP POST values (lists only)
-    NSArray *countryVals;
-    NSArray *stateVals;
-    NSArray *mealTypeVals;
-    NSArray *mealPriceVals;
-    NSArray *mealTasteVals;
+    NSMutableArray *countryVals;
+    NSMutableArray *stateVals;
+    NSMutableArray *mealTypeVals;
+    NSMutableArray *mealPriceUsaVals;
+    NSMutableArray *mealPriceWorldVals;
+    NSMutableArray *mealTasteVals;
     
     // Display text (lists/pickers only)
-    NSArray *countryText;
-    NSArray *stateText;
-    NSArray *mealTypeText;
-    NSArray *mealPriceText;
-    NSArray *mealTasteText;
+    NSMutableArray *countryText;
+    NSMutableArray *stateText;
+    NSMutableArray *mealTypeText;
+    NSMutableArray *mealPriceUsaText;
+    NSMutableArray *mealPriceWorldText;
+    NSMutableArray *mealTasteText;
 }
 
 // restaurant and meal textfield placeholders
@@ -39,18 +39,20 @@
 @property (nonatomic, readonly) NSArray *postKeys;
 
 // HTTP POST values (lists only)
-@property (nonatomic, readonly) NSArray *countryVals;
-@property (nonatomic, readonly) NSArray *stateVals;
-@property (nonatomic, readonly) NSArray *mealTypeVals;
-@property (nonatomic, readonly) NSArray *mealPriceVals;
-@property (nonatomic, readonly) NSArray *mealTasteVals;
+@property (nonatomic, readonly) NSMutableArray *countryVals;
+@property (nonatomic, readonly) NSMutableArray *stateVals;
+@property (nonatomic, readonly) NSMutableArray *mealTypeVals;
+@property (nonatomic, readonly) NSMutableArray *mealPriceUsaVals;
+@property (nonatomic, readonly) NSMutableArray *mealPriceWorldVals;
+@property (nonatomic, readonly) NSMutableArray *mealTasteVals;
 
 // Display text (lists/pickers only)
-@property (nonatomic, readonly) NSArray *countryText;
-@property (nonatomic, readonly) NSArray *stateText;
-@property (nonatomic, readonly) NSArray *mealTypeText;
-@property (nonatomic, readonly) NSArray *mealPriceText;
-@property (nonatomic, readonly) NSArray *mealTasteText;
+@property (nonatomic, readonly) NSMutableArray *countryText;
+@property (nonatomic, readonly) NSMutableArray *stateText;
+@property (nonatomic, readonly) NSMutableArray *mealTypeText;
+@property (nonatomic, readonly) NSMutableArray *mealPriceUsaText;
+@property (nonatomic, readonly) NSMutableArray *mealPriceWorldText;
+@property (nonatomic, readonly) NSMutableArray *mealTasteText;
 
 -(id) init;
 - (void)dealloc;
