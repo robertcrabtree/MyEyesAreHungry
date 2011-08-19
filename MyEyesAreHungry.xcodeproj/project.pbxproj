@@ -34,6 +34,8 @@
 		C57C4DEB13E4CE56000933B9 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C4DEA13E4CE56000933B9 /* TextCell.m */; };
 		C5838CA013E4DB340091FD2F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5838C9E13E4DB340091FD2F /* LoginViewController.m */; };
 		C5838CA113E4DB340091FD2F /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5838C9F13E4DB340091FD2F /* LoginViewController.xib */; };
+		C598ECED13FE2EB900430EEA /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C598ECEA13FE2EB900430EEA /* NSDataAdditions.m */; };
+		C598ECEE13FE2EB900430EEA /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = C598ECEC13FE2EB900430EEA /* TBXML.m */; };
 		C5B7A1F913EE1BE000837FCF /* header_bar_logo_small.png in Resources */ = {isa = PBXBuildFile; fileRef = C5B7A1F813EE1BE000837FCF /* header_bar_logo_small.png */; };
 		C5B7A1FB13EE1DF200837FCF /* header_bar_small.png in Resources */ = {isa = PBXBuildFile; fileRef = C5B7A1FA13EE1DF200837FCF /* header_bar_small.png */; };
 		C5EAA93213EFC19B005190FC /* frank.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C5EAA93113EFC19B005190FC /* frank.jpeg */; };
@@ -106,6 +108,10 @@
 		C5838C9D13E4DB340091FD2F /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		C5838C9E13E4DB340091FD2F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C5838C9F13E4DB340091FD2F /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		C598ECE913FE2EB900430EEA /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
+		C598ECEA13FE2EB900430EEA /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
+		C598ECEB13FE2EB900430EEA /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
+		C598ECEC13FE2EB900430EEA /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
 		C5B7A1F813EE1BE000837FCF /* header_bar_logo_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = header_bar_logo_small.png; path = ../../header_bar_logo_small.png; sourceTree = "<group>"; };
 		C5B7A1FA13EE1DF200837FCF /* header_bar_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = header_bar_small.png; path = ../../header_bar_small.png; sourceTree = "<group>"; };
 		C5EAA93113EFC19B005190FC /* frank.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = frank.jpeg; path = ../../../pics/frank.jpeg; sourceTree = "<group>"; };
@@ -209,6 +215,7 @@
 		18C7286613D7006400995D63 /* MyEyesAreHungry */ = {
 			isa = PBXGroup;
 			children = (
+				C598ECE813FE2EB900430EEA /* TBXML */,
 				C5B7A1F613EE1B9900837FCF /* Images */,
 				C5F4ABA813E77E83006C83F7 /* SFHFKeychainUtils */,
 				C5F4AB2513E77865006C83F7 /* ASIHTTPRequest */,
@@ -274,6 +281,17 @@
 				18C7288C13D7006500995D63 /* MyEyesAreHungryTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C598ECE813FE2EB900430EEA /* TBXML */ = {
+			isa = PBXGroup;
+			children = (
+				C598ECE913FE2EB900430EEA /* NSDataAdditions.h */,
+				C598ECEA13FE2EB900430EEA /* NSDataAdditions.m */,
+				C598ECEB13FE2EB900430EEA /* TBXML.h */,
+				C598ECEC13FE2EB900430EEA /* TBXML.m */,
+			);
+			path = TBXML;
 			sourceTree = "<group>";
 		};
 		C5B7A1F613EE1B9900837FCF /* Images */ = {
@@ -462,6 +480,8 @@
 				C55FB13113EF747A00ABAD1D /* Login.m in Sources */,
 				C557FEA613F30E6E000AEF78 /* UploadArrays.m in Sources */,
 				C5F27FE613FCE1B900AEB420 /* FollowsViewController.m in Sources */,
+				C598ECED13FE2EB900430EEA /* NSDataAdditions.m in Sources */,
+				C598ECEE13FE2EB900430EEA /* TBXML.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
