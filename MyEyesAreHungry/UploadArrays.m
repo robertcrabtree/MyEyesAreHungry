@@ -26,14 +26,14 @@
     mealPriceUsaVals = [[NSMutableArray alloc] init];
     mealPriceWorldVals = [[NSMutableArray alloc] init];
     mealTypeVals = [[NSMutableArray alloc] init];
-    mealTasteVals = [[NSMutableArray alloc] initWithObjects:@"1", @"2", @"3", @"4", nil];
+    mealTasteVals = [[NSMutableArray alloc] init];
     
     countryText = [[NSMutableArray alloc] init];
     stateText = [[NSMutableArray alloc] init];
     mealPriceUsaText = [[NSMutableArray alloc] init];
     mealPriceWorldText = [[NSMutableArray alloc] init];
     mealTypeText = [[NSMutableArray alloc] init];
-    mealTasteText = [[NSMutableArray alloc] initWithObjects:@"Average", @"Good", @"Great", @"Amazing", nil];
+    mealTasteText = [[NSMutableArray alloc] init];
 }
 
 -(id)init
@@ -89,9 +89,8 @@
                     [mealTypeVals addObject:val];
                 } else if ([categoryName isEqualToString:@"taste"]) {
                     // meal taste
-                    /// @todo waiting for neil to populate the xml file with this data
-                    //[mealTasteText addObject:text];
-                    //[mealTasteVals addObject:vals];
+                    [mealTasteText addObject:text];
+                    [mealTasteVals addObject:val];
                 }
             } while ((category = category->nextSibling));
         } else {
