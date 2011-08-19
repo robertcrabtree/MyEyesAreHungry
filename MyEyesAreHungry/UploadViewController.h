@@ -19,6 +19,8 @@
     UIPickerView *picker;
     NSInteger currPickerTextFieldTag;
     NSArray *currPickerArray;
+    NSMutableArray *followsNames;
+    NSMutableArray *followsIds;
 }
 
 @property (retain, nonatomic) UIImage *image;

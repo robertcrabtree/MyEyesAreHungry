@@ -11,6 +11,7 @@
 #import "MyEyesAreHungryAppDelegate.h"
 #import "ASIFormDataRequest.h"
 #import "UploadArrays.h"
+#import "FollowsViewController.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -34,6 +35,9 @@ NSInteger numRestFields = 4;
 
 - (void)dealloc
 {
+    [followsNames release];
+    [followsIds release];
+
     self.image = nil;
     self.arrays = nil;
     self.picker = nil;
@@ -53,11 +57,13 @@ NSInteger numRestFields = 4;
 
 - (void)viewDidLoad
 {    
-    [super viewDidLoad];
     self.arrays = [[UploadArrays alloc] init];
     self.cellText = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", @"", @"", nil];
     [self.arrays release];
     [self.cellText release];
+    followsNames = [[NSMutableArray alloc] init];
+    followsIds = [[NSMutableArray alloc] init];
+    [super viewDidLoad];
 }
 
 - (void)viewDidUnload
@@ -70,6 +76,21 @@ NSInteger numRestFields = 4;
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationItem.title = @"Upload";
+    
+    UITableViewCell *cell = (UITableViewCell *) [self.tableView viewWithTag:INDEX_TO_TAG(arrays.placeholders.count)];
+
+    if (followsNames.count == 0)
+        cell.detailTextLabel.text = @"None";
+    else
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d selected", followsNames.count];
+    
+    // set user friend post data
+    if (followsIds.count > 0) {
+        
+        NSString *chosenFriends = [followsIds componentsJoinedByString:@","];
+        NSLog(@"friends = %@", chosenFriends);
+    }
+
     [super viewWillAppear:animated];
 }
 
@@ -99,7 +120,7 @@ NSInteger numRestFields = 4;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -115,6 +136,7 @@ NSInteger numRestFields = 4;
     switch (indexPath.section) {
         case 0:
         case 1:
+        case 2:
             cell.backgroundColor = [UIColor whiteColor];
             break;
             
@@ -126,22 +148,27 @@ NSInteger numRestFields = 4;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *FollowsCellID = @"FollowsCellID";
+    static NSString *UploadCellID = @"UploadCellID";
     
     UITableViewCell *cell;
     
     // see if cell already exists
     if (indexPath.section == 0 || indexPath.section == 1)
         cell = [tableView dequeueReusableCellWithIdentifier:TextCellID];
+    else if (indexPath.section == 2)
+        cell = [tableView dequeueReusableCellWithIdentifier:FollowsCellID];
     else
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell = [tableView dequeueReusableCellWithIdentifier:UploadCellID];
     
     // create cell
     if (cell == nil) {
         if (indexPath.section == 0 || indexPath.section == 1)
             cell = [TextCell cellFromNib];
+        else if (indexPath.section == 2)
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:FollowsCellID] autorelease];
         else
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:UploadCellID] autorelease];
     }
     
     // configure cell
@@ -153,6 +180,7 @@ NSInteger numRestFields = 4;
         textCell.textField.returnKeyType = UIReturnKeyNext;
         textCell.textField.keyboardType = UIKeyboardTypeDefault;
         textCell.textField.text = [cellText objectAtIndex:indexPath.row];
+        cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (indexPath.section == 1) {
         TextCell *textCell = (TextCell *) cell;
         textCell.tag = INDEX_TO_TAG(indexPath.row + numRestFields);
@@ -166,10 +194,21 @@ NSInteger numRestFields = 4;
             textCell.textField.returnKeyType = UIReturnKeyNext;
             textCell.textField.keyboardType = UIKeyboardTypeDefault;
         }
-    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if (indexPath.section == 2) {
         cell.tag = INDEX_TO_TAG(arrays.placeholders.count);
+        if (followsNames.count == 0)
+            cell.detailTextLabel.text = @"None";
+        else
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d selected", followsNames.count];
+        cell.textLabel.text = @"Follows";
+        cell.textLabel.textAlignment = UITextAlignmentLeft;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    } else {
+        cell.tag = INDEX_TO_TAG(arrays.placeholders.count + 1);
         cell.textLabel.text = @"Upload";
         cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     return cell;
@@ -402,9 +441,14 @@ NSInteger numRestFields = 4;
         [request setPostValue:val forKey:key];
     }
     
+    // set friend post data
+    if (followsIds.count > 0) {
+        NSString *chosenFriends = [followsIds componentsJoinedByString:@","];
+        [request setPostValue:chosenFriends forKey:@"chosen_friends"];
+    }
+    
     // set misc post keys required on the server end
     [request setPostValue:@"submit" forKey:@"submit"];
-    [request setPostValue:@"user_friends" forKey:@"user_friends"];
     [request setPostValue:@"agree" forKey:@"tos"];
     
     // post the image data
@@ -449,6 +493,16 @@ NSInteger numRestFields = 4;
     if (indexPath.section == 0 || indexPath.section == 1) {
         TextCell *cell = [self cellInSection:indexPath.section AndRow:indexPath.row];
         [cell.textField becomeFirstResponder];
+    } else if (indexPath.section == 2) {
+        
+        // remove the blue color
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+        
+        FollowsViewController *followsViewController = [[FollowsViewController alloc] initWithNibName:@"FollowsViewController" bundle:nil];
+        followsViewController.followsNames = followsNames;
+        followsViewController.followsIds = followsIds;
+        [self.navigationController pushViewController:followsViewController animated:YES];
+        [followsViewController release];
     } else {
         
         // remove the blue color
