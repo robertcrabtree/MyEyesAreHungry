@@ -17,14 +17,29 @@
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
 
+#define CELL_INDEX_REST_NAME        0
+#define CELL_INDEX_REST_COUNTRY     1
+#define CELL_INDEX_REST_CITY        2
+#define CELL_INDEX_REST_STATE       3
+#define CELL_INDEX_MEAL_TYPE        4
+#define CELL_INDEX_MEAL_NAME        5
+#define CELL_INDEX_MEAL_PRICE       6
+#define CELL_INDEX_MEAL_TASTE       7
+
+#define CELL_SECTION_REST           0
+#define CELL_SECTION_MEAL           1
+#define CELL_SECTION_FOLLOWS        2
+#define CELL_SECTION_UPLOAD         3
+
+#define NUM_REST_FIELDS             4
+#define NUM_MEAL_FIELDS             4
+
 @implementation UploadViewController
 
 @synthesize cellText;
 @synthesize image;
 @synthesize arrays;
 @synthesize picker;
-
-NSInteger numRestFields = 4;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -58,6 +73,7 @@ NSInteger numRestFields = 4;
 
 - (void)viewDidLoad
 {    
+    isUsa = YES;
     self.arrays = [[UploadArrays alloc] init];
     self.cellText = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", @"", @"", nil];
     [self.arrays release];
@@ -120,9 +136,16 @@ NSInteger numRestFields = 4;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (section == 0 || section == 1)
-        return numRestFields;
-    return 1;
+    switch (section) {
+        case 0:
+            if (isUsa)
+                return NUM_REST_FIELDS;
+            return NUM_REST_FIELDS - 1; // state has been removed
+        case 1:
+            return NUM_MEAL_FIELDS;
+        default:
+            return 1;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -166,13 +189,13 @@ NSInteger numRestFields = 4;
     }
     
     // configure cell
-    if (indexPath.section == 0) {
+    if (indexPath.section == CELL_SECTION_REST) {
         TextCell *textCell = (TextCell *) cell;
         textCell.tag = INDEX_TO_TAG(indexPath.row);
         textCell.textField.placeholder = [arrays.placeholders objectAtIndex:indexPath.row];
 #ifdef MEAH_TESTING
         // supply fake restaurant name "test" so online users can't see restaurant
-        if (indexPath.row == 0)
+        if (indexPath.row == CELL_INDEX_REST_NAME)
             [cellText replaceObjectAtIndex:0 withObject:@"test"];
 #endif
         textCell.textField.delegate = self;
@@ -182,10 +205,10 @@ NSInteger numRestFields = 4;
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (indexPath.section == 1) {
         TextCell *textCell = (TextCell *) cell;
-        textCell.tag = INDEX_TO_TAG(indexPath.row + numRestFields);
-        textCell.textField.placeholder = [arrays.placeholders objectAtIndex:indexPath.row + numRestFields];
+        textCell.tag = INDEX_TO_TAG(indexPath.row + NUM_REST_FIELDS);
+        textCell.textField.placeholder = [arrays.placeholders objectAtIndex:indexPath.row + NUM_REST_FIELDS];
         textCell.textField.delegate = self;
-        textCell.textField.text = [cellText objectAtIndex:indexPath.row + numRestFields];
+        textCell.textField.text = [cellText objectAtIndex:indexPath.row + NUM_REST_FIELDS];
         if (indexPath.row == arrays.placeholders.count - 1) {
             textCell.textField.returnKeyType = UIReturnKeyDone;
             textCell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
@@ -193,8 +216,9 @@ NSInteger numRestFields = 4;
             textCell.textField.returnKeyType = UIReturnKeyNext;
             textCell.textField.keyboardType = UIKeyboardTypeDefault;
         }
+
         cell.accessoryType = UITableViewCellAccessoryNone;
-    } else if (indexPath.section == 2) {
+    } else if (indexPath.section == CELL_SECTION_FOLLOWS) {
         cell.tag = INDEX_TO_TAG(arrays.placeholders.count);
         if (followsNames.count == 0)
             cell.detailTextLabel.text = @"None";
@@ -260,8 +284,11 @@ NSInteger numRestFields = 4;
 
     // make sure _all_ text fields are filled in
     for (int i = 0; i < cnt; i++) {
-        UITextField *textField = [self cellWithTag:INDEX_TO_TAG(i)].textField;
-        if (textField.text == nil || [@"" isEqualToString:textField.text]) {
+        if (isUsa == NO && i == CELL_INDEX_REST_STATE)
+            continue;
+        
+        NSString *text = [cellText objectAtIndex:i];
+        if ([@"" isEqualToString:text]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"All fields required"
                                                             message:@""
                                                            delegate:nil
@@ -275,7 +302,7 @@ NSInteger numRestFields = 4;
     
     // validate restaurant name
     {
-        NSString *restName = [self cellWithTag:INDEX_TO_TAG(0)].textField.text;
+        NSString *restName = [cellText objectAtIndex:CELL_INDEX_REST_NAME];
         NSString *chars = @"abcdefghijklmnopqrstuvwxyz1234567890_ -";
         NSRange range = {0, 1};
         NSRange charsRange = {0, 1};
@@ -309,7 +336,7 @@ NSInteger numRestFields = 4;
     
     // validate restaurant city
     {
-        NSString *restCity = [self cellWithTag:INDEX_TO_TAG(2)].textField.text;
+        NSString *restCity = [cellText objectAtIndex:CELL_INDEX_REST_CITY];
         NSString *chars = @"abcdefghijklmnopqrstuvwxyz -";
         NSRange range = {0, 1};
         NSRange charsRange = {0, 1};
@@ -343,7 +370,7 @@ NSInteger numRestFields = 4;
     
     // validate meal name
     {
-        NSString *mealName = [self cellWithTag:INDEX_TO_TAG(5)].textField.text;
+        NSString *mealName = [cellText objectAtIndex:CELL_INDEX_MEAL_NAME];
         NSString *chars = @"abcdefghijklmnopqrstuvwxyz1234567890_ ,-";
         NSRange range = {0, 1};
         NSRange charsRange = {0, 1};
@@ -375,6 +402,29 @@ NSInteger numRestFields = 4;
         }
     }
     
+    // validate currency
+    {
+        if (isUsa == NO) {
+            NSString *currency = [cellText objectAtIndex:CELL_INDEX_MEAL_PRICE];
+            for (int i = 0; i < arrays.mealPriceWorldText.count; i++) {
+                if ([currency isEqualToString:[arrays.mealPriceWorldText objectAtIndex:i]]) {
+                    if ([@"-" isEqualToString:[arrays.mealPriceWorldVals objectAtIndex:i]]) {
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid meal price"
+                                                                        message:@"Select a valid meal price"
+                                                                       delegate:nil
+                                                              cancelButtonTitle:nil
+                                                              otherButtonTitles:@"OK", nil];
+                        [alert show];
+                        [alert release];
+                        
+                        return NO;
+                    }
+                }
+            }
+        }
+    }
+    
     return YES;
 }
 
@@ -389,23 +439,28 @@ NSInteger numRestFields = 4;
     switch (index) {
 
             // picker filled textfields
-        case 1:
+        case CELL_INDEX_REST_COUNTRY:
             textArray = arrays.countryText;
             valArray = arrays.countryVals;
             break;
-        case 3:
+        case CELL_INDEX_REST_STATE:
             textArray = arrays.stateText;
             valArray = arrays.stateVals;
             break;
-        case 4:
+        case CELL_INDEX_MEAL_TYPE:
             textArray = arrays.mealTypeText;
             valArray = arrays.mealTypeVals;
             break;
-        case 6:
-            textArray = arrays.mealPriceUsaText;
-            valArray = arrays.mealPriceUsaVals;
+        case CELL_INDEX_MEAL_PRICE:
+            if (isUsa) {
+                textArray = arrays.mealPriceUsaText;
+                valArray = arrays.mealPriceUsaVals;
+            } else {
+                textArray = arrays.mealPriceWorldText;
+                valArray = arrays.mealPriceWorldVals;
+            }
             break;
-        case 7:
+        case CELL_INDEX_MEAL_TASTE:
             textArray = arrays.mealTasteText;
             valArray = arrays.mealTasteVals;
             break;
@@ -436,6 +491,9 @@ NSInteger numRestFields = 4;
 
     // get all the data from the text fields and stuff in HTML POST request
     for (int i = 0; i < cnt; i++) {
+        if (isUsa == NO && i == CELL_INDEX_REST_STATE) {
+            continue;
+        }
         [self getPostStrings:i key:&key val:&val];
         [request setPostValue:val forKey:key];
     }
@@ -466,8 +524,8 @@ NSInteger numRestFields = 4;
 {
     NSInteger index = row;
     
-    if (section > 0)
-        index += numRestFields;
+    if (section == CELL_SECTION_MEAL)
+        index += NUM_REST_FIELDS;
 
     return [self cellWithTag:INDEX_TO_TAG(index)];
 }
@@ -478,10 +536,10 @@ NSInteger numRestFields = 4;
     
     if (!cell) {
         int row = TAG_TO_INDEX(tag);
-        int section = 0;
-        if (row > numRestFields) {
-            row -= numRestFields;
-            section = 1;
+        int section = CELL_SECTION_REST;
+        if (row > NUM_REST_FIELDS) {
+            row -= NUM_REST_FIELDS;
+            section = CELL_SECTION_MEAL;
         }
         cell = (TextCell *) [self tableView:self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section]];
     }
@@ -491,10 +549,10 @@ NSInteger numRestFields = 4;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 || indexPath.section == 1) {
+    if (indexPath.section == CELL_SECTION_REST || indexPath.section == CELL_SECTION_MEAL) {
         TextCell *cell = [self cellInSection:indexPath.section AndRow:indexPath.row];
         [cell.textField becomeFirstResponder];
-    } else if (indexPath.section == 2) {
+    } else if (indexPath.section == CELL_SECTION_FOLLOWS) {
         
         // remove the blue color
         [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
@@ -568,25 +626,27 @@ NSInteger numRestFields = 4;
     int row;
     
     switch (TAG_TO_INDEX(cell.tag)) {
-        case 0:
-        case 2:
-        case 5:
+        case CELL_INDEX_REST_NAME:
+        case CELL_INDEX_REST_CITY:
+        case CELL_INDEX_MEAL_NAME:
             cell.textField.inputView = nil;
             return YES;
-        case 1:
+        case CELL_INDEX_REST_COUNTRY:
             array = arrays.countryText;
             break;
-        case 3:
+        case CELL_INDEX_REST_STATE:
             array = arrays.stateText;
             break;
-        case 4:
+        case CELL_INDEX_MEAL_TYPE:
             array = arrays.mealTypeText;
             break;
-        case 6:
-            array = arrays.mealPriceUsaText;
-            /// @todo need to support non-us countries and currency
+        case CELL_INDEX_MEAL_PRICE:
+            if (isUsa)
+                array = arrays.mealPriceUsaText;
+            else
+                array = arrays.mealPriceWorldText;
             break;
-        case 7:
+        case CELL_INDEX_MEAL_TASTE:
             array = arrays.mealTasteText;
             break;
     }
@@ -637,6 +697,33 @@ NSInteger numRestFields = 4;
 {
     TextCell* cell = [self cellWithTag:currPickerTextFieldTag];
     cell.textField.text = [currPickerArray objectAtIndex:row];
+    
+    // see if the country changed
+    if (cell.tag == INDEX_TO_TAG(CELL_INDEX_REST_COUNTRY)) {
+        TextCell *currency = [self cellWithTag:INDEX_TO_TAG(CELL_INDEX_MEAL_PRICE)];
+        
+        // reset currency
+        [cellText replaceObjectAtIndex:CELL_INDEX_REST_COUNTRY withObject:@""];
+        currency.textField.text = @"";
+        
+        if ([[cell.textField.text lowercaseString] isEqualToString:@"usa"]) {
+            if (isUsa == NO) {
+                isUsa = YES;
+                [arrays.postKeys replaceObjectAtIndex:CELL_INDEX_MEAL_PRICE withObject:@"dish_price_usa"];
+                NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:CELL_INDEX_REST_STATE inSection:CELL_SECTION_REST]];
+                [self.tableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationFade];
+            }
+        } else {
+            if (isUsa) {
+                // only delete row if we are switching from usa to non-usa
+                isUsa = NO;
+                [arrays.postKeys replaceObjectAtIndex:CELL_INDEX_MEAL_PRICE withObject:@"dish_price"];
+                [cellText replaceObjectAtIndex:CELL_INDEX_REST_STATE withObject:@""];
+                NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:CELL_INDEX_REST_STATE inSection:CELL_SECTION_REST]];
+                [self.tableView deleteRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationFade];
+            }
+        }
+    }
 }
 
 @end

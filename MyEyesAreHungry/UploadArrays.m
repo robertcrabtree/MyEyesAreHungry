@@ -17,8 +17,9 @@
 {
     placeholders = [[NSArray alloc] initWithObjects:@"Restaurant Name", @"Restaurant Country", 
                     @"Restaurant City", @"Restaurant State", @"Meal Type", @"Meal Name", @"Meal Price", @"Meal Taste", nil];
+    NSLog(@"placeholders init cnt = %d", placeholders.count);
     
-    postKeys = [[NSArray alloc] initWithObjects:@"rest_name", @"country", @"city", @"state",
+    postKeys = [[NSMutableArray alloc] initWithObjects:@"rest_name", @"country", @"city", @"state",
                 @"dish_type", @"dish_name", @"dish_price_usa", @"dish_rating", nil];
     
     countryVals = [[NSMutableArray alloc] init];

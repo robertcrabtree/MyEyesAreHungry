@@ -21,6 +21,7 @@
     NSArray *currPickerArray;
     NSMutableArray *followsNames;
     NSMutableArray *followsIds;
+    BOOL isUsa;
 }
 
 @property (retain, nonatomic) UIImage *image;

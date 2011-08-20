@@ -13,7 +13,7 @@
     NSArray *placeholders;
         
     // HTTP POST keys
-    NSArray *postKeys;
+    NSMutableArray *postKeys;
 
     // HTTP POST values (lists only)
     NSMutableArray *countryVals;
@@ -36,7 +36,7 @@
 @property (nonatomic, readonly) NSArray *placeholders;
 
 // HTTP POST keys
-@property (nonatomic, readonly) NSArray *postKeys;
+@property (nonatomic, readonly) NSMutableArray *postKeys;
 
 // HTTP POST values (lists only)
 @property (nonatomic, readonly) NSMutableArray *countryVals;
