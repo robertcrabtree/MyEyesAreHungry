@@ -38,7 +38,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-    delegate.navImage = [UIImage imageNamed: @"header_bar_logo_small.png"];
+    delegate.navImage = [UIImage imageNamed: @"header_bar_logo"];
     self.navigationItem.title = @"";
     [self.navigationController.navigationBar setNeedsDisplay];
     
@@ -73,7 +73,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-    delegate.navImage = [UIImage imageNamed: @"header_bar_small.png"];
+    delegate.navImage = [UIImage imageNamed: @"header_bar"];
     [self.navigationController.navigationBar setNeedsDisplay];
 	[super viewWillDisappear:animated];
 }
