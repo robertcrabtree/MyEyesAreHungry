@@ -21,7 +21,7 @@
 
 @implementation RootViewController
 
-@synthesize loginAction, loginSuccess;
+@synthesize loginAction;
 
 - (void)viewDidLoad
 {
@@ -37,30 +37,19 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    NSString *buttonText = @"Login";
+    if ([userPass isValid]) {
+        buttonText = @"Logout";
+    }
+    
+    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:buttonText style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonHandler:)];
+    self.navigationItem.rightBarButtonItem = loginButton;
+    [loginButton release];
+
     MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     delegate.navImage = [UIImage imageNamed: @"header_bar_logo"];
     self.navigationItem.title = @"";
     [self.navigationController.navigationBar setNeedsDisplay];
-    
-    /*
-    enum LoginAction actionSave = loginAction;
-    BOOL successSave = loginSuccess;
-     */
-    
-    loginAction = LOGIN_NO_ACTION;
-    loginSuccess = NO;
-    
-    /*
-    if (actionSave == LOGIN_ADD_DISH) {
-        if (successSave) {
-            [self processAddDish];
-        }
-    } else if (actionSave != LOGIN_NO_ACTION) {
-        if (successSave) {
-            [self processMyStuff:loginRow];
-        }
-    }
-     */
 
     [super viewWillAppear:animated];
 }
@@ -252,7 +241,8 @@
 - (void)showLoginPage
 {
     LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-    [self.navigationController pushViewController:loginViewController animated:YES];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    [[self navigationController] presentModalViewController:navController animated:YES];
     [loginViewController release];
 }
 
@@ -413,6 +403,7 @@
                                  userToken, @"&list=follows"];
                     break;
             } // switch
+            NSLog(@"loading url: %@", urlString);
             [self showWebPage:urlString];
             [urlString release];
         }
@@ -480,7 +471,7 @@
             NSLog(@"Delete keychain success!");
         else
             NSLog(@"Delete keychain fail");
-        
+        self.navigationItem.rightBarButtonItem.title = @"Login";
     } else if (indexPath.section == 4) {
         [Login logout];
         if ([Login loginWithUsername:@"test@test.com" andPassword:@"test"]) {
@@ -488,7 +479,7 @@
                 NSLog(@"Save user pass in keychain success!");
             else
                 NSLog(@"Failed to save user pass in keychain");
-                
+            self.navigationItem.rightBarButtonItem.title = @"Logout";
         } else {
             NSLog(@"Login failed");
         }
@@ -535,6 +526,25 @@
 #endif
     
     [super dealloc];
+}
+
+-(void)loginButtonHandler:(id)sender
+{
+    if ([userPass isValid]) {
+        [userPass deleteUser]; 
+        [Login logout];
+        self.navigationItem.rightBarButtonItem.title = @"Login";
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"You have been logged out"
+                                                        message:@""
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
+        [alert release];
+
+    } else {
+        [self showLoginPage];
+    }
 }
 
 @end

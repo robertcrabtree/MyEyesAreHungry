@@ -22,7 +22,6 @@ enum LoginAction {
 @interface RootViewController : UITableViewController <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
     enum LoginAction loginAction;
     NSInteger loginRow;
-    BOOL loginSuccess;
     UserPass *userPass;
     
 #ifdef MEAH_TESTING
@@ -36,6 +35,5 @@ enum LoginAction {
 - (void) processAddDish;
 
 @property (nonatomic) enum LoginAction loginAction;
-@property (nonatomic) BOOL loginSuccess;
 
 @end

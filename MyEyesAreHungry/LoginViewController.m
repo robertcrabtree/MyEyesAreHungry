@@ -12,7 +12,6 @@
 #import "UserPass.h"
 #import "MyEyesAreHungryAppDelegate.h"
 #import "Login.h"
-#import "RootViewController.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -45,6 +44,9 @@
 
 - (void)viewDidLoad
 {
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelLogin:)];
+    self.navigationItem.leftBarButtonItem = cancelButton;
+    [cancelButton release];
     [super viewDidLoad];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -318,13 +320,11 @@
 
             if ([Login loginWithUsername:email andPassword:password]) {
                 [[UserPass sharedUserPass] setUser:email Pass:password];
-                RootViewController *root = [self.navigationController.viewControllers objectAtIndex:0];
-                root.loginSuccess = YES;
                 
                 // re-enable cell selection
                 self.tableView.userInteractionEnabled = YES;
                 
-                [self.navigationController popViewControllerAnimated:YES];
+                [self dismissModalViewControllerAnimated:YES];
             } else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
                                                                 message:@""
@@ -365,6 +365,12 @@
     }
 
     return NO;
+}
+
+
+-(void)cancelLogin:(id) sender
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 
