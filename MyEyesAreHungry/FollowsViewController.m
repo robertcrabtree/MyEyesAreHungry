@@ -87,6 +87,9 @@
 
 - (void)viewDidLoad
 {
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
+    
     selectedNames = [[NSMutableArray alloc] init];
     [self populate];
     [super viewDidLoad];

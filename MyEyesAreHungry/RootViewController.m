@@ -30,6 +30,9 @@
     followsIds = [[NSMutableArray alloc] init];
 #endif
 
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
+
     userPass = [UserPass sharedUserPass];
     [ASIHTTPRequest setShouldUpdateNetworkActivityIndicator:YES]; // have ASI update network status when active
     [super viewDidLoad];

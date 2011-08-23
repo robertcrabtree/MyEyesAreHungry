@@ -30,6 +30,7 @@
 		C54B445013E9EAF30073578C /* UserPass.m in Sources */ = {isa = PBXBuildFile; fileRef = C54B444F13E9EAF30073578C /* UserPass.m */; };
 		C557FEA613F30E6E000AEF78 /* UploadArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = C557FEA513F30E6E000AEF78 /* UploadArrays.m */; };
 		C55FB13113EF747A00ABAD1D /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FB13013EF747A00ABAD1D /* Login.m */; };
+		C5616ED31403305E007408AC /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C5616ED21403305E007408AC /* bg.png */; };
 		C56B272B13E2710000204F6D /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B272913E270FD00204F6D /* WebViewController.m */; };
 		C56B272C13E2710000204F6D /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C56B272A13E270FF00204F6D /* WebViewController.xib */; };
 		C56B274913E27AD100204F6D /* UploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B274713E27AC800204F6D /* UploadViewController.m */; };
@@ -101,6 +102,7 @@
 		C557FEA513F30E6E000AEF78 /* UploadArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadArrays.m; sourceTree = "<group>"; };
 		C55FB12F13EF747A00ABAD1D /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
 		C55FB13013EF747A00ABAD1D /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
+		C5616ED21403305E007408AC /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		C56B272813E270FC00204F6D /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		C56B272913E270FD00204F6D /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		C56B272A13E270FF00204F6D /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 		C5010DE413FF3C1A00D48B3C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C5616ED21403305E007408AC /* bg.png */,
 				C5010DE513FF3C1A00D48B3C /* header_bar.png */,
 				C5010DE613FF3C1A00D48B3C /* header_bar@2x.png */,
 				C5010DE713FF3C1A00D48B3C /* header_bar_logo.png */,
@@ -428,6 +431,7 @@
 				C5010DEA13FF3C1A00D48B3C /* header_bar@2x.png in Resources */,
 				C5010DEB13FF3C1A00D48B3C /* header_bar_logo.png in Resources */,
 				C5010DEC13FF3C1A00D48B3C /* header_bar_logo@2x.png in Resources */,
+				C5616ED31403305E007408AC /* bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

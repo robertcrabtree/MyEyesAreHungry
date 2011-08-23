@@ -73,6 +73,9 @@
 
 - (void)viewDidLoad
 {    
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
+    
     isUsa = YES;
     self.arrays = [[UploadArrays alloc] init];
     self.cellText = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", @"", @"", nil];

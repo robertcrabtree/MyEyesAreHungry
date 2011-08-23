@@ -44,9 +44,13 @@
 
 - (void)viewDidLoad
 {
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
+
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel  target:self action:@selector(cancelLogin:)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     [cancelButton release];
+    
     [super viewDidLoad];
 
     // Uncomment the following line to preserve selection between presentations.
