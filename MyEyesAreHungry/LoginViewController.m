@@ -44,7 +44,7 @@
 
 - (void)viewDidLoad
 {
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelLogin:)];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel  target:self action:@selector(cancelLogin:)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     [cancelButton release];
     [super viewDidLoad];
