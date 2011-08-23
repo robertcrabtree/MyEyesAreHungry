@@ -31,6 +31,7 @@
 		C557FEA613F30E6E000AEF78 /* UploadArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = C557FEA513F30E6E000AEF78 /* UploadArrays.m */; };
 		C55FB13113EF747A00ABAD1D /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FB13013EF747A00ABAD1D /* Login.m */; };
 		C5616ED31403305E007408AC /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C5616ED21403305E007408AC /* bg.png */; };
+		C5616F07140370C5007408AC /* UserImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C5616F06140370C5007408AC /* UserImage.m */; };
 		C56B272B13E2710000204F6D /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B272913E270FD00204F6D /* WebViewController.m */; };
 		C56B272C13E2710000204F6D /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C56B272A13E270FF00204F6D /* WebViewController.xib */; };
 		C56B274913E27AD100204F6D /* UploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B274713E27AC800204F6D /* UploadViewController.m */; };
@@ -103,6 +104,8 @@
 		C55FB12F13EF747A00ABAD1D /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
 		C55FB13013EF747A00ABAD1D /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
 		C5616ED21403305E007408AC /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		C5616F05140370C5007408AC /* UserImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserImage.h; sourceTree = "<group>"; };
+		C5616F06140370C5007408AC /* UserImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserImage.m; sourceTree = "<group>"; };
 		C56B272813E270FC00204F6D /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		C56B272913E270FD00204F6D /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		C56B272A13E270FF00204F6D /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
@@ -243,6 +246,8 @@
 				C56B272913E270FD00204F6D /* WebViewController.m */,
 				C5F27FE313FCE1B900AEB420 /* FollowsViewController.h */,
 				C5F27FE413FCE1B900AEB420 /* FollowsViewController.m */,
+				C5616F05140370C5007408AC /* UserImage.h */,
+				C5616F06140370C5007408AC /* UserImage.m */,
 				18C7286713D7006400995D63 /* Supporting Files */,
 			);
 			path = MyEyesAreHungry;
@@ -490,6 +495,7 @@
 				C5F27FE613FCE1B900AEB420 /* FollowsViewController.m in Sources */,
 				C598ECED13FE2EB900430EEA /* NSDataAdditions.m in Sources */,
 				C598ECEE13FE2EB900430EEA /* TBXML.m in Sources */,
+				C5616F07140370C5007408AC /* UserImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

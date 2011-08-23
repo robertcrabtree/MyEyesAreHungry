@@ -13,6 +13,7 @@
 #import "UploadArrays.h"
 #import "FollowsViewController.h"
 #import "Login.h"
+#import "UserImage.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -53,6 +54,7 @@
 {
     [followsNames release];
     [followsIds release];
+    [userImage release];
 
     self.image = nil;
     self.arrays = nil;
@@ -72,9 +74,12 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
-{    
+{   
+    userImage = [[UserImage alloc] init];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
+    
+    [userImage loadUserImage:self];
     
     isUsa = YES;
     self.arrays = [[UploadArrays alloc] init];

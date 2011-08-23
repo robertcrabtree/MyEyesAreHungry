@@ -10,6 +10,7 @@
 
 @class UploadArrays;
 @class TextCell;
+@class UserImage;
 
 @interface UploadViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource> {
 
@@ -22,6 +23,7 @@
     NSMutableArray *followsNames;
     NSMutableArray *followsIds;
     BOOL isUsa;
+    UserImage *userImage;
 }
 
 @property (retain, nonatomic) UIImage *image;
