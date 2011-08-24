@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class TextImageButton;
+
 @interface LoginViewController : UITableViewController <UIAlertViewDelegate, UITextFieldDelegate> {
+    TextImageButton* loginButton;
 }
 
 @end

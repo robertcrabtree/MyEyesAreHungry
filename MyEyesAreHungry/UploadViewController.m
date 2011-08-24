@@ -14,6 +14,7 @@
 #import "FollowsViewController.h"
 #import "Login.h"
 #import "UserImage.h"
+#import "TextImageButton.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -30,7 +31,6 @@
 #define CELL_SECTION_REST           0
 #define CELL_SECTION_MEAL           1
 #define CELL_SECTION_FOLLOWS        2
-#define CELL_SECTION_UPLOAD         3
 
 #define NUM_REST_FIELDS             4
 #define NUM_MEAL_FIELDS             4
@@ -55,6 +55,7 @@
     [followsNames release];
     [followsIds release];
     [userImage release];
+    [uploadButton release];
 
     self.image = nil;
     self.arrays = nil;
@@ -75,6 +76,14 @@
 
 - (void)viewDidLoad
 {   
+    UIView *buttonView;
+    uploadButton = [[TextImageButton alloc] init];
+    [uploadButton setText:@"Upload"];
+    buttonView = [uploadButton getButtonView];
+    [uploadButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:20];
+    [uploadButton addTarget:self action:@selector(uploadHandler:)];
+    self.tableView.tableFooterView = buttonView;
+
     userImage = [[UserImage alloc] init];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
@@ -138,7 +147,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 4;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -158,23 +167,12 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-        case 0:
-        case 1:
-        case 2:
-            cell.backgroundColor = [UIColor whiteColor];
-            break;
-            
-        default:
-            cell.backgroundColor = [UIColor brownColor];
-            break;
-    }
+    cell.backgroundColor = [UIColor whiteColor];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *FollowsCellID = @"FollowsCellID";
-    static NSString *UploadCellID = @"UploadCellID";
     
     UITableViewCell *cell;
     
@@ -183,8 +181,6 @@
         cell = [tableView dequeueReusableCellWithIdentifier:TextCellID];
     else if (indexPath.section == 2)
         cell = [tableView dequeueReusableCellWithIdentifier:FollowsCellID];
-    else
-        cell = [tableView dequeueReusableCellWithIdentifier:UploadCellID];
     
     // create cell
     if (cell == nil) {
@@ -192,8 +188,6 @@
             cell = [TextCell cellFromNib];
         else if (indexPath.section == 2)
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:FollowsCellID] autorelease];
-        else
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:UploadCellID] autorelease];
     }
     
     // configure cell
@@ -235,11 +229,6 @@
         cell.textLabel.text = @"Eaten with";
         cell.textLabel.textAlignment = UITextAlignmentLeft;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    } else {
-        cell.tag = INDEX_TO_TAG(arrays.placeholders.count + 1);
-        cell.textLabel.text = @"Upload";
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     return cell;
@@ -570,38 +559,6 @@
         followsViewController.followsIds = followsIds;
         [self.navigationController pushViewController:followsViewController animated:YES];
         [followsViewController release];
-    } else {
-        
-        // remove the blue color
-        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-        
-        // disable cell selection until upload complete
-        self.tableView.userInteractionEnabled = NO;
-
-        if ([self isValidData]) {
-            if ([self upload]) {
-                
-                // re-enable cell selection
-                self.tableView.userInteractionEnabled = YES;
-                
-                // pop view controller (back to root view)
-                [self.navigationController popViewControllerAnimated:YES];
-                
-            } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
-                                                                message:@""
-                                                               delegate:nil
-                                                      cancelButtonTitle:nil
-                                                      otherButtonTitles:@"OK", nil];
-                [alert show];
-                [alert release];
-            }
-            
-        }
-        
-        // re-enable cell selection
-        self.tableView.userInteractionEnabled = YES;
-
     }
 }
 
@@ -732,6 +689,36 @@
             }
         }
     }
+}
+
+-(void)uploadHandler:(id)sender
+{
+    // disable cell selection until upload complete
+    self.tableView.userInteractionEnabled = NO;
+    
+    if ([self isValidData]) {
+        if ([self upload]) {
+            
+            // re-enable cell selection
+            self.tableView.userInteractionEnabled = YES;
+            
+            // pop view controller (back to root view)
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
+                                                            message:@""
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"OK", nil];
+            [alert show];
+            [alert release];
+        }
+        
+    }
+    
+    // re-enable cell selection
+    self.tableView.userInteractionEnabled = YES;
 }
 
 @end

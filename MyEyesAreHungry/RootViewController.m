@@ -14,10 +14,7 @@
 #import "MyEyesAreHungryAppDelegate.h"
 #import "Login.h"
 #import "ASIHTTPRequest.h"
-
-#ifdef MEAH_TESTING
-#import "FollowsViewController.h"
-#endif
+#import "TextImageButton.h"
 
 @implementation RootViewController
 
@@ -25,11 +22,14 @@
 
 - (void)viewDidLoad
 {
-#ifdef MEAH_TESTING
-    followsNames = [[NSMutableArray alloc] init];
-    followsIds = [[NSMutableArray alloc] init];
-#endif
-
+    UIView *buttonView;
+    addButton = [[TextImageButton alloc] init];
+    [addButton setText:@"Add a Dish"];
+    buttonView = [addButton getButtonView];
+    [addButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:20];
+    [addButton addTarget:self action:@selector(addDishHandler:)];
+    self.tableView.tableFooterView = buttonView;
+    
     self.tableView.backgroundColor = [UIColor clearColor];
     self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
 
@@ -86,11 +86,7 @@
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#ifdef MEAH_TESTING
-    return 7;
-#else
-    return 3;
-#endif
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -100,28 +96,13 @@
             return 2;
         case 1:
             return 4;
-        case 2:
-            return 1;
-#ifdef MEAH_TESTING
-        default:
-            return 1;
-#endif
     }
     return 0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-        case 0:
-        case 1:
-            cell.backgroundColor = [UIColor whiteColor];
-            break;
-            
-        default:
-            cell.backgroundColor = [UIColor brownColor];
-            break;
-    }
+    cell.backgroundColor = [UIColor whiteColor];
 }
 
  // Customize the appearance of table view cells.
@@ -154,32 +135,7 @@
         }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.textAlignment = UITextAlignmentLeft;
-    } else if (indexPath.section == 2) {
-        cell.textLabel.text = @"Add a Dish";
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.accessoryType = UITableViewCellAccessoryNone;
     }
-    
-#ifdef MEAH_TESTING
-    else if (indexPath.section == 3) {
-        cell.textLabel.text = [NSString stringWithFormat:@"Clear user: %@", [userPass username]];
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    } else if (indexPath.section == 4) {
-        cell.textLabel.text = @"Login";
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    } else if (indexPath.section == 5) {
-        cell.textLabel.text = @"Fast upload";
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    } else if (indexPath.section == 6) {
-        cell.textLabel.text = @"Follows testing";
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-#endif
-
     return cell;
 }
 
@@ -463,49 +419,7 @@
         [self processRecents:indexPath.row];
     } else if (indexPath.section == 1) {
         [self processMyStuff:indexPath.row];
-    } else if (indexPath.section == 2) {
-        [self processAddDish];
     }
-    
-#ifdef MEAH_TESTING
-    else if (indexPath.section == 3) {
-        [Login logout];
-        if ([userPass deleteUser])
-            NSLog(@"Delete keychain success!");
-        else
-            NSLog(@"Delete keychain fail");
-        self.navigationItem.rightBarButtonItem.title = @"Login";
-    } else if (indexPath.section == 4) {
-        [Login logout];
-        if ([Login loginWithUsername:@"test@test.com" andPassword:@"test"]) {
-            if ([userPass setUser:@"test@test.com" Pass:@"test"])
-                NSLog(@"Save user pass in keychain success!");
-            else
-                NSLog(@"Failed to save user pass in keychain");
-            self.navigationItem.rightBarButtonItem.title = @"Logout";
-        } else {
-            NSLog(@"Login failed");
-        }
-    } else if (indexPath.section == 5) {
-        [Login logout];
-        if ([Login loginWithUsername:@"test@test.com" andPassword:@"test"])
-            [self showUploadPage:[UIImage imageNamed: @"frank.jpeg"]];
-        else
-            NSLog(@"Login failed");
-    } else if (indexPath.section == 6) {
-        [Login logout];
-        NSString *userToken = [Login loginWithUsername:@"test@test.com" andPassword:@"test"];
-        if (userToken) {
-            FollowsViewController *followsViewController = [[FollowsViewController alloc] initWithNibName:@"FollowsViewController" bundle:nil];
-            followsViewController.followsNames = followsNames;
-            followsViewController.followsIds = followsIds;
-            [self.navigationController pushViewController:followsViewController animated:YES];
-            [followsViewController release];
-        } else {
-            NSLog(@"Login failed");
-        }
-    }
-#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -523,11 +437,7 @@
 
 - (void)dealloc
 {
-#ifdef MEAH_TESTING
-    [followsNames release];
-    [followsIds release];
-#endif
-    
+    [addButton release];
     [super dealloc];
 }
 
@@ -548,6 +458,11 @@
     } else {
         [self showLoginPage];
     }
+}
+
+-(void)addDishHandler:(id)sender
+{
+    [self processAddDish];
 }
 
 @end

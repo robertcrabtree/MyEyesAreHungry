@@ -11,6 +11,7 @@
 @class UploadArrays;
 @class TextCell;
 @class UserImage;
+@class TextImageButton;
 
 @interface UploadViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource> {
 
@@ -24,6 +25,7 @@
     NSMutableArray *followsIds;
     BOOL isUsa;
     UserImage *userImage;
+    TextImageButton *uploadButton;
 }
 
 @property (retain, nonatomic) UIImage *image;

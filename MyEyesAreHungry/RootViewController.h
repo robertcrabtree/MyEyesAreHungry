@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class UserPass;
+@class TextImageButton;
 
 enum LoginAction {
     LOGIN_NO_ACTION,
@@ -23,11 +24,7 @@ enum LoginAction {
     enum LoginAction loginAction;
     NSInteger loginRow;
     UserPass *userPass;
-    
-#ifdef MEAH_TESTING
-    NSMutableArray *followsNames;
-    NSMutableArray *followsIds;
-#endif
+    TextImageButton *addButton;
 }
 
 - (void) processMyStuff:(NSInteger)row;

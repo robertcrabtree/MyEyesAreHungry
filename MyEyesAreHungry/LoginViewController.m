@@ -12,6 +12,7 @@
 #import "UserPass.h"
 #import "MyEyesAreHungryAppDelegate.h"
 #import "Login.h"
+#import "TextImageButton.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -29,6 +30,7 @@
 
 - (void)dealloc
 {
+    [loginButton release];
     [super dealloc];
 }
 
@@ -44,6 +46,14 @@
 
 - (void)viewDidLoad
 {
+    UIView *buttonView;
+    loginButton = [[TextImageButton alloc] init];
+    [loginButton setText:@"Login"];
+    buttonView = [loginButton getButtonView];
+    [loginButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:20];
+    [loginButton addTarget:self action:@selector(loginHandler:)];
+    self.tableView.tableFooterView = buttonView;
+
     self.tableView.backgroundColor = [UIColor clearColor];
     self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
 
@@ -99,7 +109,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -112,15 +122,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-        case 0:
-            cell.backgroundColor = [UIColor whiteColor];
-            break;
-            
-        default:
-            cell.backgroundColor = [UIColor brownColor];
-            break;
-    }
+    cell.backgroundColor = [UIColor whiteColor];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -140,8 +142,6 @@
         if (indexPath.section == 0) {
             TextCell *textCell = [TextCell cellFromNib];
             cell = textCell;
-        } else if (indexPath.section == 1) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         } else {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         }
@@ -163,16 +163,13 @@
             textCell.textField.secureTextEntry = YES;
             textCell.tag = INDEX_TO_TAG(1);
         }
+        textCell.accessoryType = UITableViewCellAccessoryNone;
         textCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         textCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
         textCell.textField.delegate = self;
-    } else if (indexPath.section == 1) {
-        cell.textLabel.text = @"Login";
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.tag = INDEX_TO_TAG(2);
     } else {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = @"Create New account";
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
         cell.tag = INDEX_TO_TAG(3);
     }
     
@@ -181,8 +178,8 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == 2)
-        return @"Need a Login?";
+//    if (section == 1)
+//        return @"Need a Login?";
     return @"";
 }
 
@@ -307,45 +304,7 @@
     if (indexPath.section == 0) {
             TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
             [cell.textField becomeFirstResponder];
-    } else if (indexPath.section == 1) {
-        
-        // remove the blue color
-        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-        
-        // disable cell selection until login complete
-        self.tableView.userInteractionEnabled = NO;
-        
-        TextCell *emailCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(0)];
-        TextCell *passCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(1)];
-        NSString *email = emailCell.textField.text;
-        NSString *password = passCell.textField.text;
-
-        if ([self isValidData]) {
-
-            if ([Login loginWithUsername:email andPassword:password]) {
-                [[UserPass sharedUserPass] setUser:email Pass:password];
-                
-                // re-enable cell selection
-                self.tableView.userInteractionEnabled = YES;
-                
-                [self dismissModalViewControllerAnimated:YES];
-            } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
-                                                                message:@""
-                                                               delegate:nil
-                                                      cancelButtonTitle:nil
-                                                      otherButtonTitles:@"OK", nil];
-                [alert show];
-                [alert release];
-                
-            }
-        }
-        
-        // re-enable cell selection
-        self.tableView.userInteractionEnabled = YES;
-        
-    } else if (indexPath.section == 2) {
-        
+    } else {        
         // remove the blue color
         [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 
@@ -371,6 +330,41 @@
     return NO;
 }
 
+-(void)loginHandler:(id)sender
+{
+    
+    // disable cell selection until login complete
+    self.tableView.userInteractionEnabled = NO;
+    
+    TextCell *emailCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(0)];
+    TextCell *passCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(1)];
+    NSString *email = emailCell.textField.text;
+    NSString *password = passCell.textField.text;
+    
+    if ([self isValidData]) {
+        
+        if ([Login loginWithUsername:email andPassword:password]) {
+            [[UserPass sharedUserPass] setUser:email Pass:password];
+            
+            // re-enable cell selection
+            self.tableView.userInteractionEnabled = YES;
+            
+            [self dismissModalViewControllerAnimated:YES];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
+                                                            message:@""
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"OK", nil];
+            [alert show];
+            [alert release];
+            
+        }
+    }
+    
+    // re-enable cell selection
+    self.tableView.userInteractionEnabled = YES;
+}
 
 -(void)cancelLogin:(id) sender
 {
