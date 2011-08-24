@@ -25,8 +25,12 @@
         CGRect buttonFrame = CGRectMake(0, 0, buttonWidth, buttonHeight);
         button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = buttonFrame;
-        [button setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
+        // light brown
+        [button setTitleColor: [UIColor colorWithRed:220/255.0 green:195/255.0 blue:135/255.0 alpha:1] forState:UIControlStateHighlighted];
         
+        // gray
+//        [button setTitleColor: [UIColor colorWithRed:204/255.0 green:204/255.0 blue:204/255.0 alpha:1] forState:UIControlStateHighlighted];
+
         imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, imageWidth, imageHeight)];
         [imageView setImage:image];
         
