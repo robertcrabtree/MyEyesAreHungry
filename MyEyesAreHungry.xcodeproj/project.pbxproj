@@ -38,6 +38,9 @@
 		C56B274A13E27AD100204F6D /* UploadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C56B274813E27ACB00204F6D /* UploadViewController.xib */; };
 		C57C4DE713E4CB32000933B9 /* TextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C57C4DE513E4CB32000933B9 /* TextCell.xib */; };
 		C57C4DEB13E4CE56000933B9 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C57C4DEA13E4CE56000933B9 /* TextCell.m */; };
+		C57CF4A014049FF000CA6CCB /* TextImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C57CF49F14049FF000CA6CCB /* TextImageButton.m */; };
+		C57CF4A41404A04100CA6CCB /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = C57CF4A21404A04100CA6CCB /* button.png */; };
+		C57CF4A51404A04100CA6CCB /* button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C57CF4A31404A04100CA6CCB /* button@2x.png */; };
 		C5838CA013E4DB340091FD2F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5838C9E13E4DB340091FD2F /* LoginViewController.m */; };
 		C5838CA113E4DB340091FD2F /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5838C9F13E4DB340091FD2F /* LoginViewController.xib */; };
 		C598ECED13FE2EB900430EEA /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C598ECEA13FE2EB900430EEA /* NSDataAdditions.m */; };
@@ -115,6 +118,10 @@
 		C57C4DE513E4CB32000933B9 /* TextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextCell.xib; sourceTree = "<group>"; };
 		C57C4DE913E4CE56000933B9 /* TextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
 		C57C4DEA13E4CE56000933B9 /* TextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCell.m; sourceTree = "<group>"; };
+		C57CF49E14049FF000CA6CCB /* TextImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextImageButton.h; sourceTree = "<group>"; };
+		C57CF49F14049FF000CA6CCB /* TextImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextImageButton.m; sourceTree = "<group>"; };
+		C57CF4A21404A04100CA6CCB /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
+		C57CF4A31404A04100CA6CCB /* button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button@2x.png"; sourceTree = "<group>"; };
 		C5838C9D13E4DB340091FD2F /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		C5838C9E13E4DB340091FD2F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C5838C9F13E4DB340091FD2F /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -248,6 +255,8 @@
 				C5F27FE413FCE1B900AEB420 /* FollowsViewController.m */,
 				C5616F05140370C5007408AC /* UserImage.h */,
 				C5616F06140370C5007408AC /* UserImage.m */,
+				C57CF49E14049FF000CA6CCB /* TextImageButton.h */,
+				C57CF49F14049FF000CA6CCB /* TextImageButton.m */,
 				18C7286713D7006400995D63 /* Supporting Files */,
 			);
 			path = MyEyesAreHungry;
@@ -295,6 +304,8 @@
 		C5010DE413FF3C1A00D48B3C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C57CF4A21404A04100CA6CCB /* button.png */,
+				C57CF4A31404A04100CA6CCB /* button@2x.png */,
 				C5616ED21403305E007408AC /* bg.png */,
 				C5010DE513FF3C1A00D48B3C /* header_bar.png */,
 				C5010DE613FF3C1A00D48B3C /* header_bar@2x.png */,
@@ -437,6 +448,8 @@
 				C5010DEB13FF3C1A00D48B3C /* header_bar_logo.png in Resources */,
 				C5010DEC13FF3C1A00D48B3C /* header_bar_logo@2x.png in Resources */,
 				C5616ED31403305E007408AC /* bg.png in Resources */,
+				C57CF4A41404A04100CA6CCB /* button.png in Resources */,
+				C57CF4A51404A04100CA6CCB /* button@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +509,7 @@
 				C598ECED13FE2EB900430EEA /* NSDataAdditions.m in Sources */,
 				C598ECEE13FE2EB900430EEA /* TBXML.m in Sources */,
 				C5616F07140370C5007408AC /* UserImage.m in Sources */,
+				C57CF4A014049FF000CA6CCB /* TextImageButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,6 +582,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "";
+				"OTHER_CFLAGS[arch=*]" = "-DMEAH_TESTING";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
