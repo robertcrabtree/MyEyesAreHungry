@@ -15,10 +15,17 @@
 #import "Login.h"
 #import "ASIHTTPRequest.h"
 #import "TextImageButton.h"
+#import "NavDeli.h"
+#import "BarButtonGen.h"
 
 @implementation RootViewController
 
 @synthesize loginAction;
+
+-(void)setLoginButtonText:(NSString *)text
+{
+    [buttonGen setTitle:text];
+}
 
 - (void)viewDidLoad
 {
@@ -32,9 +39,15 @@
     
     self.tableView.backgroundColor = [UIColor clearColor];
     self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
+    
+    self.navigationController.delegate = [NavDeli sharedNavDeli];
 
     userPass = [UserPass sharedUserPass];
     [ASIHTTPRequest setShouldUpdateNetworkActivityIndicator:YES]; // have ASI update network status when active
+    
+    buttonGen = [[BarButtonGen alloc] init];
+    self.navigationItem.rightBarButtonItem = [buttonGen generateWithImage:@"nav_rect" title:@"" target:self action:@selector(loginButtonHandler:)];
+
     [super viewDidLoad];
 }
 
@@ -45,9 +58,7 @@
         buttonText = @"Logout";
     }
     
-    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:buttonText style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonHandler:)];
-    self.navigationItem.rightBarButtonItem = loginButton;
-    [loginButton release];
+    [self setLoginButtonText:buttonText];
 
     MyEyesAreHungryAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     delegate.navImage = [UIImage imageNamed: @"header_bar_logo"];
@@ -437,6 +448,7 @@
 
 - (void)dealloc
 {
+    [buttonGen release];
     [addButton release];
     [super dealloc];
 }
@@ -446,7 +458,7 @@
     if ([userPass isValid]) {
         [userPass deleteUser]; 
         [Login logout];
-        self.navigationItem.rightBarButtonItem.title = @"Login";
+        [self setLoginButtonText:@"Login"];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"You have been logged out"
                                                         message:@""
                                                        delegate:nil

@@ -13,11 +13,14 @@
 #import "MyEyesAreHungryAppDelegate.h"
 #import "Login.h"
 #import "TextImageButton.h"
+#import "NavDeli.h"
+#import "BarButtonGen.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
 
 @implementation LoginViewController
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -47,6 +50,8 @@
 - (void)viewDidLoad
 {
     UIView *buttonView;
+    
+    self.navigationController.delegate = [NavDeli sharedNavDeli];
     loginButton = [[TextImageButton alloc] init];
     [loginButton setText:@"Login"];
     buttonView = [loginButton getButtonView];
@@ -56,11 +61,11 @@
 
     self.tableView.backgroundColor = [UIColor clearColor];
     self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
-
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel  target:self action:@selector(cancelLogin:)];
-    self.navigationItem.leftBarButtonItem = cancelButton;
-    [cancelButton release];
     
+    BarButtonGen *buttonGen = [[BarButtonGen alloc] init];
+    self.navigationItem.leftBarButtonItem = [buttonGen generateWithImage:@"nav_rect" title:@"Cancel" target:self action:@selector(cancelLogin:)];
+    [buttonGen release];
+
     [super viewDidLoad];
 
     // Uncomment the following line to preserve selection between presentations.

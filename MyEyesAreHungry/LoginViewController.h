@@ -10,7 +10,7 @@
 
 @class TextImageButton;
 
-@interface LoginViewController : UITableViewController <UIAlertViewDelegate, UITextFieldDelegate> {
+@interface LoginViewController : UITableViewController <UIAlertViewDelegate, UITextFieldDelegate, UINavigationControllerDelegate> {
     TextImageButton* loginButton;
 }
 

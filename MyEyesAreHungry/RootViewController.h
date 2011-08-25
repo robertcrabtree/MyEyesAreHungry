@@ -10,6 +10,7 @@
 
 @class UserPass;
 @class TextImageButton;
+@class BarButtonGen;
 
 enum LoginAction {
     LOGIN_NO_ACTION,
@@ -25,6 +26,7 @@ enum LoginAction {
     NSInteger loginRow;
     UserPass *userPass;
     TextImageButton *addButton;
+    BarButtonGen *buttonGen;
 }
 
 - (void) processMyStuff:(NSInteger)row;
