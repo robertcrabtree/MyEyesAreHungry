@@ -19,6 +19,41 @@
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
 
+/********************************************************/
+@interface ClickableLabel : UILabel {
+    UITableViewController *tableViewController;
+}
+
+@property (nonatomic, retain) UITableViewController *tableViewController;
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
+
+@end
+/********************************************************/
+@implementation ClickableLabel
+
+@synthesize tableViewController;
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"label touch begin");
+    self.textColor = [UIColor blueColor];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"label touch end");
+    self.textColor = [UIColor brownColor];
+    WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+    webViewController.urlString = @"http://www.myeyesarehungry.com/join.php";
+    [tableViewController.navigationController pushViewController:webViewController animated:YES];
+    [webViewController release];
+}
+
+@end
+/********************************************************/
+
 @implementation LoginViewController
 
 
@@ -59,6 +94,21 @@
     [loginButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:20];
     [loginButton addTarget:self action:@selector(loginHandler:)];
     self.tableView.tableFooterView = buttonView;
+    
+    float labelHeight = 14;
+    ClickableLabel *label = [[ClickableLabel alloc] initWithFrame:CGRectMake(15, buttonView.frame.size.height + 20, buttonView.frame.size.width, labelHeight)];
+    label.text = @"Create an Account";
+    label.textAlignment = UITextAlignmentLeft;
+    label.textColor = [UIColor brownColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.tableViewController = self;
+    label.userInteractionEnabled = YES;
+    
+    CGRect frame = buttonView.frame;
+    frame.size.height += labelHeight + 60;
+    buttonView.frame = frame;
+    [buttonView addSubview:label];
+    [label release];
 
     self.tableView.backgroundColor = [UIColor clearColor];
     self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
@@ -117,15 +167,13 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (section == 0)
-        return 2;
-    return 1;
+    return 2;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -156,45 +204,30 @@
     }
     
     // configure cell
-    if (indexPath.section == 0) {
-        TextCell *textCell = (TextCell *) cell;
-        if (indexPath.row == 0) {
-            textCell.textField.placeholder = @"Email";
-            textCell.textField.returnKeyType = UIReturnKeyNext;
-            textCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-            textCell.textField.secureTextEntry = NO;
-            textCell.textField.text = [cellText objectAtIndex:indexPath.row];
-            [textCell.textField addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
-            textCell.textField.tag = 0;
-            textCell.tag = INDEX_TO_TAG(0);
-        } else {
-            textCell.textField.placeholder = @"Password";
-            textCell.textField.returnKeyType = UIReturnKeyDone;
-            textCell.textField.keyboardType = UIKeyboardTypeDefault;
-            textCell.textField.secureTextEntry = YES;
-            textCell.textField.text = [cellText objectAtIndex:indexPath.row];
-            [textCell.textField addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
-            textCell.textField.tag = 1;
-            textCell.tag = INDEX_TO_TAG(1);
-        }
-        textCell.accessoryType = UITableViewCellAccessoryNone;
-        textCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        textCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-        textCell.textField.delegate = self;
+    TextCell *textCell = (TextCell *) cell;
+    if (indexPath.row == 0) {
+        textCell.textField.placeholder = @"Email";
+        textCell.textField.returnKeyType = UIReturnKeyNext;
+        textCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
+        textCell.textField.secureTextEntry = NO;
     } else {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.textLabel.text = @"Create New account";
-        cell.tag = INDEX_TO_TAG(3);
+        textCell.textField.placeholder = @"Password";
+        textCell.textField.returnKeyType = UIReturnKeyDone;
+        textCell.textField.keyboardType = UIKeyboardTypeDefault;
+        textCell.textField.secureTextEntry = YES;
     }
     
-    return cell;
-}
+    textCell.textField.text = [cellText objectAtIndex:indexPath.row];
+    [textCell.textField addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
+    textCell.textField.tag = indexPath.row;
+    textCell.tag = INDEX_TO_TAG(indexPath.row);
+    
+    textCell.accessoryType = UITableViewCellAccessoryNone;
+    textCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    textCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    textCell.textField.delegate = self;
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-//    if (section == 1)
-//        return @"Need a Login?";
-    return @"";
+    return cell;
 }
 
 /*
@@ -312,19 +345,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    if (indexPath.section == 0) {
-            TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
-            [cell.textField becomeFirstResponder];
-    } else {        
-        // remove the blue color
-        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-
-        WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
-        webViewController.urlString = @"http://www.myeyesarehungry.com/join.php";
-        [self.navigationController pushViewController:webViewController animated:YES];
-        [webViewController release];
-    }
+    TextCell *cell = (TextCell *) [tableView cellForRowAtIndexPath:indexPath];
+    [cell.textField becomeFirstResponder];
 }
 
 - (void)textChange:(id)sender
@@ -388,6 +410,5 @@
 {
     [self dismissModalViewControllerAnimated:YES];
 }
-
 
 @end
