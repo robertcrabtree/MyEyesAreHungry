@@ -34,6 +34,7 @@
 - (void)dealloc
 {
     [loginButton release];
+    [cellText release];
     [super dealloc];
 }
 
@@ -65,6 +66,8 @@
     BarButtonGen *buttonGen = [[BarButtonGen alloc] init];
     self.navigationItem.leftBarButtonItem = [buttonGen generateWithImage:@"nav_rect" title:@"Cancel" target:self action:@selector(cancelLogin:)];
     [buttonGen release];
+    
+    cellText = [[NSMutableArray alloc] initWithObjects:@"", @"", nil];
 
     [super viewDidLoad];
 
@@ -160,12 +163,18 @@
             textCell.textField.returnKeyType = UIReturnKeyNext;
             textCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
             textCell.textField.secureTextEntry = NO;
+            textCell.textField.text = [cellText objectAtIndex:indexPath.row];
+            [textCell.textField addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
+            textCell.textField.tag = 0;
             textCell.tag = INDEX_TO_TAG(0);
         } else {
             textCell.textField.placeholder = @"Password";
             textCell.textField.returnKeyType = UIReturnKeyDone;
             textCell.textField.keyboardType = UIKeyboardTypeDefault;
             textCell.textField.secureTextEntry = YES;
+            textCell.textField.text = [cellText objectAtIndex:indexPath.row];
+            [textCell.textField addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
+            textCell.textField.tag = 1;
             textCell.tag = INDEX_TO_TAG(1);
         }
         textCell.accessoryType = UITableViewCellAccessoryNone;
@@ -247,10 +256,8 @@
 
 -(BOOL)isValidData
 {
-    TextCell *emailCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(0)];
-    TextCell *passCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(1)];
-    NSString *email = emailCell.textField.text;
-    NSString *password = passCell.textField.text;
+    NSString *email = [cellText objectAtIndex:0];
+    NSString *password = [cellText objectAtIndex:1];
     
     if (email == nil || email.length < 7 ||
         [email rangeOfString:@"@"].location == NSNotFound ||
@@ -318,6 +325,12 @@
         [self.navigationController pushViewController:webViewController animated:YES];
         [webViewController release];
     }
+}
+
+- (void)textChange:(id)sender
+{
+    UITextField *textField = (UITextField *) sender;
+    [cellText replaceObjectAtIndex:textField.tag withObject:textField.text];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

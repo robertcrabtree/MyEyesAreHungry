@@ -204,6 +204,8 @@
         textCell.textField.returnKeyType = UIReturnKeyNext;
         textCell.textField.keyboardType = UIKeyboardTypeDefault;
         textCell.textField.text = [cellText objectAtIndex:indexPath.row];
+        [textCell.textField addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
+        textCell.textField.tag = indexPath.row;
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (indexPath.section == 1) {
         TextCell *textCell = (TextCell *) cell;
@@ -218,7 +220,8 @@
             textCell.textField.returnKeyType = UIReturnKeyNext;
             textCell.textField.keyboardType = UIKeyboardTypeDefault;
         }
-
+        [textCell.textField addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
+        textCell.textField.tag = indexPath.row + NUM_REST_FIELDS;
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if (indexPath.section == CELL_SECTION_FOLLOWS) {
         cell.tag = INDEX_TO_TAG(arrays.placeholders.count);
@@ -560,6 +563,13 @@
         [self.navigationController pushViewController:followsViewController animated:YES];
         [followsViewController release];
     }
+}
+
+- (void)textChange:(id)sender
+{
+    UITextField *textField = (UITextField *) sender;
+    [cellText replaceObjectAtIndex:textField.tag withObject:textField.text];
+    NSLog(@"text=%@", textField.text);
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField

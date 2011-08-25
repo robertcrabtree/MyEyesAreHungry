@@ -12,6 +12,7 @@
 
 @interface LoginViewController : UITableViewController <UIAlertViewDelegate, UITextFieldDelegate, UINavigationControllerDelegate> {
     TextImageButton* loginButton;
+    NSMutableArray *cellText;
 }
 
 @end
