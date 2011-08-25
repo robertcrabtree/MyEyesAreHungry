@@ -23,7 +23,8 @@
         button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = buttonFrame;
         [button setBackgroundImage:image forState:UIControlStateNormal];
-        
+        button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, buttonWidth, buttonHeight)];
 //        view.backgroundColor = [UIColor greenColor];
 
