@@ -10,7 +10,8 @@
 
 
 @interface BarButtonGen : NSObject {
-    
+    UIButton *button;
 }
-
+-(UIBarButtonItem *)generateWithImage:(NSString *)imageName title:(NSString *)title target:(id)target action:(SEL)action;
+-(void)setTitle:(NSString *)title;
 @end
