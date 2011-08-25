@@ -12,7 +12,6 @@
 @interface TextImageButton : NSObject {
     UIView *view;
     UIButton *button;
-    UIImageView *imageView;
 }
 - (id)init;
 - (void)setText:(NSString *)text;

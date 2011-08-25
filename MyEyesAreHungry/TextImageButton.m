@@ -17,27 +17,16 @@
     {
         UIImage *image = [UIImage imageNamed:@"button"];
         
-        float imageWidth = image.size.width;
-        float imageHeight = image.size.height;
-        
-        float buttonWidth = imageWidth;
-        float buttonHeight = imageHeight;
+        float buttonWidth = image.size.width;
+        float buttonHeight = image.size.height;
         CGRect buttonFrame = CGRectMake(0, 0, buttonWidth, buttonHeight);
         button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = buttonFrame;
-        // light brown
-        [button setTitleColor: [UIColor colorWithRed:220/255.0 green:195/255.0 blue:135/255.0 alpha:1] forState:UIControlStateHighlighted];
-        
-        // gray
-//        [button setTitleColor: [UIColor colorWithRed:204/255.0 green:204/255.0 blue:204/255.0 alpha:1] forState:UIControlStateHighlighted];
-
-        imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, imageWidth, imageHeight)];
-        [imageView setImage:image];
+        [button setBackgroundImage:image forState:UIControlStateNormal];
         
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, buttonWidth, buttonHeight)];
 //        view.backgroundColor = [UIColor greenColor];
-        
-        [button addSubview:imageView];
+
         [view addSubview:button];
     }
     return self;
@@ -66,7 +55,6 @@
 
 -(void)dealloc
 {
-    [imageView release];
     [view release];
     [super dealloc];
 }
