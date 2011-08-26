@@ -15,6 +15,7 @@
 #import "TextImageButton.h"
 #import "NavDeli.h"
 #import "BarButtonGen.h"
+#import "Reachability.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -44,7 +45,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"label touch end");
-    self.textColor = [UIColor brownColor];
+    self.textColor = [UIColor blackColor];
     WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
     webViewController.urlString = @"http://www.myeyesarehungry.com/join.php";
     [tableViewController.navigationController pushViewController:webViewController animated:YES];
@@ -99,7 +100,7 @@
     ClickableLabel *label = [[ClickableLabel alloc] initWithFrame:CGRectMake(15, buttonView.frame.size.height + 20, buttonView.frame.size.width, labelHeight)];
     label.text = @"Create an Account";
     label.textAlignment = UITextAlignmentLeft;
-    label.textColor = [UIColor brownColor];
+    label.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor clearColor];
     label.tableViewController = self;
     label.userInteractionEnabled = YES;
@@ -382,23 +383,33 @@
     NSString *password = passCell.textField.text;
     
     if ([self isValidData]) {
-        
-        if ([Login loginWithUsername:email andPassword:password]) {
-            [[UserPass sharedUserPass] setUser:email Pass:password];
-            
-            // re-enable cell selection
-            self.tableView.userInteractionEnabled = YES;
-            
-            [self dismissModalViewControllerAnimated:YES];
+        Reachability *network = [Reachability reachabilityForLocalWiFi];
+        if ([network currentReachabilityStatus] != kNotReachable) {
+            if ([Login loginWithUsername:email andPassword:password]) {
+                [[UserPass sharedUserPass] setUser:email Pass:password];
+                
+                // re-enable cell selection
+                self.tableView.userInteractionEnabled = YES;
+                
+                [self dismissModalViewControllerAnimated:YES];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
+                                                                message:@"Invalid username or password"
+                                                               delegate:nil
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"OK", nil];
+                [alert show];
+                [alert release];
+                
+            }
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to reach server"
                                                             message:@""
                                                            delegate:nil
                                                   cancelButtonTitle:nil
                                                   otherButtonTitles:@"OK", nil];
             [alert show];
             [alert release];
-            
         }
     }
     

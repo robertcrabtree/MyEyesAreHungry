@@ -9,6 +9,7 @@
 #import "FollowsViewController.h"
 #import "ASIFormDataRequest.h"
 #import "Login.h"
+#import "Reachability.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -91,7 +92,19 @@
     self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
     
     selectedNames = [[NSMutableArray alloc] init];
-    [self populate];
+    
+    Reachability *network = [Reachability reachabilityForLocalWiFi];
+    if ([network currentReachabilityStatus] != kNotReachable) {
+        [self populate];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to reach server"
+                                                        message:@""
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
+        [alert release];
+    }
     [super viewDidLoad];
 }
 

@@ -15,6 +15,7 @@
 #import "Login.h"
 #import "UserImage.h"
 #import "TextImageButton.h"
+#import "Reachability.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -705,18 +706,29 @@
 {
     // disable cell selection until upload complete
     self.tableView.userInteractionEnabled = NO;
-    
+
     if ([self isValidData]) {
-        if ([self upload]) {
-            
-            // re-enable cell selection
-            self.tableView.userInteractionEnabled = YES;
-            
-            // pop view controller (back to root view)
-            [self.navigationController popViewControllerAnimated:YES];
-            
+        Reachability *network = [Reachability reachabilityForLocalWiFi];
+        if ([network currentReachabilityStatus] != kNotReachable) {
+            if ([self upload]) {
+                
+                // re-enable cell selection
+                self.tableView.userInteractionEnabled = YES;
+                
+                // pop view controller (back to root view)
+                [self.navigationController popViewControllerAnimated:YES];
+                
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
+                                                                message:@""
+                                                               delegate:nil
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"OK", nil];
+                [alert show];
+                [alert release];
+            }
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to reach server"
                                                             message:@""
                                                            delegate:nil
                                                   cancelButtonTitle:nil
@@ -724,7 +736,6 @@
             [alert show];
             [alert release];
         }
-        
     }
     
     // re-enable cell selection

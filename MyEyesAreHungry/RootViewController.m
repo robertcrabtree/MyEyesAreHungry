@@ -17,6 +17,7 @@
 #import "TextImageButton.h"
 #import "NavDeli.h"
 #import "BarButtonGen.h"
+#import "Reachability.h"
 
 @implementation RootViewController
 
@@ -47,6 +48,17 @@
     
     buttonGen = [[BarButtonGen alloc] init];
     self.navigationItem.rightBarButtonItem = [buttonGen generateWithImage:@"nav_rect" title:@"" target:self action:@selector(loginButtonHandler:)];
+    
+    Reachability *network = [Reachability reachabilityForLocalWiFi];
+    if ([network currentReachabilityStatus] == kNotReachable) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"This application requires an internet connection. Please connect to a network and try again"
+                                                        message:@""
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
+        [alert release];
+    }
 
     [super viewDidLoad];
 }
