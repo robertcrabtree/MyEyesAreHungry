@@ -196,11 +196,6 @@
         TextCell *textCell = (TextCell *) cell;
         textCell.tag = INDEX_TO_TAG(indexPath.row);
         textCell.textField.placeholder = [arrays.placeholders objectAtIndex:indexPath.row];
-#ifdef MEAH_TESTING
-        // supply fake restaurant name "test" so online users can't see restaurant
-        if (indexPath.row == CELL_INDEX_REST_NAME)
-            [cellText replaceObjectAtIndex:0 withObject:@"test"];
-#endif
         textCell.textField.delegate = self;
         textCell.textField.returnKeyType = UIReturnKeyNext;
         textCell.textField.keyboardType = UIKeyboardTypeDefault;
