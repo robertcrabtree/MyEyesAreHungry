@@ -68,6 +68,12 @@
 		C5F4AC0713E77F0A006C83F7 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F4ABBF13E77F0A006C83F7 /* ASIInputStream.m */; };
 		C5F4AC0813E77F0A006C83F7 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F4ABC113E77F0A006C83F7 /* ASINetworkQueue.m */; };
 		C5F4AC2813E77F22006C83F7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F4AC2713E77F22006C83F7 /* Reachability.m */; };
+		C5FEF8AE140C3D9000202AAA /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FEF8A8140C3D9000202AAA /* Default.png */; };
+		C5FEF8AF140C3D9000202AAA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FEF8A9140C3D9000202AAA /* Default@2x.png */; };
+		C5FEF8B0140C3D9000202AAA /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FEF8AA140C3D9000202AAA /* Icon-Small.png */; };
+		C5FEF8B1140C3D9000202AAA /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FEF8AB140C3D9000202AAA /* Icon-Small@2x.png */; };
+		C5FEF8B2140C3D9000202AAA /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FEF8AC140C3D9000202AAA /* Icon.png */; };
+		C5FEF8B3140C3D9000202AAA /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5FEF8AD140C3D9000202AAA /* Icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +181,12 @@
 		C5F4ABC213E77F0A006C83F7 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
 		C5F4AC2613E77F22006C83F7 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		C5F4AC2713E77F22006C83F7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		C5FEF8A8140C3D9000202AAA /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		C5FEF8A9140C3D9000202AAA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		C5FEF8AA140C3D9000202AAA /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		C5FEF8AB140C3D9000202AAA /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		C5FEF8AC140C3D9000202AAA /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		C5FEF8AD140C3D9000202AAA /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +255,7 @@
 		18C7286613D7006400995D63 /* MyEyesAreHungry */ = {
 			isa = PBXGroup;
 			children = (
+				C5AE4D091408A104004396EE /* Resources */,
 				C5010DE413FF3C1A00D48B3C /* Images */,
 				C598ECE813FE2EB900430EEA /* TBXML */,
 				C5F4ABA813E77E83006C83F7 /* SFHFKeychainUtils */,
@@ -346,6 +359,19 @@
 				C598ECEC13FE2EB900430EEA /* TBXML.m */,
 			);
 			path = TBXML;
+			sourceTree = "<group>";
+		};
+		C5AE4D091408A104004396EE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C5FEF8A8140C3D9000202AAA /* Default.png */,
+				C5FEF8A9140C3D9000202AAA /* Default@2x.png */,
+				C5FEF8AA140C3D9000202AAA /* Icon-Small.png */,
+				C5FEF8AB140C3D9000202AAA /* Icon-Small@2x.png */,
+				C5FEF8AC140C3D9000202AAA /* Icon.png */,
+				C5FEF8AD140C3D9000202AAA /* Icon@2x.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C5F4AB2513E77865006C83F7 /* ASIHTTPRequest */ = {
@@ -476,6 +502,12 @@
 				C57CF4A91404BC9F00CA6CCB /* nav_back@2x.png in Resources */,
 				C57CF4BF140601D500CA6CCB /* nav_rect.png in Resources */,
 				C57CF4C0140601D500CA6CCB /* nav_rect@2x.png in Resources */,
+				C5FEF8AE140C3D9000202AAA /* Default.png in Resources */,
+				C5FEF8AF140C3D9000202AAA /* Default@2x.png in Resources */,
+				C5FEF8B0140C3D9000202AAA /* Icon-Small.png in Resources */,
+				C5FEF8B1140C3D9000202AAA /* Icon-Small@2x.png in Resources */,
+				C5FEF8B2140C3D9000202AAA /* Icon.png in Resources */,
+				C5FEF8B3140C3D9000202AAA /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,7 +632,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: neil meskauskis (L27Q89Z269)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -612,7 +644,7 @@
 				OTHER_CFLAGS = "";
 				"OTHER_CFLAGS[arch=*]" = "-DMEAH_TESTING";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=*]" = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "86148DAD-29A4-4DB8-8CC7-65181BE2B4BB";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -622,7 +654,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: neil meskauskis";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -630,6 +662,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "7CA50555-BB08-46D6-8591-3406B354B09B";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -712,8 +745,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: neil meskauskis";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -721,6 +754,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "BDD1CB07-1BD9-4A1A-87B8-D49012EFF303";
 				SDKROOT = iphoneos;
 			};
 			name = "Ad Hoc";

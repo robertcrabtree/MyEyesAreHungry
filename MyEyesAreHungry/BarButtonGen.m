@@ -18,7 +18,7 @@
     [button setFrame:CGRectMake(0, 0, 70, 35)];
     [button setBackgroundImage:image forState:UIControlStateNormal];
     [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
     
