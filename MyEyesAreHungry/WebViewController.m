@@ -51,6 +51,7 @@
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [webView setDelegate:self];
     [webView loadRequest:request];
+    webView.scalesPageToFit = YES;
     [url release];
     [request release];
     [super viewDidLoad];
