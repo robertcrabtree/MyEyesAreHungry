@@ -12,6 +12,7 @@
 @interface WebViewController : UIViewController <UIWebViewDelegate> {
     IBOutlet UIWebView *webView;
     NSString *urlString;
+    UIActivityIndicatorView *spinner;
 }
 
 @property (nonatomic, retain) NSString *urlString;

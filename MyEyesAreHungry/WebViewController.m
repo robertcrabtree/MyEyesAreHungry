@@ -26,6 +26,7 @@
 {
     self.urlString = nil;
     self.webView = nil;
+    [spinner release];
     [super dealloc];
 }
 
@@ -52,6 +53,14 @@
     [webView setDelegate:self];
     [webView loadRequest:request];
     webView.scalesPageToFit = YES;
+    
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    float x = webView.bounds.size.width / 2.0;
+    float y = screenBounds.size.height / 2.0 - (screenBounds.size.height - webView.bounds.size.height);
+    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [spinner setCenter:CGPointMake(x, y)];
+    [self.view addSubview:spinner];
+
     [url release];
     [request release];
     [super viewDidLoad];
@@ -74,11 +83,13 @@
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [spinner startAnimating];
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [spinner stopAnimating];
 }
 
 
