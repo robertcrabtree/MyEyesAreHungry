@@ -91,7 +91,7 @@
     self.navigationController.delegate = [NavDeli sharedNavDeli];
     loginButton = [[TextImageButton alloc] init];
     [loginButton setText:@"Login"];
-    buttonView = [loginButton getButtonView];
+    buttonView = loginButton.view;
     [loginButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:20];
     [loginButton addTarget:self action:@selector(loginHandler:)];
     self.tableView.tableFooterView = buttonView;

@@ -80,7 +80,7 @@
     UIView *buttonView;
     uploadButton = [[TextImageButton alloc] init];
     [uploadButton setText:@"Upload"];
-    buttonView = [uploadButton getButtonView];
+    buttonView = uploadButton.view;
     [uploadButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:20];
     [uploadButton addTarget:self action:@selector(uploadHandler:)];
     self.tableView.tableFooterView = buttonView;

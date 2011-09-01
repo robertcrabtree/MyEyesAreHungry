@@ -13,10 +13,11 @@
     UIView *view;
     UIButton *button;
 }
+
+@property (nonatomic, retain) UIView *view;
 - (id)init;
 - (void)setText:(NSString *)text;
 - (void)setOrigin:(float)x y:(float)y;
-- (UIView *) getButtonView;
 - (void) addTarget:(id)target action:(SEL)action;
 
 @end

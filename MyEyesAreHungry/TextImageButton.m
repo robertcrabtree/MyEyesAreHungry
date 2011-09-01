@@ -11,6 +11,8 @@
 
 @implementation TextImageButton
 
+@synthesize view;
+
 - (id)init
 {
     if ((self = [super init]))
@@ -25,8 +27,9 @@
         [button setBackgroundImage:image forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
 
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, buttonWidth, buttonHeight)];
+        self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, buttonWidth, buttonHeight)];
 //        view.backgroundColor = [UIColor greenColor];
+        [view release];
 
         [view addSubview:button];
     }
@@ -36,11 +39,6 @@
 -(void)setText:(NSString *)text
 {
     [button setTitle:text forState:UIControlStateNormal];
-}
-
-- (UIView *) getButtonView
-{
-    return [view autorelease];
 }
 
 - (void) setOrigin:(float)x y:(float)y
@@ -56,7 +54,7 @@
 
 -(void)dealloc
 {
-    [view release];
+    self.view = nil;
     [super dealloc];
 }
 
