@@ -18,7 +18,7 @@
     NSMutableArray *cellText;
     UIImage *image;
     UploadArrays *arrays;
-    UIPickerView *picker;
+    UIView *pickerView;
     NSInteger currPickerTextFieldTag;
     NSArray *currPickerArray;
     NSMutableArray *followsNames;
@@ -30,7 +30,7 @@
 
 @property (retain, nonatomic) UIImage *image;
 @property (retain, nonatomic) UploadArrays *arrays;
-@property (retain, nonatomic) UIPickerView *picker;
+@property (retain, nonatomic) UIView *pickerView;
 @property (retain, nonatomic) NSMutableArray *cellText;
 
 -(TextCell *) cellWithTag:(NSInteger)tag;

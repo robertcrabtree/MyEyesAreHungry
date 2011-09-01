@@ -41,7 +41,7 @@
 @synthesize cellText;
 @synthesize image;
 @synthesize arrays;
-@synthesize picker;
+@synthesize pickerView;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -60,7 +60,7 @@
 
     self.image = nil;
     self.arrays = nil;
-    self.picker = nil;
+    self.pickerView = nil;
     self.cellText = nil;
     [super dealloc];
 }
@@ -561,6 +561,57 @@
     }
 }
 
+-(UIView *)createPickerView:(NSInteger)pickerRow cellIndex:(NSInteger)cellIndex array:(NSArray *)array
+{
+	CGRect pickerFrame = CGRectMake(0, 40, self.tableView.frame.size.width, 216);
+    UIPickerView *picker = [[UIPickerView alloc] initWithFrame:pickerFrame];
+	picker.delegate = self;
+	picker.dataSource = self;
+	picker.showsSelectionIndicator = YES;
+    [picker selectRow:pickerRow inComponent:0 animated:NO];
+    
+	UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 260)];
+    [view addSubview:picker];
+    view.backgroundColor = [UIColor redColor];
+    [picker release];
+	
+	CGRect frame = CGRectMake(0, 0, self.tableView.frame.size.width, 44);
+	UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
+    toolbar.barStyle = UIBarStyleBlack;
+    
+	NSMutableArray *barItems = [[NSMutableArray alloc] init];
+	
+    // flex space
+	UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+	[barItems addObject:flexSpace];
+    [flexSpace release];
+	
+    NSString *title = (cellIndex == CELL_INDEX_MEAL_TASTE) ? @"Done" : @"Next";
+    
+    // next/done button
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleDone target:self action:@selector(pickerDone:)];
+	[barItems addObject:barButton];
+	[barButton release];
+	
+	[toolbar setItems:barItems animated:YES];
+	[barItems release];
+	
+	[view addSubview:toolbar];
+	[toolbar release];
+    view.frame = CGRectMake(0, 200, picker.frame.size.width, picker.frame.size.height);
+    
+    self.pickerView = view;
+    [view release];
+    
+    return view;
+}
+
+- (void)pickerDone:(id)sender
+{
+    TextCell *cell = (TextCell *) [self cellWithTag:currPickerTextFieldTag];
+    [self textFieldShouldReturn:cell.textField];
+}
+
 - (void)textChange:(id)sender
 {
     UITextField *textField = (UITextField *) sender;
@@ -578,7 +629,8 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     TextCell *cell= (TextCell *) textField.superview.superview;
-    TextCell *next = (TextCell *) [self cellWithTag:cell.tag + 1];
+    int nextTag = cell.tag + ((TAG_TO_INDEX(cell.tag) == CELL_INDEX_REST_CITY && isUsa == NO) ? 2 : 1);
+    TextCell *next = (TextCell *) [self cellWithTag:INDEX_TO_TAG(nextTag)];
 
     if (next && [next isKindOfClass:[TextCell class]]) {
         [textField resignFirstResponder];
@@ -632,16 +684,9 @@
     currPickerArray = array;
     currPickerTextFieldTag = cell.tag;
 
-    self.picker = [[UIPickerView alloc] initWithFrame:self.tableView.bounds];
-    picker.showsSelectionIndicator = YES;
-    picker.delegate = self;
-    picker.dataSource = self;
-    [picker selectRow:row inComponent:0 animated:NO];
     textField.text = [array objectAtIndex:row];
-    textField.inputView = picker;
-    
-    [picker release];
-    
+    textField.inputView = [self createPickerView:row cellIndex:TAG_TO_INDEX(cell.tag) array:array];
+
     return YES;
 }
 
