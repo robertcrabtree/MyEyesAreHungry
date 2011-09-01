@@ -630,7 +630,7 @@
 {
     TextCell *cell= (TextCell *) textField.superview.superview;
     int nextTag = cell.tag + ((TAG_TO_INDEX(cell.tag) == CELL_INDEX_REST_CITY && isUsa == NO) ? 2 : 1);
-    TextCell *next = (TextCell *) [self cellWithTag:INDEX_TO_TAG(nextTag)];
+    TextCell *next = (TextCell *) [self cellWithTag:nextTag];
 
     if (next && [next isKindOfClass:[TextCell class]]) {
         [textField resignFirstResponder];
