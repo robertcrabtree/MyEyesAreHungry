@@ -25,7 +25,7 @@
     UITableViewController *tableViewController;
 }
 
-@property (nonatomic, retain) UITableViewController *tableViewController;
+@property (nonatomic, assign) UITableViewController *tableViewController;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
