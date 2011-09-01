@@ -654,7 +654,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: neil meskauskis";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: neil meskauskis (L27Q89Z269)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -662,7 +662,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=*]" = "7CA50555-BB08-46D6-8591-3406B354B09B";
+				"PROVISIONING_PROFILE[sdk=*]" = "86148DAD-29A4-4DB8-8CC7-65181BE2B4BB";
 				SDKROOT = iphoneos;
 			};
 			name = Release;

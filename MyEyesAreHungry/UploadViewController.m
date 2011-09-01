@@ -180,7 +180,7 @@
     // see if cell already exists
     if (indexPath.section == 0 || indexPath.section == 1)
         cell = [tableView dequeueReusableCellWithIdentifier:TextCellID];
-    else if (indexPath.section == 2)
+    else
         cell = [tableView dequeueReusableCellWithIdentifier:FollowsCellID];
     
     // create cell
@@ -593,8 +593,8 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     TextCell *cell = (TextCell *) textField.superview.superview;
-    NSArray *array;
-    int row;
+    NSArray *array = nil;
+    int row = 0;
     
     switch (TAG_TO_INDEX(cell.tag)) {
         case CELL_INDEX_REST_NAME:
@@ -621,8 +621,6 @@
             array = arrays.mealTasteText;
             break;
     }
-
-    row = 0;
     
     for (int i = 1; i < array.count; i++) {
         if ([textField.text isEqualToString:[array objectAtIndex:i]]) {

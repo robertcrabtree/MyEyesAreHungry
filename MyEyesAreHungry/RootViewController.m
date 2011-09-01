@@ -226,6 +226,7 @@
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     [[self navigationController] presentModalViewController:navController animated:YES];
     [loginViewController release];
+    [navController release];
 }
 
 - (NSString *)login
@@ -366,7 +367,7 @@
         
         NSString *userToken = [self login];
         if (userToken) {
-            NSString *urlString;
+            NSString *urlString = @"";
             switch (row) {
                 case 0:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
@@ -385,7 +386,6 @@
                                  userToken, @"&list=follows"];
                     break;
             } // switch
-            NSLog(@"loading url: %@", urlString);
             [self showWebPage:urlString];
             [urlString release];
         }
