@@ -93,8 +93,7 @@
     
     selectedNames = [[NSMutableArray alloc] init];
     
-    Reachability *network = [Reachability reachabilityForLocalWiFi];
-    if ([network currentReachabilityStatus] != kNotReachable) {
+    if ([Reachability networkIsOK]) {
         [self populate];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to reach server"

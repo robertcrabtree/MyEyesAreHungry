@@ -383,8 +383,7 @@
     NSString *password = passCell.textField.text;
     
     if ([self isValidData]) {
-        Reachability *network = [Reachability reachabilityForLocalWiFi];
-        if ([network currentReachabilityStatus] != kNotReachable) {
+        if ([Reachability networkIsOK]) {
             if ([Login loginWithUsername:email andPassword:password]) {
                 [[UserPass sharedUserPass] setUser:email Pass:password];
                 

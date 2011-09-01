@@ -398,6 +398,12 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 } // reachabilityForLocalWiFi
 
 
++ (BOOL)networkIsOK
+{
+    return (NotReachable != [[Reachability reachabilityForInternetConnection] currentReachabilityStatus]);
+}
+
+
 #pragma mark -
 #pragma mark Network Flag Handling Methods
 

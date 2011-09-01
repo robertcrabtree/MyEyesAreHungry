@@ -49,8 +49,7 @@
     buttonGen = [[BarButtonGen alloc] init];
     self.navigationItem.rightBarButtonItem = [buttonGen generateWithImage:@"nav_rect" title:@"" target:self action:@selector(loginButtonHandler:)];
     
-    Reachability *network = [Reachability reachabilityForLocalWiFi];
-    if ([network currentReachabilityStatus] == kNotReachable) {
+    if (![Reachability networkIsOK]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"This application requires an internet connection. Please connect to a network and try again"
                                                         message:@""
                                                        delegate:nil

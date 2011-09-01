@@ -160,6 +160,8 @@ extern NSString *const kReachabilityChangedNotification;
 // Use to check whether a local wifi connection is available.
 + (Reachability *) reachabilityForLocalWiFi;
 
++ (BOOL)networkIsOK;
+
 //Start listening for reachability notifications on the current run loop.
 - (BOOL) startNotifier;
 - (void)  stopNotifier;

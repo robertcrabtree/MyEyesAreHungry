@@ -746,8 +746,7 @@
     self.tableView.userInteractionEnabled = NO;
 
     if ([self isValidData]) {
-        Reachability *network = [Reachability reachabilityForLocalWiFi];
-        if ([network currentReachabilityStatus] != kNotReachable) {
+        if ([Reachability networkIsOK]) {
             if ([self upload]) {
                 
                 // re-enable cell selection

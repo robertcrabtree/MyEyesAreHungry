@@ -42,8 +42,7 @@
     self = [super init];
     if (self) {
         
-        Reachability *network = [Reachability reachabilityForLocalWiFi];
-        if ([network currentReachabilityStatus] != kNotReachable) {
+        if ([Reachability networkIsOK]) {
             
             // download xml file
             TBXML *tbxml = [[TBXML tbxmlWithURL:[NSURL URLWithString:@"http://www.myeyesarehungry.com/api/list.xml"]] retain];
