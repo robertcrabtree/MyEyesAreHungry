@@ -9,9 +9,8 @@
 #import "LoginViewController.h"
 #import "TextCell.h"
 #import "WebViewController.h"
-#import "UserPass.h"
+#import "User.h"
 #import "MyEyesAreHungryAppDelegate.h"
-#import "Login.h"
 #import "TextImageButton.h"
 #import "NavDeli.h"
 #import "BarButtonGen.h"
@@ -381,11 +380,11 @@
     TextCell *passCell = (TextCell *) [self cellWithTag:INDEX_TO_TAG(1)];
     NSString *email = emailCell.textField.text;
     NSString *password = passCell.textField.text;
+    User *user = [User sharedUser];
     
     if ([self isValidData]) {
         if ([Reachability networkIsOK]) {
-            if ([Login loginWithUsername:email andPassword:password]) {
-                [[UserPass sharedUserPass] setUser:email Pass:password];
+            if ([user login:email password:password]) {
                 
                 // re-enable cell selection
                 self.tableView.userInteractionEnabled = YES;

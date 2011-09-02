@@ -12,7 +12,7 @@
 #import "ASIFormDataRequest.h"
 #import "UploadArrays.h"
 #import "FollowsViewController.h"
-#import "Login.h"
+#import "User.h"
 #import "UserImage.h"
 #import "TextImageButton.h"
 #import "Reachability.h"
@@ -503,8 +503,8 @@
     // set misc post keys required on the server end
     [request setPostValue:@"submit" forKey:@"submit"];
     [request setPostValue:@"agree" forKey:@"tos"];
-    [request setPostValue:[Login userToken] forKey:@"my_name"];
-    [request setPostValue:[Login userID] forKey:@"my_id"];
+    [request setPostValue:[User sharedUser].user forKey:@"my_name"];
+    [request setPostValue:[User sharedUser].ident forKey:@"my_id"];
     
     // post the image data
     [request addData:imageData withFileName:@"meal.jpeg" andContentType:@"image/jpeg" forKey:@"image"];

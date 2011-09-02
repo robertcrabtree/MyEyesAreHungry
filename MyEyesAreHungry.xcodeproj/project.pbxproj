@@ -27,9 +27,7 @@
 		C5010DEB13FF3C1A00D48B3C /* header_bar_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5010DE713FF3C1A00D48B3C /* header_bar_logo.png */; };
 		C5010DEC13FF3C1A00D48B3C /* header_bar_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C5010DE813FF3C1A00D48B3C /* header_bar_logo@2x.png */; };
 		C5274D3A13E88B420012F02D /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5274D3913E88B420012F02D /* Entitlements.plist */; };
-		C54B445013E9EAF30073578C /* UserPass.m in Sources */ = {isa = PBXBuildFile; fileRef = C54B444F13E9EAF30073578C /* UserPass.m */; };
 		C557FEA613F30E6E000AEF78 /* UploadArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = C557FEA513F30E6E000AEF78 /* UploadArrays.m */; };
-		C55FB13113EF747A00ABAD1D /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FB13013EF747A00ABAD1D /* Login.m */; };
 		C5616ED31403305E007408AC /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C5616ED21403305E007408AC /* bg.png */; };
 		C5616F07140370C5007408AC /* UserImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C5616F06140370C5007408AC /* UserImage.m */; };
 		C56B272B13E2710000204F6D /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B272913E270FD00204F6D /* WebViewController.m */; };
@@ -51,6 +49,7 @@
 		C5838CA113E4DB340091FD2F /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5838C9F13E4DB340091FD2F /* LoginViewController.xib */; };
 		C598ECED13FE2EB900430EEA /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C598ECEA13FE2EB900430EEA /* NSDataAdditions.m */; };
 		C598ECEE13FE2EB900430EEA /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = C598ECEC13FE2EB900430EEA /* TBXML.m */; };
+		C5F264981410355100C8F1B0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F264971410355100C8F1B0 /* User.m */; };
 		C5F27FE613FCE1B900AEB420 /* FollowsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F27FE413FCE1B900AEB420 /* FollowsViewController.m */; };
 		C5F27FE713FCE1B900AEB420 /* FollowsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5F27FE513FCE1B900AEB420 /* FollowsViewController.xib */; };
 		C5F4AB2413E75D46006C83F7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F4AB2313E75D46006C83F7 /* Security.framework */; };
@@ -112,12 +111,8 @@
 		C5010DE713FF3C1A00D48B3C /* header_bar_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header_bar_logo.png; sourceTree = "<group>"; };
 		C5010DE813FF3C1A00D48B3C /* header_bar_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header_bar_logo@2x.png"; sourceTree = "<group>"; };
 		C5274D3913E88B420012F02D /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = ../Entitlements.plist; sourceTree = "<group>"; };
-		C54B444E13E9EAF30073578C /* UserPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPass.h; sourceTree = "<group>"; };
-		C54B444F13E9EAF30073578C /* UserPass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPass.m; sourceTree = "<group>"; };
 		C557FEA413F30E6E000AEF78 /* UploadArrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadArrays.h; sourceTree = "<group>"; };
 		C557FEA513F30E6E000AEF78 /* UploadArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadArrays.m; sourceTree = "<group>"; };
-		C55FB12F13EF747A00ABAD1D /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
-		C55FB13013EF747A00ABAD1D /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
 		C5616ED21403305E007408AC /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		C5616F05140370C5007408AC /* UserImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserImage.h; sourceTree = "<group>"; };
 		C5616F06140370C5007408AC /* UserImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserImage.m; sourceTree = "<group>"; };
@@ -149,6 +144,8 @@
 		C598ECEA13FE2EB900430EEA /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
 		C598ECEB13FE2EB900430EEA /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
 		C598ECEC13FE2EB900430EEA /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
+		C5F264961410355100C8F1B0 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		C5F264971410355100C8F1B0 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		C5F27FE313FCE1B900AEB420 /* FollowsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowsViewController.h; sourceTree = "<group>"; };
 		C5F27FE413FCE1B900AEB420 /* FollowsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowsViewController.m; sourceTree = "<group>"; };
 		C5F27FE513FCE1B900AEB420 /* FollowsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FollowsViewController.xib; sourceTree = "<group>"; };
@@ -264,10 +261,8 @@
 				C57CF4BB1405FE9B00CA6CCB /* BarButtonGen.m */,
 				C57CF4B71405F1FB00CA6CCB /* NavDeli.h */,
 				C57CF4B81405F1FD00CA6CCB /* NavDeli.m */,
-				C55FB12F13EF747A00ABAD1D /* Login.h */,
-				C55FB13013EF747A00ABAD1D /* Login.m */,
-				C54B444E13E9EAF30073578C /* UserPass.h */,
-				C54B444F13E9EAF30073578C /* UserPass.m */,
+				C5F264961410355100C8F1B0 /* User.h */,
+				C5F264971410355100C8F1B0 /* User.m */,
 				18C7286F13D7006400995D63 /* MyEyesAreHungryAppDelegate.h */,
 				18C7287013D7006400995D63 /* MyEyesAreHungryAppDelegate.m */,
 				18C7287513D7006400995D63 /* RootViewController.h */,
@@ -560,8 +555,6 @@
 				C5F4AC0713E77F0A006C83F7 /* ASIInputStream.m in Sources */,
 				C5F4AC0813E77F0A006C83F7 /* ASINetworkQueue.m in Sources */,
 				C5F4AC2813E77F22006C83F7 /* Reachability.m in Sources */,
-				C54B445013E9EAF30073578C /* UserPass.m in Sources */,
-				C55FB13113EF747A00ABAD1D /* Login.m in Sources */,
 				C557FEA613F30E6E000AEF78 /* UploadArrays.m in Sources */,
 				C5F27FE613FCE1B900AEB420 /* FollowsViewController.m in Sources */,
 				C598ECED13FE2EB900430EEA /* NSDataAdditions.m in Sources */,
@@ -570,6 +563,7 @@
 				C57CF4A014049FF000CA6CCB /* TextImageButton.m in Sources */,
 				C57CF4B91405F1FF00CA6CCB /* NavDeli.m in Sources */,
 				C57CF4BC1405FE9D00CA6CCB /* BarButtonGen.m in Sources */,
+				C5F264981410355100C8F1B0 /* User.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

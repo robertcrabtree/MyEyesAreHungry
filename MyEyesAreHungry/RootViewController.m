@@ -10,9 +10,8 @@
 #import "WebViewController.h"
 #import "UploadViewController.h"
 #import "LoginViewController.h"
-#import "UserPass.h"
+#import "User.h"
 #import "MyEyesAreHungryAppDelegate.h"
-#import "Login.h"
 #import "ASIHTTPRequest.h"
 #import "TextImageButton.h"
 #import "NavDeli.h"
@@ -43,7 +42,7 @@
     
     self.navigationController.delegate = [NavDeli sharedNavDeli];
 
-    userPass = [UserPass sharedUserPass];
+    user = [User sharedUser];
     [ASIHTTPRequest setShouldUpdateNetworkActivityIndicator:YES]; // have ASI update network status when active
     
     buttonGen = [[BarButtonGen alloc] init];
@@ -65,7 +64,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     NSString *buttonText = @"Login";
-    if ([userPass isValid]) {
+    if ([user isValid]) {
         buttonText = @"Logout";
     }
     
@@ -228,19 +227,16 @@
     [navController release];
 }
 
-- (NSString *)login
+- (BOOL)login
 {
-    NSString *username = [userPass username];
-    NSString *password = [userPass password];
-    NSString *userToken = [Login loginWithUsername:username andPassword:password];
-    
-    if (!userToken) {
+    if (![user login]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
         [alert release];
+        return NO;
     }
     
-    return userToken;
+    return YES;
 }
 
 - (void)takePicture
@@ -362,27 +358,27 @@
     //    show login page
     //    (web page will be loaded after user logs in)
     
-    if ([userPass isValid]) {
+    if ([user isValid]) {
         
-        NSString *userToken = [self login];
-        if (userToken) {
+        if ([self login]) {
             NSString *urlString = @"";
+            NSString *username = [user user];
             switch (row) {
                 case 0:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 userToken];
+                                 username];
                     break;
                 case 1:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 userToken, @"&list=restaurants"];
+                                 username, @"&list=restaurants"];
                     break;
                 case 2:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 userToken, @"&list=favorites"];
+                                 username, @"&list=favorites"];
                     break;
                 case 3:
                     urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 userToken, @"&list=follows"];
+                                 username, @"&list=follows"];
                     break;
             } // switch
             [self showWebPage:urlString];
@@ -421,7 +417,7 @@
     //    show login page
     //    (image picker will be loaded after user logs in)
     
-    if ([userPass isValid]) {
+    if ([user isValid]) {
         if ([self login]) {
             [self selectPicture];
         }
@@ -466,9 +462,8 @@
 
 -(void)loginButtonHandler:(id)sender
 {
-    if ([userPass isValid]) {
-        [userPass deleteUser]; 
-        [Login logout];
+    if ([user isValid]) {
+        [user logout];
         [self setLoginButtonText:@"Login"];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"You have been logged out"
                                                         message:@""

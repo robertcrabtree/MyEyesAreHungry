@@ -8,7 +8,7 @@
 
 #import "FollowsViewController.h"
 #import "ASIFormDataRequest.h"
-#import "Login.h"
+#import "User.h"
 #import "Reachability.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
@@ -67,8 +67,8 @@
     NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/api/friends.php"];
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:url];
     
-    [request setPostValue:[Login userToken] forKey:@"my_name"];
-    [request setPostValue:[Login userID] forKey:@"my_id"];
+    [request setPostValue:[User sharedUser].user forKey:@"my_name"];
+    [request setPostValue:[User sharedUser].ident forKey:@"my_id"];
     [request startSynchronous];
 
     NSDictionary *dict = [request responseHeaders];

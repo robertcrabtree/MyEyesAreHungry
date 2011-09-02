@@ -8,7 +8,7 @@
 
 #import "UserImage.h"
 #include "WebViewController.h"
-#include "Login.h"
+#include "User.h"
 
 @interface TouchyImageView : UIImageView {
     UITableViewController *tableViewController;
@@ -24,7 +24,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
-    webViewController.urlString = [NSString stringWithFormat:@"http://www.myeyesarehungry.com/member.php?name=%@", [Login userToken]];
+    webViewController.urlString = [NSString stringWithFormat:@"http://www.myeyesarehungry.com/member.php?name=%@", [User sharedUser].user];
     [tableViewController.navigationController pushViewController:webViewController animated:YES];
     [webViewController release];
 }
@@ -41,7 +41,7 @@
 
 -(void)loadUserImage:(UITableViewController *) tableViewController
 {
-    NSString *url = [NSString stringWithFormat:@"http://www.myeyesarehungry.com/avatars/%@.jpg", [Login userToken]];
+    NSString *url = [NSString stringWithFormat:@"http://www.myeyesarehungry.com/avatars/%@.jpg", [User sharedUser].user];
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
     
     if (image == nil) {
@@ -70,7 +70,7 @@
     float labelY = imageCenter - labelHeight / 2;
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelWidth, labelHeight)];
-    label.text = [Login userToken];
+    label.text = [User sharedUser].user;
     label.backgroundColor = [UIColor clearColor];
     label.textAlignment = UITextAlignmentLeft;
     label.font = font;

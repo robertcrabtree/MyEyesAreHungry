@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class UserPass;
+@class User;
 @class TextImageButton;
 @class BarButtonGen;
 
@@ -24,7 +24,7 @@ enum LoginAction {
 @interface RootViewController : UITableViewController <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
     enum LoginAction loginAction;
     NSInteger loginRow;
-    UserPass *userPass;
+    User *user;
     TextImageButton *addButton;
     BarButtonGen *buttonGen;
 }
