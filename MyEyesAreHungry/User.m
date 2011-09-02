@@ -90,15 +90,13 @@ NSString *SERVICE = @"MyEyesAreHungry";
 
 -(void)clear
 {
-    @synchronized (self){
-        NSError *error;
-        [SFHFKeychainUtils deleteItemForUsername:SERVICE andServiceName:SERVICE error:&error];
-        
-        self.email = nil;
-        self.pass = nil;
-        self.user = nil;
-        self.ident = nil;
-    }
+    NSError *error;
+    [SFHFKeychainUtils deleteItemForUsername:SERVICE andServiceName:SERVICE error:&error];
+    
+    self.email = nil;
+    self.pass = nil;
+    self.user = nil;
+    self.ident = nil;
 }
 
 -(BOOL)login
