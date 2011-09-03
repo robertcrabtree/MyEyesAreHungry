@@ -41,76 +41,65 @@
 {
     self = [super init];
     if (self) {
+            
+        // download xml file
+        TBXML *tbxml = [[TBXML tbxmlWithURL:[NSURL URLWithString:@"http://www.myeyesarehungry.com/api/list.xml"]] retain];
         
-        if ([Reachability networkIsOK]) {
+        if (tbxml && tbxml.rootXMLElement) {
             
-            // download xml file
-            TBXML *tbxml = [[TBXML tbxmlWithURL:[NSURL URLWithString:@"http://www.myeyesarehungry.com/api/list.xml"]] retain];
+            TBXMLElement *category = tbxml.rootXMLElement->firstChild;
             
-            if (tbxml && tbxml.rootXMLElement) {
-                
-                TBXMLElement *category = tbxml.rootXMLElement->firstChild;
-                
-                [self allocArrays];
-                
-                do {
-                    TBXMLElement *valText1 = category->firstChild;
-                    TBXMLElement *valText2 = valText1->nextSibling;
-                    NSString *categoryName = [[TBXML elementName:category] lowercaseString];
-                    NSString *valTextStr1 = [TBXML elementName:valText1];
-                    NSString *text;
-                    NSString *val;
-                    
-                    // can't count on the order of "TITLE" or "VALUE"
-                    if ([[valTextStr1 lowercaseString] isEqualToString:@"title"]) {
-                        text = [TBXML textForElement:valText1];
-                        val = [TBXML textForElement:valText2];
-                    } else {
-                        text = [TBXML textForElement:valText2];
-                        val = [TBXML textForElement:valText1];
-                    }
-                    
-                    if ([categoryName isEqualToString:@"country"]) {
-                        // restaurant country
-                        [countryText addObject:text];
-                        [countryVals addObject:val];
-                    } else if ([categoryName isEqualToString:@"state"]) {
-                        // us state
-                        [stateText addObject:text];
-                        [stateVals addObject:val];
-                    } else if ([categoryName isEqualToString:@"currency_usa"]) {
-                        // meal price (us currency)
-                        [mealPriceUsaText addObject:text];
-                        [mealPriceUsaVals addObject:val];
-                    } else if ([categoryName isEqualToString:@"currency"]) {
-                        // meal price (non-us currency)
-                        [mealPriceWorldText addObject:text];
-                        [mealPriceWorldVals addObject:val];
-                    } else if ([categoryName isEqualToString:@"type"]) {
-                        // meal type
-                        [mealTypeText addObject:text];
-                        [mealTypeVals addObject:val];
-                    } else if ([categoryName isEqualToString:@"taste"]) {
-                        // meal taste
-                        [mealTasteText addObject:text];
-                        [mealTasteVals addObject:val];
-                    }
-                } while ((category = category->nextSibling));
-            } else {
-                NSLog(@"ERR: xml download error");
-                self = nil;
-            }
+            [self allocArrays];
             
-            [tbxml release];
+            do {
+                TBXMLElement *valText1 = category->firstChild;
+                TBXMLElement *valText2 = valText1->nextSibling;
+                NSString *categoryName = [[TBXML elementName:category] lowercaseString];
+                NSString *valTextStr1 = [TBXML elementName:valText1];
+                NSString *text;
+                NSString *val;
+                
+                // can't count on the order of "TITLE" or "VALUE"
+                if ([[valTextStr1 lowercaseString] isEqualToString:@"title"]) {
+                    text = [TBXML textForElement:valText1];
+                    val = [TBXML textForElement:valText2];
+                } else {
+                    text = [TBXML textForElement:valText2];
+                    val = [TBXML textForElement:valText1];
+                }
+                
+                if ([categoryName isEqualToString:@"country"]) {
+                    // restaurant country
+                    [countryText addObject:text];
+                    [countryVals addObject:val];
+                } else if ([categoryName isEqualToString:@"state"]) {
+                    // us state
+                    [stateText addObject:text];
+                    [stateVals addObject:val];
+                } else if ([categoryName isEqualToString:@"currency_usa"]) {
+                    // meal price (us currency)
+                    [mealPriceUsaText addObject:text];
+                    [mealPriceUsaVals addObject:val];
+                } else if ([categoryName isEqualToString:@"currency"]) {
+                    // meal price (non-us currency)
+                    [mealPriceWorldText addObject:text];
+                    [mealPriceWorldVals addObject:val];
+                } else if ([categoryName isEqualToString:@"type"]) {
+                    // meal type
+                    [mealTypeText addObject:text];
+                    [mealTypeVals addObject:val];
+                } else if ([categoryName isEqualToString:@"taste"]) {
+                    // meal taste
+                    [mealTasteText addObject:text];
+                    [mealTasteVals addObject:val];
+                }
+            } while ((category = category->nextSibling));
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to reach server"
-                                                            message:@""
-                                                           delegate:nil
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"OK", nil];
-            [alert show];
-            [alert release];
+            NSLog(@"ERR: xml download error");
+            self = nil;
         }
+        
+        [tbxml release];
     }
     return self;
 }

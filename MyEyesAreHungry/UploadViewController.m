@@ -480,6 +480,7 @@
     NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/api/upload.php"];
     ASIFormDataRequest *request = [[ASIFormDataRequest  alloc]  initWithURL:url];
+    [request setDelegate:self];
     BOOL success = YES;
     int cnt = arrays.postKeys.count;
     NSString *key;
@@ -508,12 +509,34 @@
     
     // post the image data
     [request addData:imageData withFileName:@"meal.jpeg" andContentType:@"image/jpeg" forKey:@"image"];
-    [request startSynchronous];
-    
-    [request release];
+    [request startAsynchronous];
     
     return success;
 
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    self.tableView.userInteractionEnabled = YES;
+    
+    [request release];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    self.tableView.userInteractionEnabled = YES;
+    
+    [request release];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
+                                                    message:@"Network error"
+                                                   delegate:nil
+                                          cancelButtonTitle:nil
+                                          otherButtonTitles:@"OK", nil];
+    [alert show];
+    [alert release];
 }
 
 -(TextCell *) cellInSection:(NSInteger)section AndRow:(NSInteger)row
@@ -746,37 +769,11 @@
     self.tableView.userInteractionEnabled = NO;
 
     if ([self isValidData]) {
-        if ([Reachability networkIsOK]) {
-            if ([self upload]) {
-                
-                // re-enable cell selection
-                self.tableView.userInteractionEnabled = YES;
-                
-                // pop view controller (back to root view)
-                [self.navigationController popViewControllerAnimated:YES];
-                
-            } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
-                                                                message:@""
-                                                               delegate:nil
-                                                      cancelButtonTitle:nil
-                                                      otherButtonTitles:@"OK", nil];
-                [alert show];
-                [alert release];
-            }
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to reach server"
-                                                            message:@""
-                                                           delegate:nil
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"OK", nil];
-            [alert show];
-            [alert release];
-        }
+        [self upload];
+    } else {
+        // re-enable cell selection
+        self.tableView.userInteractionEnabled = YES;
     }
-    
-    // re-enable cell selection
-    self.tableView.userInteractionEnabled = YES;
 }
 
 @end

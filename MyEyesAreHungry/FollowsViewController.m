@@ -93,17 +93,8 @@
     
     selectedNames = [[NSMutableArray alloc] init];
     
-    if ([Reachability networkIsOK]) {
-        [self populate];
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to reach server"
-                                                        message:@""
-                                                       delegate:nil
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:@"OK", nil];
-        [alert show];
-        [alert release];
-    }
+    [self populate];
+    
     [super viewDidLoad];
 }
 

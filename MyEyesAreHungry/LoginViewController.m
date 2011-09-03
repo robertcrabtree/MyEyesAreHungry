@@ -383,31 +383,21 @@
     User *user = [User sharedUser];
     
     if ([self isValidData]) {
-        if ([Reachability networkIsOK]) {
-            if ([user login:email password:password]) {
-                
-                // re-enable cell selection
-                self.tableView.userInteractionEnabled = YES;
-                
-                [self dismissModalViewControllerAnimated:YES];
-            } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
-                                                                message:@"Invalid username or password"
-                                                               delegate:nil
-                                                      cancelButtonTitle:nil
-                                                      otherButtonTitles:@"OK", nil];
-                [alert show];
-                [alert release];
-                
-            }
+        if ([user login:email password:password]) {
+            
+            // re-enable cell selection
+            self.tableView.userInteractionEnabled = YES;
+            
+            [self dismissModalViewControllerAnimated:YES];
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to reach server"
-                                                            message:@""
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
+                                                            message:@"Invalid username or password"
                                                            delegate:nil
                                                   cancelButtonTitle:nil
                                                   otherButtonTitles:@"OK", nil];
             [alert show];
             [alert release];
+            
         }
     }
     
