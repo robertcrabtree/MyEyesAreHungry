@@ -229,7 +229,7 @@
 
 - (BOOL)login
 {
-    if (![user login]) {
+    if ([user login] != USER_LOGIN_SUCCESS) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
         [alert release];

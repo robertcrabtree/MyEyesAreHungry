@@ -15,21 +15,35 @@
     NSString *user;
     NSString *ident;
     NSObject *lock;
+    SEL selectorSuccess;
+    SEL selectorFailNetwork;
+    SEL selectorFailCredentials;
+    id target;
 }
+
+typedef enum UserLoginStatus {
+    USER_LOGIN_SUCCESS,
+    USER_LOGIN_FAIL_NETWORK,
+    USER_LOGIN_FAIL_CREDENTIALS
+} UserLoginStatus;
 
 @property (nonatomic, retain) NSString *email;
 @property (nonatomic, retain) NSString *pass;
 @property (nonatomic, retain) NSString *user;
 @property (nonatomic, retain) NSString *ident;
+@property (nonatomic, assign) SEL selectorSuccess;
+@property (nonatomic, assign) SEL selectorFailNetwork;
+@property (nonatomic, assign) SEL selectorFailCredentials;
+@property (nonatomic, assign) id target;
 
 // singleton instance method
 + (User *)sharedUser;
 
-// login using existing credentials
--(BOOL)login;
+// login using existing credentials (synchronous helper method)
+-(UserLoginStatus)login;
 
 // login with specified credentials and save to keychain
--(BOOL)login:(NSString *)emailAddress password:(NSString *)password;
+-(UserLoginStatus)login:(NSString *)emailAddress password:(NSString *)password async:(BOOL)async;
 
 // logout and remove credentials from keychain
 -(void)logout;

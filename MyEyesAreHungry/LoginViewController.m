@@ -383,26 +383,48 @@
     User *user = [User sharedUser];
     
     if ([self isValidData]) {
-        if ([user login:email password:password]) {
-            
-            // re-enable cell selection
-            self.tableView.userInteractionEnabled = YES;
-            
-            [self dismissModalViewControllerAnimated:YES];
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
-                                                            message:@"Invalid username or password"
-                                                           delegate:nil
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"OK", nil];
-            [alert show];
-            [alert release];
-            
-        }
+        user.target = self;
+        user.selectorFailNetwork = @selector(loginFailNetwork);
+        user.selectorFailCredentials = @selector(loginFailCredentials);
+        user.selectorSuccess = @selector(loginSuccess);
+        [user login:email password:password async:YES];
+    } else {
+        // re-enable cell selection
+        self.tableView.userInteractionEnabled = YES;
     }
-    
-    // re-enable cell selection
+}
+
+-(void) loginSuccess
+{
     self.tableView.userInteractionEnabled = YES;
+    
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+-(void) loginFailNetwork
+{
+    self.tableView.userInteractionEnabled = YES;
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
+                                                    message:@"Network error"
+                                                   delegate:nil
+                                          cancelButtonTitle:nil
+                                          otherButtonTitles:@"OK", nil];
+    [alert show];
+    [alert release];
+}
+
+-(void) loginFailCredentials
+{
+    self.tableView.userInteractionEnabled = YES;
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
+                                                    message:@"Invalid username or password"
+                                                   delegate:nil
+                                          cancelButtonTitle:nil
+                                          otherButtonTitles:@"OK", nil];
+    [alert show];
+    [alert release];
 }
 
 -(void)cancelLogin:(id) sender
