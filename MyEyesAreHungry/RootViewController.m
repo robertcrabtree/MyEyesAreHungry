@@ -201,7 +201,6 @@
 }
 */
 
-
 - (void)showWebPage:(NSString *) urlString
 {
     WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
@@ -213,7 +212,7 @@
 - (void)showUploadPage:(UIImage *)image
 {
     UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
-    uploadViewController.image = image;
+    uploadViewController.imageData = UIImageJPEGRepresentation(image, 1.0);
     [self.navigationController pushViewController:uploadViewController animated:YES];
     [uploadViewController release];
 }

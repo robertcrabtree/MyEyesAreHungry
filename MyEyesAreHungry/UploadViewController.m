@@ -39,7 +39,7 @@
 @implementation UploadViewController
 
 @synthesize cellText;
-@synthesize image;
+@synthesize imageData;
 @synthesize arrays;
 @synthesize pickerView;
 
@@ -58,7 +58,7 @@
     [userImage release];
     [uploadButton release];
 
-    self.image = nil;
+    self.imageData = nil;
     self.arrays = nil;
     self.pickerView = nil;
     self.cellText = nil;
@@ -90,7 +90,7 @@
     self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
     
     [userImage loadUserImage:self];
-    
+
     isUsa = YES;
     self.arrays = [[UploadArrays alloc] init];
     self.cellText = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", @"", @"", @"", @"", @"", nil];
@@ -477,9 +477,8 @@
 
 -(BOOL)upload
 {
-    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/api/upload.php"];
-    ASIFormDataRequest *request = [[ASIFormDataRequest  alloc]  initWithURL:url];
+    request = [[ASIFormDataRequest  alloc]  initWithURL:url];
     [request setDelegate:self];
     BOOL success = YES;
     int cnt = arrays.postKeys.count;
@@ -515,28 +514,43 @@
 
 }
 
-- (void)requestFinished:(ASIHTTPRequest *)request
+- (void)requestFinished:(ASIHTTPRequest *)requestObj
 {
     self.tableView.userInteractionEnabled = YES;
+
+    if (request) {
+        [request release];
+        request = nil;
+    }
     
-    [request release];
-    
+    if (uploadCancelAlert)
+        [uploadCancelAlert dismissWithClickedButtonIndex:-1 animated:YES];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)requestFailed:(ASIHTTPRequest *)request
+- (void)requestFailed:(ASIHTTPRequest *)requestObj
 {
     self.tableView.userInteractionEnabled = YES;
     
-    [request release];
+    // if the user cancelled the upload we don't need to display an error
+    //     or dismiss the alert view
+    if (request && [request error].code != ASIRequestCancelledErrorType) {
+        [uploadCancelAlert dismissWithClickedButtonIndex:-1 animated:YES];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
+                                                        message:@"Network error"
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
+        [alert release];
+    }
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
-                                                    message:@"Network error"
-                                                   delegate:nil
-                                          cancelButtonTitle:nil
-                                          otherButtonTitles:@"OK", nil];
-    [alert show];
-    [alert release];
+    if (request) {
+        [request release];
+        request = nil;
+    }
 }
 
 -(TextCell *) cellInSection:(NSInteger)section AndRow:(NSInteger)row
@@ -639,7 +653,6 @@
 {
     UITextField *textField = (UITextField *) sender;
     [cellText replaceObjectAtIndex:textField.tag withObject:textField.text];
-    NSLog(@"text=%@", textField.text);
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
@@ -769,11 +782,51 @@
     self.tableView.userInteractionEnabled = NO;
 
     if ([self isValidData]) {
+        
+        uploadCancelAlert = [[UIAlertView alloc]
+                             initWithTitle:@"Uploading..."
+                             message:@"\n"
+                             delegate:self cancelButtonTitle:@"Cancel"
+                             otherButtonTitles:nil];
+        
+        uploadCancelSpinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(125, 42, 30, 30)];
+        uploadCancelSpinner.hidesWhenStopped = YES;
+        uploadCancelSpinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        [uploadCancelAlert setDelegate:self];
+        [uploadCancelAlert addSubview:uploadCancelSpinner];
+        [uploadCancelAlert show];
+        [uploadCancelSpinner startAnimating];
+
         [self upload];
     } else {
         // re-enable cell selection
         self.tableView.userInteractionEnabled = YES;
     }
+}
+
+- (void)alertView:(UIAlertView *)alert didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    self.tableView.userInteractionEnabled = YES;
+    
+    // make sure we don't do this twice
+    if (uploadCancelSpinner) {
+        [uploadCancelSpinner stopAnimating];
+        [uploadCancelSpinner release];
+        uploadCancelSpinner = nil;
+    }
+    
+    // make sure we don't do this twice
+    if (uploadCancelAlert) {
+        [uploadCancelAlert release];
+        uploadCancelAlert = nil;
+    }
+
+    // if buttonIndex == 0 then the user clicked "cancel"
+    // if buttonIndex == -1, then this method was called when the upload request
+    //   failed or finished and we have no need to cancel
+    if (buttonIndex == 0 && request != nil)
+        [request cancel];
+
 }
 
 @end

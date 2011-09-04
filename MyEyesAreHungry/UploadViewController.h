@@ -12,11 +12,12 @@
 @class TextCell;
 @class UserImage;
 @class TextImageButton;
+@class ASIFormDataRequest;
 
-@interface UploadViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource> {
+@interface UploadViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate> {
 
     NSMutableArray *cellText;
-    UIImage *image;
+    NSData *imageData;
     UploadArrays *arrays;
     UIView *pickerView;
     NSInteger currPickerTextFieldTag;
@@ -26,9 +27,13 @@
     BOOL isUsa;
     UserImage *userImage;
     TextImageButton *uploadButton;
+    
+    ASIFormDataRequest *request;
+    UIAlertView *uploadCancelAlert;
+    UIActivityIndicatorView *uploadCancelSpinner;
 }
 
-@property (retain, nonatomic) UIImage *image;
+@property (retain, nonatomic) NSData *imageData;
 @property (retain, nonatomic) UploadArrays *arrays;
 @property (retain, nonatomic) UIView *pickerView;
 @property (retain, nonatomic) NSMutableArray *cellText;
