@@ -13,7 +13,7 @@
 @class BarButtonGen;
 
 enum LoginAction {
-    LOGIN_NO_ACTION,
+    LOGIN_LOGOUT,
     LOGIN_SHOW_MY_MEALS,
     LOGIN_SHOW_MY_RESTAURANTS,
     LOGIN_SHOW_MY_FAVS,
@@ -23,7 +23,6 @@ enum LoginAction {
 
 @interface RootViewController : UITableViewController <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
     enum LoginAction loginAction;
-    NSInteger loginRow;
     User *user;
     TextImageButton *addButton;
     BarButtonGen *buttonGen;

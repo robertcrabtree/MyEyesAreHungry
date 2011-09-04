@@ -100,52 +100,19 @@ NSString *SERVICE = @"MyEyesAreHungry";
     self.ident = nil;
 }
 
--(UserLoginStatus)parseResponseHeaders:(ASIHTTPRequest *)request
-{
-    UserLoginStatus status = USER_LOGIN_SUCCESS;
-    
-    NSDictionary *dict = [request responseHeaders];
-    NSString *username = [dict objectForKey:@"X-Login-Name"];
-    
-    if ((![request error]) && ([request responseStatusCode] < 400)) {
-        if (username && ![username isEqualToString:@""]) {
-            NSString *identity = [dict objectForKey:@"X-Login-Id"];
-            
-            if (identity && ![identity isEqualToString:@""]) {
-                self.user = username;
-                self.ident = identity;
-                [self store];
-                status = USER_LOGIN_SUCCESS;
-                NSLog(@"User:parseResponseHeaders: user=%@, ident=%@", self.user, self.ident);
-            } else {
-                NSLog(@"User error: missing id in header");
-                status = USER_LOGIN_FAIL_CREDENTIALS;
-            }
-        } else {
-            NSLog(@"User error: missing username in header");
-            status = USER_LOGIN_FAIL_CREDENTIALS;
-        }
-    } else {
-        NSLog(@"User error: login request failure");
-        status = USER_LOGIN_FAIL_NETWORK;
-    }
-    
-    return status;
-}
-
--(UserLoginStatus)login
+-(void)login
 {
     @synchronized (self){
-        return [self login:self.email password:self.pass async:(BOOL)NO];
+        [self login:self.email password:self.pass];
     }
 }
 
--(UserLoginStatus)login:(NSString *)emailAddress password:(NSString *)password async:(BOOL)async
+-(void)login:(NSString *)emailAddress password:(NSString *)password
 {
     @synchronized (self){
         NSLog(@"User:login: email=%@, pass=%@", emailAddress, password);
-        UserLoginStatus status = USER_LOGIN_SUCCESS;
          
+        loggingIn = YES;
         NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/api/login.php"];
         ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:url];
         
@@ -157,42 +124,61 @@ NSString *SERVICE = @"MyEyesAreHungry";
         [request setPostValue:@"submit" forKey:@"submit"];
         [request setPostValue:@"stay_logged" forKey:@"yes"];
         
-        if (async) {
-            [request setDelegate:self];
-            [request startAsynchronous];
-        } else {
-            [request startSynchronous];
-            
-            status = [self parseResponseHeaders:request];
-            [request release];
-            
-            if (status != USER_LOGIN_SUCCESS)
-                [self clear];
-        }
-        
-        return status;
+        [request setDelegate:self];
+        [request startAsynchronous];
     }
+}
+
+- (void)loginFinished:(ASIHTTPRequest *)request
+{
+    NSLog(@"User:loginFinished");
+    
+    NSDictionary *dict = [request responseHeaders];
+    NSString *username = [dict objectForKey:@"X-Login-Name"];
+    
+    if ((![request error]) && ([request responseStatusCode] < 400)) {
+        if (username && ![username isEqualToString:@""]) {
+            NSString *identity = [dict objectForKey:@"X-Login-Id"];
+            
+            if (identity && ![identity isEqualToString:@""]) {
+                NSLog(@"User:login: user=%@, ident=%@", self.user, self.ident);
+                self.user = username;
+                self.ident = identity;
+                [self store];
+                [target performSelector:selectorSuccess];
+            } else {
+                NSLog(@"User error: missing id in header");
+                [self clear];
+                [target performSelector:selectorFailCredentials];
+            }
+        } else {
+            NSLog(@"User error: missing username in header");
+            [self clear];
+            [target performSelector:selectorFailCredentials];
+        }
+    } else {
+        NSLog(@"User error: login request failure");
+        [self clear];
+        [target performSelector:selectorFailNetwork];
+    }
+}
+
+- (void)logoutFinished
+{
+    NSLog(@"User:logoutFinished");
+    [ASIHTTPRequest clearSession];
+    [ASIFormDataRequest clearSession];
+    [self clear];
+    [target performSelector:selectorSuccess];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-    UserLoginStatus status = [self parseResponseHeaders:request];
+    if (loggingIn)
+        [self loginFinished:request];
+    else
+        [self logoutFinished];
     [request release];
-    
-    switch (status) {
-        case USER_LOGIN_FAIL_CREDENTIALS:
-            [self clear];
-            [target performSelector:selectorFailCredentials];
-            break;
-        case USER_LOGIN_FAIL_NETWORK:
-            [self clear];
-            [target performSelector:selectorFailNetwork];
-            break;
-
-        default:
-            [target performSelector:selectorSuccess];
-            break;
-    }
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -202,21 +188,15 @@ NSString *SERVICE = @"MyEyesAreHungry";
     [target performSelector:selectorFailNetwork];
 }
 
-
 -(void)logout
 {
     @synchronized (self){
-        NSLog(@"logout");
+        NSLog(@"User:logout");
+        loggingIn = NO;
         NSURL *url = [NSURL URLWithString:@"http://www.myeyesarehungry.com/logout.php"];
         ASIFormDataRequest *request = [[ASIFormDataRequest  alloc]  initWithURL:url];
-        [request startSynchronous];
-        
-        [ASIHTTPRequest clearSession];
-        [ASIFormDataRequest clearSession];
-        
-        [request release];
-        
-        [self clear];
+        [request setDelegate:self];
+        [request startAsynchronous];
     }
 }
 

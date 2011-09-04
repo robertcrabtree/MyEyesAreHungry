@@ -387,7 +387,7 @@
         user.selectorFailNetwork = @selector(loginFailNetwork);
         user.selectorFailCredentials = @selector(loginFailCredentials);
         user.selectorSuccess = @selector(loginSuccess);
-        [user login:email password:password async:YES];
+        [user login:email password:password];
     } else {
         // re-enable cell selection
         self.tableView.userInteractionEnabled = YES;

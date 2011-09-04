@@ -15,10 +15,15 @@
     NSString *user;
     NSString *ident;
     NSObject *lock;
+    
+    // turns out these selectorys ruin the singleton design pattern
+    // but we'll leave this as is anyways. user class clients are responsible
+    // for setting these properties prior to each call to login/logout.
     SEL selectorSuccess;
     SEL selectorFailNetwork;
     SEL selectorFailCredentials;
     id target;
+    BOOL loggingIn;
 }
 
 typedef enum UserLoginStatus {
@@ -39,13 +44,13 @@ typedef enum UserLoginStatus {
 // singleton instance method
 + (User *)sharedUser;
 
-// login using existing credentials (synchronous helper method)
--(UserLoginStatus)login;
+// login using existing credentials (async)
+-(void)login;
 
-// login with specified credentials and save to keychain
--(UserLoginStatus)login:(NSString *)emailAddress password:(NSString *)password async:(BOOL)async;
+// login with specified credentials and save to keychain (async)
+-(void)login:(NSString *)emailAddress password:(NSString *)password;
 
-// logout and remove credentials from keychain
+// logout and remove credentials from keychain (async)
 -(void)logout;
 
 // returns YES if credentials stored in keychain

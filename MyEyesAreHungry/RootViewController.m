@@ -43,6 +43,7 @@
     self.navigationController.delegate = [NavDeli sharedNavDeli];
 
     user = [User sharedUser];
+                                         
     [ASIHTTPRequest setShouldUpdateNetworkActivityIndicator:YES]; // have ASI update network status when active
     
     buttonGen = [[BarButtonGen alloc] init];
@@ -226,18 +227,6 @@
     [navController release];
 }
 
-- (BOOL)login
-{
-    if ([user login] != USER_LOGIN_SUCCESS) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
-        [alert release];
-        return NO;
-    }
-    
-    return YES;
-}
-
 - (void)takePicture
 {
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
@@ -347,45 +336,11 @@
     [self showWebPage:urlString];
 }
 
-- (void) processMyStuff:(NSInteger) row
+- (void) processMyStuff:(NSInteger)row
 {
-    // if user/pass is stored in keychain
-    //    login
-    //    show selected web page
-    // else
-    //    save the deferred login task
-    //    show login page
-    //    (web page will be loaded after user logs in)
-    
+
     if ([user isValid]) {
-        
-        if ([self login]) {
-            NSString *urlString = @"";
-            NSString *username = [user user];
-            switch (row) {
-                case 0:
-                    urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 username];
-                    break;
-                case 1:
-                    urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 username, @"&list=restaurants"];
-                    break;
-                case 2:
-                    urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 username, @"&list=favorites"];
-                    break;
-                case 3:
-                    urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                                 username, @"&list=follows"];
-                    break;
-            } // switch
-            [self showWebPage:urlString];
-            [urlString release];
-        }
-        
-    } else {
-        
+        self.tableView.userInteractionEnabled = NO;
         switch (row) {
             case 0:
                 loginAction = LOGIN_SHOW_MY_MEALS;
@@ -399,29 +354,30 @@
             case 3:
                 loginAction = LOGIN_SHOW_MY_FOLLOWS;
                 break;
-        } // switch
-        loginRow = row;
+        }
+        
+        user.target = self;
+        user.selectorSuccess = @selector(loginSuccess);
+        user.selectorFailCredentials = @selector(loginFailCredentials);
+        user.selectorFailNetwork = @selector(loginFailNetwork);
+        [user login];
+    } else {
         [self showLoginPage];
     }
 }
 
 - (void) processAddDish
 {
-    // if user/pass is stored in keychain
-    //    login
-    //    show image picker
-    //    show upload page
-    // else
-    //    save the defferred login task
-    //    show login page
-    //    (image picker will be loaded after user logs in)
-    
     if ([user isValid]) {
-        if ([self login]) {
-            [self selectPicture];
-        }
-    } else {
+        self.tableView.userInteractionEnabled = NO;
         loginAction = LOGIN_ADD_DISH;
+
+        user.target = self;
+        user.selectorSuccess = @selector(loginSuccess);
+        user.selectorFailCredentials = @selector(loginFailCredentials);
+        user.selectorFailNetwork = @selector(loginFailNetwork);
+        [user login];
+    } else {
         [self showLoginPage];
     }
 }
@@ -462,16 +418,14 @@
 -(void)loginButtonHandler:(id)sender
 {
     if ([user isValid]) {
-        [user logout];
-        [self setLoginButtonText:@"Login"];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"You have been logged out"
-                                                        message:@""
-                                                       delegate:nil
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:@"OK", nil];
-        [alert show];
-        [alert release];
+        self.tableView.userInteractionEnabled = NO;
+        loginAction = LOGIN_LOGOUT;
 
+        user.target = self;
+        user.selectorSuccess = @selector(loginSuccess);
+        user.selectorFailCredentials = @selector(loginFailCredentials);
+        user.selectorFailNetwork = @selector(loginFailNetwork);
+        [user logout];
     } else {
         [self showLoginPage];
     }
@@ -480,6 +434,88 @@
 -(void)addDishHandler:(id)sender
 {
     [self processAddDish];
+}
+
+-(void)loginSuccess
+{
+    self.tableView.userInteractionEnabled = YES;
+    
+    if (loginAction == LOGIN_LOGOUT) {
+        [self setLoginButtonText:@"Login"];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"You have been logged out"
+                                                        message:@""
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
+        [alert release];
+    } else if (loginAction == LOGIN_ADD_DISH) {
+        [self selectPicture];
+    } else {
+        NSString *urlString = @"";
+        NSString *username = [user user];
+        
+        switch (loginAction) {
+            case LOGIN_SHOW_MY_MEALS:
+                urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                             username];
+                break;
+            case LOGIN_SHOW_MY_RESTAURANTS:
+                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                             username, @"&list=restaurants"];
+                break;
+            case LOGIN_SHOW_MY_FAVS:
+                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                             username, @"&list=favorites"];
+                break;
+            case LOGIN_SHOW_MY_FOLLOWS:
+                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                             username, @"&list=follows"];
+                break;
+            default:
+                break;
+        }
+        
+        [self showWebPage:urlString];
+        [urlString release];
+    }
+}
+
+-(void)loginFailCredentials
+{
+    self.tableView.userInteractionEnabled = YES;
+
+    if (loginAction != LOGIN_LOGOUT) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
+                                                        message:@"Bad username or password"
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"OK", nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+-(void)loginFailNetwork
+{
+    self.tableView.userInteractionEnabled = YES;
+
+    UIAlertView *alert;
+    if (loginAction == LOGIN_LOGOUT) {
+        alert = [[UIAlertView alloc] initWithTitle:@"Logout failed"
+                                           message:@"Network error"
+                                          delegate:nil
+                                 cancelButtonTitle:nil
+                                 otherButtonTitles:@"OK", nil];
+    } else {
+        alert = [[UIAlertView alloc] initWithTitle:@"Login failed"
+                                           message:@"Network error"
+                                          delegate:nil
+                                 cancelButtonTitle:nil
+                                 otherButtonTitles:@"OK", nil];
+    }
+    [alert show];
+    [alert release];
 }
 
 @end
