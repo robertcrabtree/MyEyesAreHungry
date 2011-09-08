@@ -6,6 +6,7 @@
 //  Copyright 2011 self. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "UserImage.h"
 #include "WebViewController.h"
 #include "User.h"
@@ -82,6 +83,8 @@
     float viewHeight = imageY + imageHeight + viewSpacing;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(viewX, viewY, viewWidth, viewHeight)];
     imageView.image = image;
+    [imageView.layer setBorderColor:[[UIColor colorWithRed:93.3 green:93.3 blue:93.3 alpha:1] CGColor]];
+    [imageView.layer setBorderWidth: 3.0];
     [view addSubview:imageView];
     [view addSubview:label];
     
