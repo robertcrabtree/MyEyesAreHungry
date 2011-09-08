@@ -439,8 +439,8 @@
         
         switch (loginAction) {
             case LOGIN_SHOW_MY_MEALS:
-                urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                             username];
+                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                             username, @"&list=meals"];
                 break;
             case LOGIN_SHOW_MY_RESTAURANTS:
                 urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
