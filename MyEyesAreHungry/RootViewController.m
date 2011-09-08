@@ -117,7 +117,7 @@
         case 0:
             return 2;
         case 1:
-            return 4;
+            return 5;
     }
     return 0;
 }
@@ -147,10 +147,12 @@
         cell.textLabel.textAlignment = UITextAlignmentLeft;
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
-            cell.textLabel.text = @"My Meals";
+            cell.textLabel.text = @"My Feed";
         } else if (indexPath.row == 1) {
-            cell.textLabel.text = @"My Restaurants";
+            cell.textLabel.text = @"My Meals";
         } else if (indexPath.row == 2) {
+            cell.textLabel.text = @"My Restaurants";
+        } else if (indexPath.row == 3) {
             cell.textLabel.text = @"My Favorites";
         } else {
             cell.textLabel.text = @"My Follows";
@@ -325,15 +327,18 @@
         self.tableView.userInteractionEnabled = NO;
         switch (row) {
             case 0:
-                loginAction = LOGIN_SHOW_MY_MEALS;
+                loginAction = LOGIN_SHOW_MY_FEED;
                 break;
             case 1:
-                loginAction = LOGIN_SHOW_MY_RESTAURANTS;
+                loginAction = LOGIN_SHOW_MY_MEALS;
                 break;
             case 2:
-                loginAction = LOGIN_SHOW_MY_FAVS;
+                loginAction = LOGIN_SHOW_MY_RESTAURANTS;
                 break;
             case 3:
+                loginAction = LOGIN_SHOW_MY_FAVS;
+                break;
+            case 4:
                 loginAction = LOGIN_SHOW_MY_FOLLOWS;
                 break;
         }
@@ -438,6 +443,10 @@
         NSString *username = [user user];
         
         switch (loginAction) {
+            case LOGIN_SHOW_MY_FEED:
+                urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                             username];
+                break;
             case LOGIN_SHOW_MY_MEALS:
                 urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
                              username, @"&list=meals"];
