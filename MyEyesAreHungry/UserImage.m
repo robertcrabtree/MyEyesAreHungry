@@ -70,7 +70,7 @@
     float labelY = imageCenter - labelHeight / 2;
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelWidth, labelHeight)];
-    label.text = [User sharedUser].user;
+    label.text = [[User sharedUser].user capitalizedString];
     label.backgroundColor = [UIColor clearColor];
     label.textAlignment = UITextAlignmentLeft;
     label.font = font;
