@@ -110,9 +110,6 @@
     [imageProcessSpinner release];
     [imageProcessAlert release];
     
-    ImageReference *imageRef = (ImageReference *) object;
-    [imageRef release];
-    
     if (!imageData) {
         imageProcessFailAlert = [[UIAlertView alloc] initWithTitle: @"Image Error!" message: @"There appears to be something wrong with the image. Please pick another one." delegate:self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
         [imageProcessFailAlert show];
@@ -166,6 +163,10 @@
     [imageProcessSpinner startAnimating];
     
     [NSThread detachNewThreadSelector:@selector(imageProcessingThread:) toTarget:self withObject:imageRef];
+    
+    // we can release because detachNewThreadSelector will retain until thread exits
+    // also, performSelectorOnMainThread will retain until method completes
+    [imageRef release];
 
     [super viewDidLoad];
 }
