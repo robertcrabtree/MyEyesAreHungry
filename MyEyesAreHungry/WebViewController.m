@@ -59,6 +59,7 @@
     float y = screenBounds.size.height / 2.0 - (screenBounds.size.height - webView.bounds.size.height);
     spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [spinner setCenter:CGPointMake(x, y)];
+    spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [self.view addSubview:spinner];
 
     [url release];
