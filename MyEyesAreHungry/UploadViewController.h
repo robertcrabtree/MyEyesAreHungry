@@ -34,6 +34,7 @@
     UIAlertView *uploadCancelAlert;
     UIActivityIndicatorView *uploadCancelSpinner;
     
+    UIAlertView *uploadDoneAlert;
     UIAlertView *imageProcessFailAlert;
     UIAlertView *imageProcessAlert;
     UIActivityIndicatorView *imageProcessSpinner;

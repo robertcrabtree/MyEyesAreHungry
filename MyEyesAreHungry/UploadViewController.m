@@ -586,8 +586,14 @@
     
     if (uploadCancelAlert)
         [uploadCancelAlert dismissWithClickedButtonIndex:-1 animated:YES];
-
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    uploadDoneAlert = [[UIAlertView alloc] initWithTitle:@"Upload complete"
+                                                 message:nil
+                                                delegate:self
+                                       cancelButtonTitle:nil
+                                       otherButtonTitles:@"OK", nil];
+    [uploadDoneAlert show];
+    [uploadDoneAlert release];
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)requestObj
@@ -890,6 +896,8 @@
         if (buttonIndex == 0 && request != nil)
             [request cancel];
     } else if (alert == imageProcessFailAlert) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else if (alert == uploadDoneAlert) {
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
