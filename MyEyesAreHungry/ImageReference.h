@@ -17,7 +17,7 @@
     MagickWand *magickWand;
 }
 
-@property (nonatomic, retain) NSData *imageData;
+-(NSData *)getData;
 
 // init function
 - (id)initWithNewImage:(UIImage*)newImage;

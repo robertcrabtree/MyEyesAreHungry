@@ -16,6 +16,7 @@
 #import "UserImage.h"
 #import "TextImageButton.h"
 #import "Reachability.h"
+#import "ImageReference.h"
 
 #define INDEX_TO_TAG(x) ((x) + 1000)
 #define TAG_TO_INDEX(x) ((x) - 1000)
@@ -39,7 +40,7 @@
 @implementation UploadViewController
 
 @synthesize cellText;
-@synthesize imageData;
+@synthesize image;
 @synthesize arrays;
 @synthesize pickerView;
 
@@ -57,8 +58,12 @@
     [followsIds release];
     [userImage release];
     [uploadButton release];
+    [imageRef release];
+    
+    if (imageData)
+        [imageData release];
 
-    self.imageData = nil;
+    self.image = nil;
     self.arrays = nil;
     self.pickerView = nil;
     self.cellText = nil;
@@ -73,10 +78,48 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+
+-(void)imageProcessingThread:(id)object
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];  
+    
+    NSLog(@"***** image processing thread start ***** ");
+    [imageRef processImage];
+    [self performSelectorOnMainThread:@selector(imageProcessingDone:)
+                           withObject:nil
+                        waitUntilDone:NO];
+    
+    [pool release];
+}
+
+-(void)imageProcessingDone:(id)object
+{
+    NSLog(@"***** image processing thread done ***** ");
+    self.tableView.userInteractionEnabled = YES;
+    
+    [imageProcessAlert dismissWithClickedButtonIndex:-1 animated:YES];
+    [imageProcessSpinner stopAnimating];
+    [imageProcessSpinner release];
+    [imageProcessAlert release];
+    
+    imageData = [imageRef getData];
+    if (imageData) {
+        [imageData retain];
+    } else {
+        imageProcessFailAlert = [[UIAlertView alloc] initWithTitle: @"Image Error!" message: @"There appears to be something wrong with the image. Please pick another one." delegate:self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+        [imageProcessFailAlert show];
+        [imageProcessFailAlert release];
+    }
+}
+
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {   
+    // disable while processing image
+    self.tableView.userInteractionEnabled = NO;
+
     UIView *buttonView;
     uploadButton = [[TextImageButton alloc] init];
     [uploadButton setText:@"Upload"];
@@ -98,6 +141,24 @@
     [self.cellText release];
     followsNames = [[NSMutableArray alloc] init];
     followsIds = [[NSMutableArray alloc] init];
+    
+    imageRef = [[ImageReference alloc] initWithNewImage:image];
+    
+    imageProcessAlert = [[UIAlertView alloc]
+                         initWithTitle:@"Processing Image..."
+                         message:@"\n"
+                         delegate:nil cancelButtonTitle:nil
+                         otherButtonTitles:nil];
+    
+    imageProcessSpinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(125, 60, 30, 30)];
+    imageProcessSpinner.hidesWhenStopped = YES;
+    imageProcessSpinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    [imageProcessAlert addSubview:imageProcessSpinner];
+    [imageProcessAlert show];
+    [imageProcessSpinner startAnimating];
+    
+    [NSThread detachNewThreadSelector:@selector(imageProcessingThread:) toTarget:self withObject:nil];
+
     [super viewDidLoad];
 }
 
@@ -536,6 +597,8 @@
     // if the user cancelled the upload we don't need to display an error
     //     or dismiss the alert view
     if (request && [request error].code != ASIRequestCancelledErrorType) {
+        
+        NSLog(@"upload network error %d", [request error].code);
         [uploadCancelAlert dismissWithClickedButtonIndex:-1 animated:YES];
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
@@ -792,7 +855,6 @@
         uploadCancelSpinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(125, 42, 30, 30)];
         uploadCancelSpinner.hidesWhenStopped = YES;
         uploadCancelSpinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
-        [uploadCancelAlert setDelegate:self];
         [uploadCancelAlert addSubview:uploadCancelSpinner];
         [uploadCancelAlert show];
         [uploadCancelSpinner startAnimating];
@@ -806,27 +868,30 @@
 
 - (void)alertView:(UIAlertView *)alert didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    self.tableView.userInteractionEnabled = YES;
-    
-    // make sure we don't do this twice
-    if (uploadCancelSpinner) {
-        [uploadCancelSpinner stopAnimating];
-        [uploadCancelSpinner release];
-        uploadCancelSpinner = nil;
+    if (alert == uploadCancelAlert) {
+        self.tableView.userInteractionEnabled = YES;
+        
+        // make sure we don't do this twice
+        if (uploadCancelSpinner) {
+            [uploadCancelSpinner stopAnimating];
+            [uploadCancelSpinner release];
+            uploadCancelSpinner = nil;
+        }
+        
+        // make sure we don't do this twice
+        if (uploadCancelAlert) {
+            [uploadCancelAlert release];
+            uploadCancelAlert = nil;
+        }
+        
+        // if buttonIndex == 0 then the user clicked "cancel"
+        // if buttonIndex == -1, then this method was called when the upload request
+        //   failed or finished and we have no need to cancel
+        if (buttonIndex == 0 && request != nil)
+            [request cancel];
+    } else if (alert == imageProcessFailAlert) {
+        [self.navigationController popViewControllerAnimated:YES];
     }
-    
-    // make sure we don't do this twice
-    if (uploadCancelAlert) {
-        [uploadCancelAlert release];
-        uploadCancelAlert = nil;
-    }
-
-    // if buttonIndex == 0 then the user clicked "cancel"
-    // if buttonIndex == -1, then this method was called when the upload request
-    //   failed or finished and we have no need to cancel
-    if (buttonIndex == 0 && request != nil)
-        [request cancel];
-
 }
 
 @end

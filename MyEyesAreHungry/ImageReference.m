@@ -40,8 +40,6 @@ CGImageRef createStandardImage(CGImageRef image, UIImageOrientation orient) {
 
 @implementation ImageReference
 
-@synthesize imageData;
-
 - (id)init {
     if ((self = [super init]))
     {
@@ -58,7 +56,11 @@ CGImageRef createStandardImage(CGImageRef image, UIImageOrientation orient) {
 
 
 - (void)dealloc {
-    self.imageData = nil;
+    [image release];
+    if (imageData) {
+        NSLog(@"imagedata count=%d", imageData.retainCount);
+        [imageData release];
+    }
     magickWand = DestroyMagickWand(magickWand);
     MagickWandTerminus();
     [super dealloc];
@@ -83,6 +85,18 @@ CGImageRef createStandardImage(CGImageRef image, UIImageOrientation orient) {
     return self;
 }
 
+-(NSData *)getData
+{
+    if (imageData)
+        return imageData;
+    
+    size_t len;
+    unsigned char *blob = MagickGetImageBlob(magickWand, &len);
+    imageData = [NSData dataWithBytes:blob length:len];
+    [imageData retain];
+    NSLog(@"imageData.length end=%d", (int) len);
+    return [imageData autorelease];
+}
 
 - (BOOL)processImage
 {
@@ -130,11 +144,7 @@ CGImageRef createStandardImage(CGImageRef image, UIImageOrientation orient) {
                         }
                         else
                         {
-                            size_t len;
-                            unsigned char *blob = MagickGetImageBlob(magickWand, &len);
-                            self.imageData = [NSData dataWithBytes:blob length:len];
                             status = YES;
-                            NSLog(@"imageData.length end=%d", (int) len);
 
                         }
                     }
@@ -166,9 +176,7 @@ CGImageRef createStandardImage(CGImageRef image, UIImageOrientation orient) {
         {
             NSLog(@"ImageReference:processImage: Can't get sourceImage bytes");
         }
-        
-        [image release];
-        
+                
     }
     
     return status;

@@ -17,8 +17,7 @@
 #import "NavDeli.h"
 #import "BarButtonGen.h"
 #import "Reachability.h"
-#import "ImageReference.h"
-
+    
 @implementation RootViewController
 
 @synthesize loginAction;
@@ -213,18 +212,10 @@
 
 - (void)showUploadPage:(UIImage *)image
 {
-    ImageReference *ref = [[ImageReference alloc] initWithNewImage:image];
-    if ([ref processImage]) {
-        UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
-        uploadViewController.imageData = ref.imageData;
-        [self.navigationController pushViewController:uploadViewController animated:YES];
-        [uploadViewController release];
-    } else {
-        UIAlertView *someError = [[UIAlertView alloc] initWithTitle: @"Image Error!" message: @"There appears to be something wrong with the image. Please pick another one." delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
-        [someError show];
-        [someError release];
-    }
-    [ref release];
+    UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
+    uploadViewController.image = image;
+    [self.navigationController pushViewController:uploadViewController animated:YES];
+    [uploadViewController release];
 }
 
 - (void)showLoginPage
@@ -304,13 +295,9 @@
     // Remove the picker interface and release the picker object.
     [[picker parentViewController] dismissModalViewControllerAnimated:YES];
 
-    UIImage *image;
-
     if (info) {
-        image = [info objectForKey:UIImagePickerControllerOriginalImage];
-
-        if (image)
-            [self showUploadPage:image];
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [self showUploadPage:image];
     }
 }
 

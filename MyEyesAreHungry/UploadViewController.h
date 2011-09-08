@@ -13,10 +13,12 @@
 @class UserImage;
 @class TextImageButton;
 @class ASIFormDataRequest;
+@class ImageReference;
 
 @interface UploadViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate> {
 
     NSMutableArray *cellText;
+    UIImage *image;
     NSData *imageData;
     UploadArrays *arrays;
     UIView *pickerView;
@@ -31,9 +33,14 @@
     ASIFormDataRequest *request;
     UIAlertView *uploadCancelAlert;
     UIActivityIndicatorView *uploadCancelSpinner;
+    
+    UIAlertView *imageProcessFailAlert;
+    UIAlertView *imageProcessAlert;
+    UIActivityIndicatorView *imageProcessSpinner;
+    ImageReference *imageRef;
 }
 
-@property (retain, nonatomic) NSData *imageData;
+@property (retain, nonatomic) UIImage *image;
 @property (retain, nonatomic) UploadArrays *arrays;
 @property (retain, nonatomic) UIView *pickerView;
 @property (retain, nonatomic) NSMutableArray *cellText;
