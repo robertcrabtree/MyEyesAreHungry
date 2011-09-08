@@ -13,7 +13,7 @@
 @interface TouchyImageView : UIImageView {
     UITableViewController *tableViewController;
 }
-@property (nonatomic, retain) UITableViewController *tableViewController;
+@property (nonatomic, assign) UITableViewController *tableViewController;
 
 @end
 
