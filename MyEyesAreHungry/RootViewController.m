@@ -17,6 +17,7 @@
 #import "NavDeli.h"
 #import "BarButtonGen.h"
 #import "Reachability.h"
+#import "ImageReference.h"
 
 @implementation RootViewController
 
@@ -212,10 +213,18 @@
 
 - (void)showUploadPage:(UIImage *)image
 {
-    UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
-    uploadViewController.imageData = UIImageJPEGRepresentation(image, 1.0);
-    [self.navigationController pushViewController:uploadViewController animated:YES];
-    [uploadViewController release];
+    ImageReference *ref = [[ImageReference alloc] initWithNewImage:image];
+    if ([ref processImage]) {
+        UploadViewController *uploadViewController = [[UploadViewController alloc] initWithNibName:@"UploadViewController" bundle:nil];
+        uploadViewController.imageData = ref.imageData;
+        [self.navigationController pushViewController:uploadViewController animated:YES];
+        [uploadViewController release];
+    } else {
+        UIAlertView *someError = [[UIAlertView alloc] initWithTitle: @"Image Error!" message: @"There appears to be something wrong with the image. Please pick another one." delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+        [someError show];
+        [someError release];
+    }
+    [ref release];
 }
 
 - (void)showLoginPage
@@ -292,31 +301,17 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    // Remove the picker interface and release the picker object.
+    [[picker parentViewController] dismissModalViewControllerAnimated:YES];
+
     UIImage *image;
 
     if (info) {
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
 
-        if (image) {
-            int w = (int) image.size.width * image.scale;
-            int h = (int) image.size.height * image.scale;
-            
-            if (w < 3000 && h < 3000) {
-                [self showUploadPage:image];
-            } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Image too big"
-                                                                message:@"Must be smaller than 3000x3000"
-                                                               delegate:nil
-                                                      cancelButtonTitle:nil
-                                                      otherButtonTitles:@"OK", nil];
-                [alert show];
-                [alert release];
-            }
-        }
+        if (image)
+            [self showUploadPage:image];
     }
-
-    // Remove the picker interface and release the picker object.
-    [[picker parentViewController] dismissModalViewControllerAnimated:YES];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
