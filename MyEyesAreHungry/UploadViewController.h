@@ -13,7 +13,6 @@
 @class UserImage;
 @class TextImageButton;
 @class ASIFormDataRequest;
-@class ImageReference;
 
 @interface UploadViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate> {
 
@@ -38,7 +37,6 @@
     UIAlertView *imageProcessFailAlert;
     UIAlertView *imageProcessAlert;
     UIActivityIndicatorView *imageProcessSpinner;
-    ImageReference *imageRef;
 }
 
 @property (retain, nonatomic) UIImage *image;

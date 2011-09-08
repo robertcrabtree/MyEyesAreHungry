@@ -13,11 +13,12 @@
 
 @interface ImageReference : NSObject {
     UIImage *image;
-    NSData *imageData;
     MagickWand *magickWand;
 }
 
--(NSData *)getData;
+// user must make a copy of the data if data will be ImageReference obj
+// will be destroyed before data is used
+-(void *)getBytes:(NSInteger *)dataLen;
 
 // init function
 - (id)initWithNewImage:(UIImage*)newImage;

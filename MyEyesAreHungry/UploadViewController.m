@@ -58,7 +58,6 @@
     [followsIds release];
     [userImage release];
     [uploadButton release];
-    [imageRef release];
     
     if (imageData)
         [imageData release];
@@ -84,9 +83,18 @@
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];  
     
     NSLog(@"***** image processing thread start ***** ");
-    [imageRef processImage];
+    ImageReference *imageRef = (ImageReference *) object;
+    
+    if ([imageRef processImage]) {
+        NSInteger len;
+        void *bytes = [imageRef getBytes:&len];
+        
+        // this will make a copy of the data
+        imageData = [[NSData alloc] initWithBytes:bytes length:len];
+    }
+
     [self performSelectorOnMainThread:@selector(imageProcessingDone:)
-                           withObject:nil
+                           withObject:imageRef
                         waitUntilDone:NO];
     
     [pool release];
@@ -102,10 +110,10 @@
     [imageProcessSpinner release];
     [imageProcessAlert release];
     
-    imageData = [imageRef getData];
-    if (imageData) {
-        [imageData retain];
-    } else {
+    ImageReference *imageRef = (ImageReference *) object;
+    [imageRef release];
+    
+    if (!imageData) {
         imageProcessFailAlert = [[UIAlertView alloc] initWithTitle: @"Image Error!" message: @"There appears to be something wrong with the image. Please pick another one." delegate:self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
         [imageProcessFailAlert show];
         [imageProcessFailAlert release];
@@ -142,7 +150,7 @@
     followsNames = [[NSMutableArray alloc] init];
     followsIds = [[NSMutableArray alloc] init];
     
-    imageRef = [[ImageReference alloc] initWithNewImage:image];
+    ImageReference *imageRef = [[ImageReference alloc] initWithNewImage:image];
     
     imageProcessAlert = [[UIAlertView alloc]
                          initWithTitle:@"Processing Image..."
@@ -157,7 +165,7 @@
     [imageProcessAlert show];
     [imageProcessSpinner startAnimating];
     
-    [NSThread detachNewThreadSelector:@selector(imageProcessingThread:) toTarget:self withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(imageProcessingThread:) toTarget:self withObject:imageRef];
 
     [super viewDidLoad];
 }

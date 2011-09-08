@@ -57,10 +57,6 @@ CGImageRef createStandardImage(CGImageRef image, UIImageOrientation orient) {
 
 - (void)dealloc {
     [image release];
-    if (imageData) {
-        NSLog(@"imagedata count=%d", imageData.retainCount);
-        [imageData release];
-    }
     magickWand = DestroyMagickWand(magickWand);
     MagickWandTerminus();
     [super dealloc];
@@ -85,17 +81,13 @@ CGImageRef createStandardImage(CGImageRef image, UIImageOrientation orient) {
     return self;
 }
 
--(NSData *)getData
+-(void *)getBytes:(NSInteger *)dataLen
 {
-    if (imageData)
-        return imageData;
-    
     size_t len;
-    unsigned char *blob = MagickGetImageBlob(magickWand, &len);
-    imageData = [NSData dataWithBytes:blob length:len];
-    [imageData retain];
-    NSLog(@"imageData.length end=%d", (int) len);
-    return [imageData autorelease];
+    void *bytes = MagickGetImageBlob(magickWand, &len);
+    *dataLen = (NSInteger) len;
+    NSLog(@"image data length end=%d", *dataLen);
+    return (void *) bytes;
 }
 
 - (BOOL)processImage
@@ -122,7 +114,7 @@ CGImageRef createStandardImage(CGImageRef image, UIImageOrientation orient) {
         	CGImageRelease(standardized);
         	bytes = [srcData bytes];
             
-            NSLog(@"imageData.length start=%d", srcData.length);
+            NSLog(@"image data length start=%d", srcData.length);
 
             if (bytes)
             {
