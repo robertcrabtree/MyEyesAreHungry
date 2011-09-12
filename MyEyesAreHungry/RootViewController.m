@@ -33,7 +33,7 @@
     addButton = [[TextImageButton alloc] init];
     [addButton setText:@"Add a Meal"];
     buttonView = addButton.view;
-    [addButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:20];
+    [addButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:6];
     [addButton addTarget:self action:@selector(addDishHandler:)];
     self.tableView.tableFooterView = buttonView;
     
