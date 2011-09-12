@@ -31,7 +31,7 @@
 {
     UIView *buttonView;
     addButton = [[TextImageButton alloc] init];
-    [addButton setText:@"Add a Dish"];
+    [addButton setText:@"Add a Meal"];
     buttonView = addButton.view;
     [addButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:20];
     [addButton addTarget:self action:@selector(addDishHandler:)];
