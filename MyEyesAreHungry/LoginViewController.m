@@ -95,17 +95,21 @@
     [loginButton addTarget:self action:@selector(loginHandler:)];
     self.tableView.tableFooterView = buttonView;
     
-    float labelHeight = 14;
-    ClickableLabel *label = [[ClickableLabel alloc] initWithFrame:CGRectMake(15, buttonView.frame.size.height + 20, buttonView.frame.size.width, labelHeight)];
+    CGSize labelSize;
+    float labelX;
+    ClickableLabel *label = [[ClickableLabel alloc] init];
     label.text = @"Create an Account";
-    label.textAlignment = UITextAlignmentLeft;
+    labelSize = [label.text sizeWithFont:label.font];
+    labelX = self.tableView.frame.size.width / 2 - labelSize.width / 2;
+    label.frame = CGRectMake(labelX, buttonView.frame.size.height + 20, labelSize.width, labelSize.height);
+    label.textAlignment = UITextAlignmentCenter;
     label.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor clearColor];
     label.tableViewController = self;
     label.userInteractionEnabled = YES;
     
     CGRect frame = buttonView.frame;
-    frame.size.height += labelHeight + 60;
+    frame.size.height += labelSize.height + 60;
     buttonView.frame = frame;
     [buttonView addSubview:label];
     [label release];
