@@ -313,9 +313,9 @@
     NSString *urlString;
     
     if (row == 0)
-        urlString = @"http://www.myeyesarehungry.com";
+        urlString = @"http://www.myeyesarehungry.com/api/new.php?list=meals";
     else
-        urlString = @"http://www.myeyesarehungry.com/new.php";
+        urlString = @"http://www.myeyesarehungry.com/api/new.php?list=restaurants";
 
     [self showWebPage:urlString];
 }
@@ -444,24 +444,24 @@
         
         switch (loginAction) {
             case LOGIN_SHOW_MY_FEED:
-                urlString = [[NSString alloc ]initWithFormat: @"%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
+                urlString = [[NSString alloc ]initWithFormat: @"http://www.myeyesarehungry.com/api/member.php?name=%@&list=feed",
                              username];
                 break;
             case LOGIN_SHOW_MY_MEALS:
-                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                             username, @"&list=meals"];
+                urlString = [[NSString alloc ]initWithFormat: @"http://www.myeyesarehungry.com/api/member.php?name=%@&list=meals",
+                             username];
                 break;
             case LOGIN_SHOW_MY_RESTAURANTS:
-                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                             username, @"&list=restaurants"];
+                urlString = [[NSString alloc ]initWithFormat: @"http://www.myeyesarehungry.com/api/member.php?name=%@&list=restaurants",
+                             username];
                 break;
             case LOGIN_SHOW_MY_FAVS:
-                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                             username, @"&list=favorites"];
+                urlString = [[NSString alloc ]initWithFormat: @"http://www.myeyesarehungry.com/api/member.php?name=%@&list=favorites",
+                             username];
                 break;
             case LOGIN_SHOW_MY_FOLLOWS:
-                urlString = [[NSString alloc ]initWithFormat: @"%@%@%@", @"http://www.myeyesarehungry.com/member.php?name=",
-                             username, @"&list=follows"];
+                urlString = [[NSString alloc ]initWithFormat: @"http://www.myeyesarehungry.com/api/member.php?name=%@&list=follows",
+                             username];
                 break;
             default:
                 break;
