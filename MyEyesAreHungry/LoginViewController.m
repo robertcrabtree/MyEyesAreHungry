@@ -90,21 +90,30 @@
 {
     UIView *buttonView;
     
+    // *** HACK: All the positioning here is a major hack due to a last minute
+    // customer request. I don't have time to re-design most of the positioning
+    // so I'm leaving it as a mess. At some point it may be worth it to redesign
+    // some of this stuff so that both clickable labels and the button are 
+    // positioned in a clean fashion.
+    
     self.navigationController.delegate = [NavDeli sharedNavDeli];
     loginButton = [[TextImageButton alloc] init];
     [loginButton setText:@"Login"];
     buttonView = loginButton.view;
-    [loginButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:20];
+    [loginButton setOrigin:(320 - buttonView.frame.size.width) / 2 y:49];
     [loginButton addTarget:self action:@selector(loginHandler:)];
     self.tableView.tableFooterView = buttonView;
     
     CGSize labelSize;
     float labelX;
+    
+    // Create an account label
+    // Place it below the button
     ClickableLabel *label = [[ClickableLabel alloc] init];
     label.text = @"Create an Account";
     labelSize = [label.text sizeWithFont:label.font];
     labelX = self.tableView.frame.size.width / 2 - labelSize.width / 2;
-    label.frame = CGRectMake(labelX, buttonView.frame.size.height + 20, labelSize.width, labelSize.height);
+    label.frame = CGRectMake(labelX, 110, labelSize.width, labelSize.height);
     label.textAlignment = UITextAlignmentCenter;
     label.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor clearColor];
@@ -113,10 +122,31 @@
     label.userInteractionEnabled = YES;
     
     CGRect frame = buttonView.frame;
-    frame.size.height += labelSize.height + 60;
+    frame.size.height += 110;
     buttonView.frame = frame;
     [buttonView addSubview:label];
     [label release];
+    
+    // Retrieve password label
+    // Place it above the button
+    label = [[ClickableLabel alloc] init];
+    label.text = @"Forgot password?";
+    labelSize = [label.text sizeWithFont:label.font];
+    labelX = self.tableView.frame.size.width / 2 - labelSize.width / 2;
+    label.frame = CGRectMake(labelX, 10, labelSize.width, labelSize.height);
+    label.textAlignment = UITextAlignmentCenter;
+    label.textColor = [UIColor blackColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.tableViewController = self;
+    label.urlString = @"http://www.myeyesarehungry.com/api/password_retrieve.php";
+    label.userInteractionEnabled = YES;
+    
+    frame = buttonView.frame;
+    frame.size.height += 10;
+    buttonView.frame = frame;
+    [buttonView addSubview:label];
+    [label release];
+
 
     self.tableView.backgroundColor = [UIColor clearColor];
     self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
