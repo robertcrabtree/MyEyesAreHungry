@@ -22,9 +22,11 @@
 /********************************************************/
 @interface ClickableLabel : UILabel {
     UITableViewController *tableViewController;
+    NSString *urlString;
 }
 
 @property (nonatomic, assign) UITableViewController *tableViewController;
+@property (nonatomic, retain) NSString *urlString;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
@@ -34,6 +36,7 @@
 @implementation ClickableLabel
 
 @synthesize tableViewController;
+@synthesize urlString;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -46,7 +49,7 @@
     NSLog(@"label touch end");
     self.textColor = [UIColor blackColor];
     WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
-    webViewController.urlString = @"http://www.myeyesarehungry.com/join.php";
+    webViewController.urlString = urlString;
     [tableViewController.navigationController pushViewController:webViewController animated:YES];
     [webViewController release];
 }
@@ -106,6 +109,7 @@
     label.textColor = [UIColor blackColor];
     label.backgroundColor = [UIColor clearColor];
     label.tableViewController = self;
+    label.urlString = @"http://www.myeyesarehungry.com/api/join.php";
     label.userInteractionEnabled = YES;
     
     CGRect frame = buttonView.frame;
