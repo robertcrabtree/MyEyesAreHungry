@@ -386,10 +386,10 @@
             }
         }
         
-        if (restName.length != matched) {
+        if (restName.length != matched || restName.length >= 35) {
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid restaurant name"
-                                                            message:@"Can only contain chars A-Z, a-z, 0-9, space, -, and _"
+                                                            message:@"Must be less than 35 characters and can only contain chars A-Z, a-z, 0-9, space, -, and _"
                                                            delegate:nil
                                                   cancelButtonTitle:nil
                                                   otherButtonTitles:@"OK", nil];
@@ -454,10 +454,10 @@
             }
         }
 
-        if (mealName.length != matched || mealName.length < 3) {
+        if (mealName.length != matched || mealName.length < 3 || mealName.length >= 35) {
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid meal name"
-                                                            message:@"Must be at least 2 characters and can only contain characters A-Z, a-z, 0-9, space, -, _, and comma"
+                                                            message:@"Must be between 2 and 35 characters and can only contain characters A-Z, a-z, 0-9, space, -, _, and comma"
                                                            delegate:nil
                                                   cancelButtonTitle:nil
                                                   otherButtonTitles:@"OK", nil];
