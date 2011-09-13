@@ -46,6 +46,12 @@
     [super viewWillAppear:animated];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [super viewWillDisappear:animated];
+}
+
 - (void)viewDidLoad
 {
     NSURL *url = [[NSURL alloc] initWithString:urlString];
