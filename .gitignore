@@ -1,2 +1,4 @@
-MyEyesAreHungry.xcodeproj/project.xcworkspace/xcuserdata/
-MyEyesAreHungry.xcodeproj/xcuserdata/
+.DS_Store
+xcuserdata
+*.xccheckout
+Pods
